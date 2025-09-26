@@ -12,6 +12,9 @@ app.set('view engine', 'pug');
 
 app.use(express.static('public'));
 
+app.get('/', (req, res) => {
+    res.send("Hello World 3");
+})
 
 app.listen(port, () => {
     console.log(port);
