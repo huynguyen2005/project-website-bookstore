@@ -1,0 +1,13 @@
+mixin search(keyword)
+  form(id="form-search" class="w-100")
+    div(class="input-group")
+      input(
+        type="text"
+        placeholder="Nhập từ khóa"
+        name="keyword"
+        value=keyword
+        class="form-control"
+      )
+      div(class="input-group-append")
+        button(type="submit" class="btn btn-outline-secondary" button-search-product)
+          i(class="bi bi-search")

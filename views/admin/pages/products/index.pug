@@ -1,0 +1,106 @@
+extends ../../layouts/default
+include ../../mixins/pagination.pug
+include ../../mixins/search.pug
+
+block main
+  .card
+    .card-header.d-flex.justify-content-between.align-items-center
+        h5.mb-0 Danh sách sản phẩm
+        .btn-group
+            button(type="button" class="btn btn-primary") + Thêm sản phẩm
+            select(class="form-control w-auto ml-2")
+                option(value="") -- Hành động --
+                option(value="delete") Xóa đã chọn
+                option(value="export") Xuất Excel
+
+
+    .card-body
+      .row.mb-3
+        // Ô tìm kiếm chiếm 6 cột
+        .col-md-6
+          +search(keyword)
+
+        // Form lọc chiếm 6 cột
+        .col-md-6
+          form.form-inline(method="GET", action="/products")
+            select.form-control.mr-2(name="status")
+              option(value="" selected=status=="" ? true : false) -- Trạng thái --
+              option(value="active" selected=status=="active" ? true : false) Hoạt động
+              option(value="inactive" selected=status=="inactive" ? true : false) Ngừng hoạt động
+
+            select.form-control.mr-2(name="category")
+              option(value="" selected=category=="" ? true : false) -- Danh mục --
+              option(value="nuochoa" selected=category=="nuochoa" ? true : false) Nước hoa
+              option(value="mypham" selected=category=="mypham" ? true : false) Mỹ phẩm
+
+            button.btn.btn-outline-secondary(type="submit") Lọc
+
+
+
+
+
+      // Bảng sản phẩm
+      table.table.table-hover.table-bordered.align-middle
+        thead.thead-light
+          tr
+            th(scope="col")
+              input(type="checkbox")
+            th(scope="col") Ảnh
+            th(scope="col") Tên sản phẩm
+            th(scope="col") Giá / Giá đặc biệt
+            th(scope="col") Số lượng
+            th(scope="col") Vị trí
+            th(scope="col") Trạng thái
+
+        tbody
+          each item in products
+            tr
+              td
+                input(type="checkbox")
+              td
+                img(
+                  src=item.thumbnail
+                  alt=item.bookName
+                  style="width:40px; height:40px; object-fit:cover;")
+              td
+                strong #{item.bookName}
+                br
+                small.text-muted 
+                  a(href="#") Sửa 
+                  |  · 
+                  a(href="#") Xóa  
+                  if item.status === "inactive"
+                    |  ·
+                    span(
+                      class = "text-success cursor-pointer"
+                      data-id=item.id
+                      data-status=item.status
+                      button-change-status
+                    ) Hoạt động 
+                  else
+                    |  · 
+                    span(
+                      class = "text-danger cursor-pointer"
+                      data-id=item.id
+                      data-status=item.status
+                      button-change-status
+                    ) Ngừng hoạt động
+              td
+                span.d-block #{item.price} VND
+                small.text-muted #{(item.newPrice)} VND
+              td #{item.stockQuantity}
+              td #{item.position}
+              td 
+                if item.status === "active"
+                  span(class="badge-status badge-active") Hoạt động
+                else  
+                  span(class="badge-status badge-inactive") Ngừng hoạt động
+
+      +pagination(pagination)
+      form(
+        action=""
+        method="POST"
+        id="form-change-status"
+        data-path=`${prefixAdmin}/products/change-status`
+        data-page=pagination.currentPage
+      )
