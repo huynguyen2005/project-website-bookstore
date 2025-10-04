@@ -15,25 +15,27 @@ block main
 
 
     .card-body
-      .row.mb-3
-        // Ô tìm kiếm chiếm 6 cột
-        .col-md-6
-          +search(keyword)
+      .d-flex.align-items-center.mb-3
+        +search(keyword)
 
-        // Form lọc chiếm 6 cột
-        .col-md-6
-          form.form-inline(method="GET", action="/products")
-            select.form-control.mr-2(name="status")
-              option(value="" selected=status=="" ? true : false) -- Trạng thái --
-              option(value="active" selected=status=="active" ? true : false) Hoạt động
-              option(value="inactive" selected=status=="inactive" ? true : false) Ngừng hoạt động
+        form.form-inline.ml-3(id="form-filter-products" action=`${prefixAdmin}/products` method="GET")
+          select.form-control.mr-2(id="status")
+            option(value="", selected = valueFilterStatus==="") -- Trạng thái --
+            option(value="active", selected = valueFilterStatus==="active") Hoạt động
+            option(value="inactive", selected = valueFilterStatus==="inactive") Ngừng hoạt động
 
-            select.form-control.mr-2(name="category")
-              option(value="" selected=category=="" ? true : false) -- Danh mục --
-              option(value="nuochoa" selected=category=="nuochoa" ? true : false) Nước hoa
-              option(value="mypham" selected=category=="mypham" ? true : false) Mỹ phẩm
+          select.form-control.mr-2(id="category-level-1")
+            option(value="", selected = valueFilterCategoryLevel1==="") -- Danh mục sách --
+            each item in categoryLevel1List
+              option(value=item, selected = valueFilterCategoryLevel1===item) #{item}
 
-            button.btn.btn-outline-secondary(type="submit") Lọc
+          select.form-control.mr-2(id="category-level-2")
+            option(value="", selected = valueFilterCategoryLevel2==="") -- Loại sách --
+            each item in categoryLevel2List
+              option(value=item.genre data-parent=item.categoryName, selected = valueFilterCategoryLevel2===item.genreName) #{item.genreName}
+
+          button.btn.btn-outline-secondary(button-filter-product) Lọc
+
 
 
 

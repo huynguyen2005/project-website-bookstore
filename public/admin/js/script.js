@@ -34,10 +34,10 @@ if(buttonsStatus.length > 0){
 
 
 //Button search product
-const buttonSearchProduct = document.querySelector('[button-search-product]');
-if(buttonSearchProduct){
+const formSearch = document.querySelector('#form-search');
+if(formSearch){
     let url = new URL(window.location.href);
-    buttonSearchProduct.addEventListener("submit", (e) => {
+    formSearch.addEventListener("submit", (e) => {
         e.preventDefault();
         const keyword = e.target.elements.keyword.value;
         keyword ? url.searchParams.set('keyword', keyword) : url.searchParams.delete('keyword');
@@ -45,3 +45,46 @@ if(buttonSearchProduct){
     });
 }
 //End button search product
+
+
+
+//Change categoryLevel2
+const categoryLevel1 = document.querySelector('#category-level-1');
+const categoryLevel2 = document.querySelector('#category-level-2');
+const allOptions = Array.from(categoryLevel2.options);
+categoryLevel1.addEventListener('change', () => {
+    const valueCategoryLevel1 = categoryLevel1.value;
+
+    categoryLevel2.innerHTML = "";
+
+    const option = document.createElement("option");
+    option.textContent = "-- Loại sách --";
+    option.value = "";
+    categoryLevel2.appendChild(option);
+
+    allOptions.forEach(item => {
+        if(!valueCategoryLevel1 || item.getAttribute('data-parent') === valueCategoryLevel1){
+            categoryLevel2.appendChild(item);
+        }
+    });
+    categoryLevel2.selectedIndex = 0;
+});
+//End change categoryLevel2
+
+
+//Button filter product
+const formFilterProduct = document.querySelector('#form-filter-products');
+if(formFilterProduct){
+    let url = new URL(window.location.href);
+    const status = document.querySelector('#status');
+    const categoryLevel1 = document.querySelector('#category-level-1');
+    const categoryLevel2 = document.querySelector('#category-level-2');
+    formFilterProduct.addEventListener("submit", (e) => {
+        e.preventDefault();
+        status.value ? url.searchParams.set("status", status.value) : url.searchParams.delete("status");
+        categoryLevel1.value ? url.searchParams.set("categoryLevel1", categoryLevel1.value) : url.searchParams.delete("categoryLevel1");
+        categoryLevel2.value ? url.searchParams.set("categoryLevel2", categoryLevel2.value) : url.searchParams.delete("categoryLevel2");
+        window.location.href = url;
+    });
+}
+//End button filter product
