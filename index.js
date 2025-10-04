@@ -2,6 +2,7 @@ const express = require('express');
 const methodOverride = require("method-override");
 const database = require('./config/database');
 const routeAdmin = require('./routes/admin/index.route');
+const authRoute = require('./routes/admin/auth.route');
 const systemConfig = require('./config/system');
 require('dotenv').config();
 
@@ -19,6 +20,9 @@ app.use(methodOverride("_method"));
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
 
 routeAdmin(app);
+app.use(systemConfig.prefixAdmin + "/auth", authRoute);
+
+
 
 app.listen(port, () => {
     console.log(port);
