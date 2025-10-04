@@ -16,15 +16,9 @@ app.set('view engine', 'pug');
 app.use(express.static('public'));
 app.use(methodOverride("_method"));
 
-<<<<<<< HEAD
-app.get('/', (req, res) => {
-    res.send("Hello World 3");
-})
-=======
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
 
 routeAdmin(app);
->>>>>>> page-admin
 
 app.listen(port, () => {
     console.log(port);
