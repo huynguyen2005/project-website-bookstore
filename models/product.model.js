@@ -57,7 +57,7 @@ const productSchema = new mongoose.Schema({
     },
     deletedAt: Date
 }, {
-    timestamps: true
+    timestamps: true //tự động thêm 2 trường thời gian là createAt và updateAt
 }); //Tạo mới 1 cái bộ khung, khuôn mẫu 
 
 const Product = mongoose.model('Product', productSchema, "books"); //Khởi tạo nó
