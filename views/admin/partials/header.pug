@@ -1,13 +1,18 @@
 header(class="main-header")
   // Bên trái
-  h5(class="mb-0 font-weight-bold") Bắp Perfume Authentic
+  
+  div(class="sidebar-logo1 mb-0 text-center")
+    a(href="/admin/dashboard" class="sidebar-logo-text")
+      span(class="logo-green1") Book
+      span(class="logo-red1") Store
+  ul(class="nav flex-column mb-auto")
 
   // Bên phải
-  div(class="header-right d-flex align-items-center")
-    a(href="auth/login" class="d-flex align-items-center text-dark mr-3")
+  div(class="header-right d-flex")
+    a(href="auth/login" class="d-flex align-items-center text-dark mr-1")
         i(class="bi bi-person-circle mr-2")
         span Đăng nhập
 
     // Icon thông báo
-    a(href="#" class="notification ml-2")
+    a(href="#" class="notification")
         i(class="bi bi-bell-fill text-danger")
