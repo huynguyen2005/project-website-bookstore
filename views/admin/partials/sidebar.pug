@@ -1,18 +1,19 @@
-nav(class="sidebar d-flex flex-column p-3")
+nav(class="sidebar d-flex flex-column p-1")
   // Logo
-  div(class="sidebar-logo mb-4 text-center")
-    img(src="/admin/images/logo.svg" alt="Logo" class="img-fluid" style="max-height:40px;")
-
+  div(class="sidebar-logo mb-3")
+    a(href="/admin/dashboard" class="sidebar-logo-text")
+      span(class="logo-green2") Book
+      span(class="logo-red2") Store
   ul(class="nav flex-column mb-auto")
 
     // Tổng quan
-    li(class="nav-item mb-2")
+    li(class="nav-item mb-1")
       a(href="/admin/dashboard" class=`nav-link ${activeMenu === "dashboard" ? "active" : ""}`)
         i(class="bi bi-windows")
         span Tổng quan
 
     // Nhóm: BÀI VIẾT
-    li(class="nav-group text-uppercase text-muted small mt-3 mb-2") Bài viết
+    li(class="nav-group text-uppercase text-muted small mt-3 mb-2 pl-2") Bài viết
     li
       a(href="/admin/posts" class="nav-link")
         i(class="bi bi-journal-text")
@@ -23,7 +24,7 @@ nav(class="sidebar d-flex flex-column p-3")
         span Media
 
     // Nhóm: BÁN HÀNG
-    li(class="nav-group text-uppercase text-muted small mt-3 mb-2") Bán hàng
+    li(class="nav-group text-uppercase text-muted small mt-3 mb-2 pl-2") Bán hàng
     li
       a(href="#submenuProducts" data-toggle="collapse" class=`nav-link d-flex justify-content-between align-items-center ${activeMenu === "products" ? "active" : ""}`)
         span
@@ -47,7 +48,7 @@ nav(class="sidebar d-flex flex-column p-3")
         span Báo cáo
 
     // Nhóm: KHÁCH HÀNG
-    li(class="nav-group text-uppercase text-muted small mt-3 mb-2") Khách hàng
+    li(class="nav-group text-uppercase text-muted small mt-3 mb-2 pl-2") Khách hàng
     li
       a(href="/admin/customers" class="nav-link")
         i(class="bi bi-people")
@@ -62,7 +63,7 @@ nav(class="sidebar d-flex flex-column p-3")
         span Liên hệ
 
     // Nhóm: CÀI ĐẶT
-    li(class="nav-group text-uppercase text-muted small mt-3 mb-2") Cài đặt
+    li(class="nav-group text-uppercase text-muted small mt-3 mb-2 pl-2") Cài đặt
     li
       a(href="/admin/seo" class="nav-link")
         i(class="bi bi-graph-up-arrow")

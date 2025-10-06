@@ -3,28 +3,45 @@
   width: 240px;
   background: #111827;
   color: #c7c7c7;
-  height: 100vh;          /* luôn bằng chiều cao màn hình */
+  height: 100vh;         
   position: fixed;
   top: 0;
   left: 0;
-  overflow-y: auto;       /* sidebar cuộn riêng khi dài */
+  overflow-y: auto;       
 }
 
 /* Ẩn/thu gọn thanh cuộn */
 .sidebar::-webkit-scrollbar {
   width: 6px;
 }
-.sidebar::-webkit-scrollbar-thumb {
-  background: #374151;
-  border-radius: 3px;
-}
-.sidebar::-webkit-scrollbar-thumb:hover {
-  background: #4b5563;
+
+.sidebar-logo {
+  padding-left: 10px;
 }
 
-/* Logo */
-.sidebar-logo img {
-  max-height: 40px;
+/* Logo chữ trong sidebar */
+.sidebar-logo-text {
+  font-family: 'Arial', sans-serif;
+  font-size: 34px;
+  font-weight: 700;
+  text-decoration: none;
+  color: inherit;
+  user-select: none;
+  cursor: pointer; 
+}
+
+.sidebar-logo-text .logo-green2 {
+  color: #3dc23dfb; 
+}
+
+.sidebar-logo-text .logo-red2 {
+  color: #ec2121; 
+}
+/* Bỏ mọi hiệu ứng hover */
+.sidebar-logo-text:hover {
+  text-decoration: none;
+  transform: none;
+  filter: none;
 }
 
 /* Nhóm tiêu đề */
@@ -32,65 +49,108 @@
   font-weight: 600;
   font-size: 12px;
   letter-spacing: 1px;
-  color: #6b7280 !important;
-  padding-left: 10px;
+  color: #6b7280 ;
 }
 
-/* Link cha mặc định */
 .sidebar .nav-link {
-  color: #9ca3af; /* chữ xám */
-  padding: 10px 15px;
+  color: #9ca3af;
+  padding: 10px; 
+  margin: 0;                    
+  border-radius: 10px;             
   display: flex;
   align-items: center;
   gap: 8px;
-  border-radius: 4px;
   transition: all 0.2s ease;
+  width: 100%;                  
+  box-sizing: border-box;      
 }
+
+/* Cho item sát lề */
+.sidebar ul.nav li {
+  padding: 0;
+  margin: 0 ;
+}
+
 .sidebar .nav-link i {
   font-size: 16px;
-  color: #9ca3af; /* icon xám */
+  color: #9ca3af; 
 }
 
 /* Hover menu cha */
 .sidebar .nav-link:hover {
-  background: #1f2937;   /* nền xám đậm */
-  color: #fff;           /* chữ trắng */
+  background: #1f2937;   
+  color: #fff;          
 }
 .sidebar .nav-link:hover i {
-  color: #0dcaf0;        /* icon xanh */
+  color: #0dcaf0;        
 }
 
 /* Active menu cha */
 .sidebar .nav-link.active {
-  background: #1f2937;   /* nền xám đậm */
-  color: #fff !important;
+  background: #1f2937;   
+  color: #fff ;
 }
 .sidebar .nav-link.active i {
-  color: #0dcaf0;        /* icon xanh */
+  color: #0dcaf0;        
+}
+
+/* Khi menu cha đang mở (aria-expanded=true) thì active */
+.sidebar .nav-link[aria-expanded="true"] {
+  background: #1f2937;
+  color: #fff;
+}
+
+.sidebar .nav-link[aria-expanded="true"] i {
+  color: #0dcaf0;
+}
+
+.sidebar .nav-link[aria-expanded="true"] i.bi-chevron-down {
+  transform: rotate(180deg);
+}
+
+
+.sidebar .collapse {
+  margin-top: 8px;
+  display: block ;   
+  overflow: hidden;            
+  height: 0;                   
+}
+
+.sidebar .collapse.show {
+  height: auto;                
+}
+
+.sidebar .collapsing {
+  height: auto ;     
+  overflow: hidden ; 
 }
 
 /* Submenu */
 .sidebar .collapse .nav-link {
-  font-size: 14px;
-  padding: 8px 15px 8px 30px;
-  color: #9ca3af; /* mặc định xám */
+  font-size: 16px;
+  padding: 5px 15px 8px 10px;
+  color: #9ca3af; 
 }
 
-/* Hover submenu */
-.sidebar .collapse .nav-link:hover {
-  background: #1f2937; 
-  color: #fff;
+.sidebar .collapse .nav-link:not(:hover) {
+  background: none;
+  color: #9ca3af;
 }
 
-/* Active submenu */
+/* Màu submenu khi đang được chọn (active) */
 .sidebar .collapse .nav-link.active {
-  background: #1f2937; 
-  color: #fff; 
+  color: #fff ;     
 }
+
+/* Icon trong submenu khi active */
+.sidebar .collapse .nav-link.active i {
+  color: #0dcaf0;     
+}
+
 
 /* Main tổng */
 .main {
-  margin-left: 240px; /* chừa khoảng sidebar */
+  margin-left: 240px; 
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -118,6 +178,33 @@
   color: #333;
 }
 
+/* Logo header */
+.sidebar-logo-text .logo-green1 {
+  color: #3cb43cfb; 
+}
+
+.sidebar-logo-text .logo-red1 {
+  color: #dc2020; 
+}
+
+a.d-flex.align-items-center.text-dark.mr-1:hover {
+  text-decoration: none; 
+}
+
+a.d-flex.align-items-center.text-dark.mr-1 span {
+  color: black;
+}
+
+a.d-flex.align-items-center.text-dark.mr-1 span:hover {
+  color: rgb(38, 38, 244);
+}
+
+a.d-flex.align-items-center.text-dark.mr-1 i {
+  color: black;
+}
+
+
+
 /* Avatar
 .user-avatar {
   width: 32px;
@@ -136,9 +223,9 @@
 .main-content {
   flex-grow: 1;
   padding: 20px;
-  margin-top: 60px;               /* tránh header */
-  height: calc(100vh - 60px);     /* chiều cao = toàn màn hình - header */
-  overflow-y: auto;               /* content cuộn */
+  margin-top: 60px;              
+  height: calc(100vh - 60px);     
+  overflow-y: auto;               
   background: #f5f6fa;
 }
 
@@ -160,20 +247,20 @@
 
 /* Badge trạng thái */
 .badge-status {
-  font-size: 12px;        /* chữ nhỏ hơn */
-  padding: 4px 10px;      /* padding nhỏ gọn */
-  border-radius: 20px;    /* bo tròn */
+  font-size: 12px;        
+  padding: 4px 10px;     
+  border-radius: 20px;    
   font-weight: 500;
 }
 
 /* Màu riêng cho từng trạng thái */
 .badge-active {
-  background-color: #28a745; /* xanh lá */
+  background-color: #28a745; 
   color: #fff;
 }
 
 .badge-inactive {
-  background-color: #dc3545; /* đỏ */
+  background-color: #dc3545; 
   color: #fff;
 }
 

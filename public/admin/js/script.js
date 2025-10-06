@@ -10,8 +10,6 @@ if(buttonsPagination.length > 0){
         });
     });
 }
-//End button pagination 
-
 
 //Button-change-status
 const buttonsStatus = document.querySelectorAll('[button-change-status]');
@@ -30,8 +28,6 @@ if(buttonsStatus.length > 0){
         })
     });
 }
-//End button-change-status
-
 
 //Button search product
 const formSearch = document.querySelector('#form-search');
@@ -88,3 +84,11 @@ if(formFilterProduct){
     });
 }
 //End button filter product
+
+
+
+
+
+
+
+

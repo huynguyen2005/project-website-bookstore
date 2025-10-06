@@ -22,8 +22,6 @@ app.locals.prefixAdmin = systemConfig.prefixAdmin;
 routeAdmin(app);
 app.use(systemConfig.prefixAdmin + "/auth", authRoute);
 
-
-
 app.listen(port, () => {
     console.log(port);
 })
