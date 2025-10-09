@@ -229,7 +229,6 @@ a.d-flex.align-items-center.text-dark.mr-1 i {
   background: #f5f6fa;
 }
 
-
 .table td, .table th {
   vertical-align: middle;
 }
@@ -242,7 +241,6 @@ a.d-flex.align-items-center.text-dark.mr-1 i {
 .table small {
   font-size: 12px;
 }
-
 
 
 /* Badge trạng thái */
@@ -263,7 +261,6 @@ a.d-flex.align-items-center.text-dark.mr-1 i {
   background-color: #dc3545; 
   color: #fff;
 }
-
 
 .cursor-pointer {
   cursor: pointer;
