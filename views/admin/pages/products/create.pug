@@ -90,18 +90,21 @@ block main
             div(class="form-group" upload-image)
                 label(for="thumbnail") Ảnh đại diện
                 div(class="d-flex align-items-center gap-2")
+                    // Nút chọn tệp
+                    label(for="thumbnail" class="btn btn-success d-flex align-items-center gap-2 m-0 px-3 py-2")
+                        i(class="bi bi-upload") 
+                        span Chọn tệp
+                    // Input thật ẩn đi
                     input(
                         type="file"
-                        class="form-control-file"
+                        class="d-none"
+>>>>>>> page-admin-chinh
                         id="thumbnail"
                         name="thumbnail"
                         accept="image/*"
                         upload-image-input
-                    )
-                    span(
-                        btn-close
-                        style="cursor:pointer; font-weight:bold;"
-                    ) 
+                        )
+>>>>>>> page-admin-chinh
                 img(
                     src=""
                     class="image-preview"
@@ -111,17 +114,19 @@ block main
             div(class="form-group")
                 label(for="images") Ảnh chi tiết
                 div(class="d-flex align-items-center gap-2")
+                    // Nút chọn tệp
+                    label(for="images" class="btn btn-success d-flex align-items-center gap-2 m-0 px-3 py-2")
+                        i(class="bi bi-upload")
+                        span Chọn tệp
+                    // Input thật ẩn đi
                     input(
                         type="file"
-                        class="form-control-file"
+                        class="d-none"
                         id="images"
                         name="images"
                         accept="image/*"
-                        upload-image-input
-                    )
-                    span(
-                        style="cursor:pointer; font-weight:bold;"
-                    ) 
+                        multiple
+                    )  
                 img(
                     src=""
                     class="image-preview"
@@ -129,9 +134,6 @@ block main
                 )
 
             div(class="form-row")
-                div(class="form-group col-md-6")
-                    label(for="position") Vị trí hiển thị
-                    input(id="position" class="form-control" type="number" name="position" min="1" placeholder="Tự động tăng")
                 div(class="form-group col-md-6")
                     label(for="status") Trạng thái
                     select(id="status" class="form-control" name="status")

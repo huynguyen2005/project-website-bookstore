@@ -12,6 +12,6 @@ router.get('/create', controller.create);
 router.post('/create', upload.single('thumbnail'), controller.createProduct);
 router.delete('/delete/:id', controller.deleteProduct);
 router.get('/edit/:id', controller.edit);
-
 router.get('/detail/:id', controller.detail);
+
 module.exports = router;

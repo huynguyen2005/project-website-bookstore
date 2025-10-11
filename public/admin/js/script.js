@@ -10,8 +10,6 @@ if(buttonsPagination.length > 0){
         });
     });
 }
-//End button pagination 
-
 
 //Button-change-status
 const buttonsStatus = document.querySelectorAll('[button-change-status]');
@@ -30,8 +28,6 @@ if(buttonsStatus.length > 0){
         })
     });
 }
-//End button-change-status
-
 
 //Button search product
 const formSearch = document.querySelector('#form-search');
@@ -54,6 +50,7 @@ const categoryLevel2 = document.querySelector('[category-level-2]');
 const allOptions = Array.from(categoryLevel2.options);
 if(categoryLevel1){
     categoryLevel1.addEventListener('change', () => {
+        categoryLevel2.blur(); 
         const valueCategoryLevel1 = categoryLevel1.value;
 
         categoryLevel2.innerHTML = "";
@@ -90,8 +87,6 @@ if(formFilterProduct){
     });
 }
 //End button filter product
-
-
 
 //Check-box
 const checkBoxMulti = document.querySelector('[check-box-multi]');
@@ -211,4 +206,4 @@ if(buttonsDetailProduct.length > 0){
         });
     });
 }
-//End button detail product
+

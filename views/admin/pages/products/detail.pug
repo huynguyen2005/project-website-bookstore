@@ -9,7 +9,7 @@ block main
       h5(class="mb-0 font-weight-bold") Chi tiết sản phẩm
       a(class="btn btn-back btn-sm" href=`${prefixAdmin}/products`)
         i(class="bi bi-arrow-left mr-1")
-        | Quay lại
+        span Quay lại
 
     .card-body
       // --- Tên sách
@@ -99,11 +99,11 @@ block main
 
       hr
 
-      // --- Ảnh đại diện
+      // --- Ảnh đại diện 
       h6(class="section-title") Ảnh đại diện
       if product.thumbnail
         .d-flex.flex-column.align-items-start.mb-4
-          img(src=product.thumbnail alt="Ảnh đại diện" class="img-thumbnail mb-2 shadow-sm" style="max-width:250px;")
+          img(src=product.thumbnail alt="Ảnh đại diện" class="img-thumbnail mb-2 shadow-sm thumbnail-img")
           a(href=product.thumbnail target="_blank" class="small text-muted")= product.thumbnail
       else
         p(class="text-muted") Không có ảnh đại diện

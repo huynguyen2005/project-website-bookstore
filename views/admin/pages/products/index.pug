@@ -49,8 +49,9 @@ block main
             option(value="", selected = valueFilterCategoryLevel2==="") -- Loại sách --
             each item in categoryLevel2List
               option(value=item.genre data-parent=item.categoryName, selected = valueFilterCategoryLevel2===item.genreName) #{item.genreName}
-
-          button.btn.btn-outline-secondary(button-filter-product) Lọc
+          div.d-flex.gap-2
+            button.btn.btn-outline-secondary.mr-2(button-filter-product) Lọc
+            a.btn.btn-outline-secondary(href=`${prefixAdmin}/products`) Quay lại
 
 
 
@@ -79,11 +80,11 @@ block main
                 img(
                   src=item.thumbnail
                   alt=item.bookName
-                  style="width:40px; height:40px; object-fit:cover;")
+                )
               td
                 strong #{item.bookName}
                 br
-                small.text-muted 
+                small.text-muted
                   a(
                     href="javascript:;"
                     data-id=item.id 
@@ -108,7 +109,7 @@ block main
                       data-id=item.id
                       data-status=item.status
                       button-change-status
-                    ) Hoạt động 
+                    )  Hoạt động 
                   else
                     |  · 
                     span(

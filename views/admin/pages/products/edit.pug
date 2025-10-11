@@ -100,18 +100,19 @@ block main
             div(class="form-group" upload-image)
                 label(for="thumbnail") Ảnh đại diện
                 div(class="d-flex align-items-center gap-2")
+                    // Nút chọn tệp kiểu đẹp
+                    label(for="thumbnail" class="btn btn-success d-flex align-items-center gap-2 m-0 px-3 py-2")
+                        i(class="bi bi-upload") 
+                        span Chọn tệp
+                    // Input thật ẩn đi
                     input(
                         type="file"
-                        class="form-control-file"
+                        class="d-none"
                         id="thumbnail"
                         name="thumbnail"
                         accept="image/*"
                         upload-image-input
-                    )
-                    span(
-                        btn-close
-                        style="cursor:pointer; font-weight:bold;"
-                    ) 
+                        )
                 img(
                     src=product.thumbnail
                     class="image-preview"
@@ -122,16 +123,19 @@ block main
             div(class="form-group")
                 label(for="images") Ảnh chi tiết
                 div(class="d-flex align-items-center gap-2")
+                    // Nút chọn tệp kiểu đẹp (giống ảnh đại diện)
+                    label(for="images" class="btn btn-success d-flex align-items-center gap-2 m-0 px-3 py-2")
+                        i(class="bi bi-upload")
+                        span Chọn tệp
+                    // Input thật ẩn đi
                     input(
                         type="file"
-                        class="form-control-file"
+                        class="d-none"
                         id="images"
                         name="images"
                         accept="image/*"
-                    )
-                    span(
-                        style="cursor:pointer; font-weight:bold;"
-                    ) 
+                        multiple
+                    )  
                 each image in product.images
                     img(
                         src=image.url
