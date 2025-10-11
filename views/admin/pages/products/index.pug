@@ -5,13 +5,29 @@ include ../../mixins/search.pug
 block main
   .card
     .card-header.d-flex.justify-content-between.align-items-center
-        h5.mb-0 Danh sách sản phẩm
-        .btn-group
-            button(type="button" class="btn btn-primary") + Thêm sản phẩm
-            select(class="form-control w-auto ml-2")
-                option(value="") -- Hành động --
-                option(value="delete") Xóa đã chọn
-                option(value="export") Xuất Excel
+      h5.mb-0 Danh sách sản phẩm
+
+      .d-flex.align-items-center
+        a(href=`${prefixAdmin}/products/create` class="btn btn-primary mr-2") + Thêm sản phẩm
+          
+        form.d-flex.align-items-center(
+          action=`${prefixAdmin}/products/change-multi?_method=PATCH&page=${pagination.currentPage}`
+          method="POST"
+          form-change-multi
+        )
+          select.form-control.w-auto.mr-2(name="type")
+            option(value="") -- Thao tác --
+            option(value="active") Hoạt động
+            option(value="inactive") Ngừng hoạt động
+            option(value="delete-all") Xóa đã chọn
+            option(value="export") Xuất Excel
+          input(
+            type="text"
+            name="ids"
+            value=""
+            class="form-control d-none"
+          )
+          button(type="submit" class="btn btn-outline-secondary") Áp dụng
 
 
     .card-body
@@ -24,17 +40,18 @@ block main
             option(value="active", selected = valueFilterStatus==="active") Hoạt động
             option(value="inactive", selected = valueFilterStatus==="inactive") Ngừng hoạt động
 
-          select.form-control.mr-2(id="category-level-1")
+          select.form-control.mr-2(category-level-1)
             option(value="", selected = valueFilterCategoryLevel1==="") -- Danh mục sách --
             each item in categoryLevel1List
               option(value=item, selected = valueFilterCategoryLevel1===item) #{item}
 
-          select.form-control.mr-2(id="category-level-2")
+          select.form-control.mr-2(category-level-2)
             option(value="", selected = valueFilterCategoryLevel2==="") -- Loại sách --
             each item in categoryLevel2List
               option(value=item.genre data-parent=item.categoryName, selected = valueFilterCategoryLevel2===item.genreName) #{item.genreName}
-
-          button.btn.btn-outline-secondary(button-filter-product) Lọc
+          div.d-flex.gap-2
+            button.btn.btn-outline-secondary.mr-2(button-filter-product) Lọc
+            a.btn.btn-outline-secondary(href=`${prefixAdmin}/products`) Quay lại
 
 
 
@@ -42,12 +59,12 @@ block main
 
 
       // Bảng sản phẩm
-      table.table.table-hover.table-bordered.align-middle
+      table.table.table-hover.table-bordered.align-middle(check-box-multi)
         thead.thead-light
           tr
             th(scope="col")
-              input(type="checkbox")
-            th(scope="col") Ảnh
+              input(type="checkbox" check-box-all)
+            th(scope="col") Hình ảnh
             th(scope="col") Tên sản phẩm
             th(scope="col") Giá / Giá đặc biệt
             th(scope="col") Số lượng
@@ -58,19 +75,33 @@ block main
           each item in products
             tr
               td
-                input(type="checkbox")
+                input(type="checkbox" name="id" value=item.id)
               td
                 img(
                   src=item.thumbnail
                   alt=item.bookName
-                  style="width:40px; height:40px; object-fit:cover;")
+                )
               td
                 strong #{item.bookName}
                 br
-                small.text-muted 
-                  a(href="#") Sửa 
+                small.text-muted
+                  a(
+                    href="javascript:;"
+                    data-id=item.id 
+                    button-detail-product
+                  ) Chi tiết
+                  |  ·
+                  a(
+                    href="javascript:;"
+                    data-id=item.id 
+                    button-edit-product
+                  )  Sửa 
                   |  · 
-                  a(href="#") Xóa  
+                  a(
+                    href="javascript:;"
+                    data-id = item.id
+                    button-delete-product
+                  ) Xóa  
                   if item.status === "inactive"
                     |  ·
                     span(
@@ -78,7 +109,7 @@ block main
                       data-id=item.id
                       data-status=item.status
                       button-change-status
-                    ) Hoạt động 
+                    )  Hoạt động 
                   else
                     |  · 
                     span(
@@ -99,10 +130,33 @@ block main
                   span(class="badge-status badge-inactive") Ngừng hoạt động
 
       +pagination(pagination)
+
       form(
         action=""
         method="POST"
         id="form-change-status"
         data-path=`${prefixAdmin}/products/change-status`
         data-page=pagination.currentPage
+      )
+
+      form(
+        action=""
+        method="POST"
+        id="form-delete-product"
+        data-path=`${prefixAdmin}/products/delete`
+        data-page=pagination.currentPage
+      )
+
+      form(
+        action=""
+        method="GET"
+        id="form-edit-product"
+        data-path=`${prefixAdmin}/products/edit`
+      )
+
+      form(
+        action=""
+        method="GET"
+        id="form-detail-product"
+        data-path=`${prefixAdmin}/products/detail`
       )

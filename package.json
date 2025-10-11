@@ -15,7 +15,9 @@
     "method-override": "^3.0.0",
     "mongoose": "^8.18.2",
     "mongoose-slug-updater": "^3.3.0",
-    "pug": "^3.0.3"
+    "multer": "^2.0.2",
+    "pug": "^3.0.3",
+    "select2": "^4.1.0-rc.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.10"

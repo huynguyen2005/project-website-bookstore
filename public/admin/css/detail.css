@@ -1,0 +1,68 @@
+body {
+  background-color: #f5f7fa;
+}
+
+.card-custom {
+  background-color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-header-custom {
+  background-color: #1b2a49; /* xanh than */
+  color: #fff;
+  border-radius: 10px 10px 0 0;
+}
+
+.section-title {
+  color: #1b2a49;
+  font-weight: 600;
+  border-left: 4px solid #1b2a49;
+  padding-left: 8px;
+  margin-bottom: 15px;
+}
+
+.text-secondary {
+  color: #565555 !important; /* hoặc chọn màu khác như #666 */
+}
+
+.info-label {
+  font-weight: 500;
+  color: #1b2a49;
+}
+
+.info-value {
+  color: #333;
+}
+
+.thumbnail-img {
+  max-width: 140px;  /* Bằng ảnh chi tiết */
+  height: auto;
+} 
+
+/* Giữ icon luôn trắng (hoặc màu bạn muốn) */
+.btn-back i {
+  color: #fff; /* icon trắng mặc định */
+}
+
+.btn-back {
+  background-color: #1b2a49;
+  color: #fff;
+  border: none;
+}
+
+.btn-back:hover span{
+  color: #5a98f7;
+}
+
+.btn-back:hover i {
+  color: #fff;            
+}
+
+/* xóa viền xanh khi bấm nút quay lại */
+.btn-back:focus,
+.btn-back:active {
+  outline: none ;
+  box-shadow: none;
+}

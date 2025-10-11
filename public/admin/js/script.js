@@ -45,27 +45,30 @@ if(formSearch){
 
 
 //Change categoryLevel2
-const categoryLevel1 = document.querySelector('#category-level-1');
-const categoryLevel2 = document.querySelector('#category-level-2');
+const categoryLevel1 = document.querySelector('[category-level-1]');
+const categoryLevel2 = document.querySelector('[category-level-2]');
 const allOptions = Array.from(categoryLevel2.options);
-categoryLevel1.addEventListener('change', () => {
-    const valueCategoryLevel1 = categoryLevel1.value;
+if(categoryLevel1){
+    categoryLevel1.addEventListener('change', () => {
+        categoryLevel2.blur(); 
+        const valueCategoryLevel1 = categoryLevel1.value;
 
-    categoryLevel2.innerHTML = "";
+        categoryLevel2.innerHTML = "";
+        const option = document.createElement("option");
+        option.textContent = "-- Loại sách --";
+        option.value = "";
+        categoryLevel2.appendChild(option);
 
-    const option = document.createElement("option");
-    option.textContent = "-- Loại sách --";
-    option.value = "";
-    categoryLevel2.appendChild(option);
-
-    allOptions.forEach(item => {
-        if(!valueCategoryLevel1 || item.getAttribute('data-parent') === valueCategoryLevel1){
-            categoryLevel2.appendChild(item);
-        }
+        allOptions.forEach(item => {
+            if(!valueCategoryLevel1 || item.getAttribute('data-parent') === valueCategoryLevel1){
+                categoryLevel2.appendChild(item);
+            }
     });
     categoryLevel2.selectedIndex = 0;
 });
+}
 //End change categoryLevel2
+
 
 
 //Button filter product
@@ -73,8 +76,8 @@ const formFilterProduct = document.querySelector('#form-filter-products');
 if(formFilterProduct){
     let url = new URL(window.location.href);
     const status = document.querySelector('#status');
-    const categoryLevel1 = document.querySelector('#category-level-1');
-    const categoryLevel2 = document.querySelector('#category-level-2');
+    const categoryLevel1 = document.querySelector('[category-level-1]');
+    const categoryLevel2 = document.querySelector('[category-level-2]');
     formFilterProduct.addEventListener("submit", (e) => {
         e.preventDefault();
         status.value ? url.searchParams.set("status", status.value) : url.searchParams.delete("status");
@@ -85,9 +88,122 @@ if(formFilterProduct){
 }
 //End button filter product
 
+//Check-box
+const checkBoxMulti = document.querySelector('[check-box-multi]');
+if(checkBoxMulti){
+    const checkBoxAll = checkBoxMulti.querySelector('[check-box-all]');
+    const checkBoxs = checkBoxMulti.querySelectorAll('input[name="id"]');
+    checkBoxAll.addEventListener("click", () => {
+        if(checkBoxAll.checked) checkBoxs.forEach(item => item.checked = true);
+        else checkBoxs.forEach(item => item.checked = false);
+    });
+    checkBoxs.forEach(checkBox => {
+        checkBox.addEventListener("click", () => {
+            const countChecked = checkBoxMulti.querySelectorAll('input[name="id"]:checked').length;
+            countChecked === checkBoxs.length ? checkBoxAll.checked = true : checkBoxAll.checked = false;
+        });
+    });
+}
+//End check-box
 
 
 
+//Change-multi
+const formChangeMulti = document.querySelector('[form-change-multi]');
+if(formChangeMulti){
+    formChangeMulti.addEventListener("submit", () => {
+        const checkBoxMulti = document.querySelector('[check-box-multi]');
+        const boxChecked = checkBoxMulti.querySelectorAll('input[name="id"]:checked');
+        if(boxChecked.length > 0){
+            const inputContainId = formChangeMulti.querySelector('input[name="ids"]');
+            let ids = [];
+            boxChecked.forEach(item => {
+                ids.push(item.value);
+            });
+            inputContainId.value = ids.join(", ");
+            formChangeMulti.submit();
+        }
+    });
+}
+//End change-multi
 
 
 
+//Button delete product
+const buttonDeleteProduct = document.querySelectorAll('[button-delete-product]');
+if(buttonDeleteProduct.length > 0){
+    const formDeleteProduct = document.querySelector('#form-delete-product');
+    const path = formDeleteProduct.getAttribute('data-path');
+    const page = formDeleteProduct.getAttribute('data-page');
+    buttonDeleteProduct.forEach(item => {
+        item.addEventListener("click", () => {
+            const id = item.getAttribute('data-id');
+            const action = path + `/${id}?_method=DELETE&page=${page}`;
+            console.log(action);
+            formDeleteProduct.setAttribute('action', action);
+            formDeleteProduct.submit();
+        });
+    });
+}
+//End button delete product
+
+
+
+//Upload image
+const uploadImage = document.querySelector('[upload-image]');
+if(uploadImage){
+    const uploadImageInput = uploadImage.querySelector('[upload-image-input]');
+    const uploadImagePreview = uploadImage.querySelector('[upload-image-preview]');
+    const btnClose = uploadImage.querySelector('[btn-close]');
+
+    uploadImageInput.addEventListener('change', (e) => {
+        const [file] = e.target.files;
+        if(file){
+            uploadImagePreview.src = URL.createObjectURL(file);
+            btnClose.textContent = "✕";
+        }
+    });
+
+    btnClose.addEventListener('click', () => {
+        uploadImageInput.value = "";
+        uploadImagePreview.src = "";
+        btnClose.textContent = "";
+    })
+}
+//End upload image
+
+
+
+//Button edit product
+const buttonsEditProduct = document.querySelectorAll('[button-edit-product]');
+if(buttonsEditProduct.length > 0){
+    const formEditProduct = document.querySelector('#form-edit-product');
+    const path = formEditProduct.getAttribute('data-path');
+    buttonsEditProduct.forEach(button => {
+        button.addEventListener("click", () => {
+            const id = button.getAttribute('data-id');
+            const action = path + `/${id}`;
+            formEditProduct.setAttribute('action', action);
+            formEditProduct.submit();
+        });
+    });
+}
+//End button edit product
+
+
+
+//Button detail product
+const buttonsDetailProduct = document.querySelectorAll('[button-detail-product]');
+if(buttonsDetailProduct.length > 0){
+    const formDetailProduct = document.querySelector('#form-detail-product');
+    const path = formDetailProduct.getAttribute('data-path');
+    buttonsDetailProduct.forEach(button => {
+        button.addEventListener('click', () => {
+            const id = button.getAttribute('data-id');
+            const action = path + `/${id}`;
+            formDetailProduct.setAttribute('action', action);
+            formDetailProduct.submit();
+        });
+    });
+}
+//End button detail product

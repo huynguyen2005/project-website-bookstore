@@ -1,0 +1,161 @@
+extends ../../layouts/default
+
+block main
+  .card
+    .card-header.d-flex.justify-content-between.align-items-center
+        h5.mb-0 Chỉnh sửa sản phẩm 
+
+    .card-body
+        form(
+            action=`${prefixAdmin}/products/edit`
+            method="POST"
+            enctype="multipart/form-data"
+        )
+            div(class="form-group")
+                label(for="bookName") Tên sách
+                input(id="bookName" class="form-control" type="text" name="bookName" placeholder="Nhập tên sách" value=product.bookName)
+
+            div(class="form-group")
+                label(for="description") Mô tả
+                textarea(id="description" class="form-control" name="description" rows="3" placeholder="Nhập mô tả...") #{product.description}
+
+            div(class="form-row")
+                div(class="form-group col-md-6")
+                    label(for="price") Giá (VNĐ)
+                    input(id="price" class="form-control" type="number" name="price" min="0" placeholder="VD: 170000" value=product.price)
+                div(class="form-group col-md-6")
+                    label(for="discountPercent") Giảm giá (%)
+                    input(id="discountPercent" class="form-control" type="number" name="discountPercent" min="0" max="100" placeholder="VD: 10" value=product.discountPercent)
+
+            div(class="form-row")
+                div(class="form-group col-md-6")
+                    label(for="size") Kích thước
+                    input(id="size" class="form-control" type="text" name="size" placeholder="VD: 14x20cm" value=product.size)
+                div(class="form-group col-md-6")
+                    label(for="publishDate") Ngày xuất bản
+                    input(id="publishDate" class="form-control" type="date" name="publishDate" value=product.publishDate.toISOString().slice(0, 10))
+
+            div(class="form-row")
+                div(class="form-group col-md-6")
+                    label(for="pageCount") Số trang
+                    input(id="pageCount" class="form-control" type="number" name="pageCount" min="0" value=product.pageCount)
+                div(class="form-group col-md-6")
+                    label(for="stockQuantity") Số lượng tồn kho
+                    input(id="stockQuantity" class="form-control" type="number" name="stockQuantity" min="0" value=product. stockQuantity)
+
+            div(class="form-row")
+                div(class="form-group col-md-6")
+                    label(for="averageRating") Đánh giá trung bình
+                    input(id="averageRating" class="form-control" type="number" step="0.1" name="averageRating" placeholder="VD: 4.0" value=product.averageRating)
+                div(class="form-group col-md-6")
+                    label(for="reviewCount") Lượt đánh giá
+                    input(id="reviewCount" class="form-control" type="number" name="reviewCount" placeholder="VD: 5000" value=product.reviewCount)
+
+            div(class="form-row")
+                div(class="form-group col-md-6")
+                    label(for="publisher") Nhà xuất bản
+                    input(id="publisher" class="form-control" type="text" name="publisher.publisherName" placeholder="VD: NXB Trẻ" value=product.publisher.publisherName)
+                div(class="form-group col-md-6")
+                    label(for="distributor") Nhà phân phối
+                    input(id="distributor" class="form-control" type="text" name="distributor.distributorName" placeholder="VD: Alpha Books" value=product.distributor.distributorName)
+
+            div(class="form-row")
+                div(class="form-group col-md-6")
+                    label(for="authorName") Tác giả
+                    input(id="authorName" class="form-control" type="text" name="authorName" placeholder="VD: Stephen Hawking" value=`${product.authors.map(item => item.authorName).join(', ')}`)
+                div(class="form-group col-md-6")
+                    label(for="coverType") Loại bìa
+                    select(id="coverType" class="form-control" name="coverType.coverName")
+                        option(value="") -- Chọn loại bìa --
+                        option(
+                            value="Bìa mềm"
+                            selected = product && product.coverType.coverName === "Bìa mềm"
+                        ) Bìa mềm
+                        option(
+                            value="Bìa cứng"
+                            selected = product && product.coverType.coverName === "Bìa cứng"
+                        ) Bìa cứng
+
+            div(class="form-row")
+                div(class="form-group col-md-6")
+                    label(for="categoryLevel1") Danh mục sách
+                    select(id="categoryLevel1" class="form-control" name="category.level1.categoryName" category-level-1)
+                        option(value="") -- Danh mục sách --
+                        each item1 in categoryLevel1List
+                            option(
+                                value=item1 
+                                selected = product && product.category.level1.categoryName === item1
+                            ) #{item1} 
+                div(class="form-group col-md-6")
+                    label(for="categoryLevel2") Loại sách
+                    select(id="categoryLevel2" class="form-control" name="category.level2.genreName" category-level-2)
+                        option(value="") -- Loại sách --
+                        each item2 in categoryLevel2List
+                            option(
+                                value=item2.genreName 
+                                data-parent=item2.categoryName
+                                selected = product && product.category.level2.genreName === item2.genreName
+                            ) #{item2.genreName}
+
+            div(class="form-group" upload-image)
+                label(for="thumbnail") Ảnh đại diện
+                div(class="d-flex align-items-center gap-2")
+                    // Nút chọn tệp kiểu đẹp
+                    label(for="thumbnail" class="btn btn-success d-flex align-items-center gap-2 m-0 px-3 py-2")
+                        i(class="bi bi-upload") 
+                        span Chọn tệp
+                    // Input thật ẩn đi
+                    input(
+                        type="file"
+                        class="d-none"
+                        id="thumbnail"
+                        name="thumbnail"
+                        accept="image/*"
+                        upload-image-input
+                        )
+                img(
+                    src=product.thumbnail
+                    class="image-preview"
+                    upload-image-preview
+                )
+                input(type="hidden" name="oldthumbnail" value=product.thumbnail)
+
+            div(class="form-group")
+                label(for="images") Ảnh chi tiết
+                div(class="d-flex align-items-center gap-2")
+                    // Nút chọn tệp kiểu đẹp (giống ảnh đại diện)
+                    label(for="images" class="btn btn-success d-flex align-items-center gap-2 m-0 px-3 py-2")
+                        i(class="bi bi-upload")
+                        span Chọn tệp
+                    // Input thật ẩn đi
+                    input(
+                        type="file"
+                        class="d-none"
+                        id="images"
+                        name="images"
+                        accept="image/*"
+                        multiple
+                    )  
+                each image in product.images
+                    img(
+                        src=image.url
+                        class="image-preview"
+                    )
+
+            div(class="form-row")
+                div(class="form-group col-md-6")
+                    label(for="position") Vị trí hiển thị
+                    input(id="position" class="form-control" type="number" name="position" min="1" placeholder="Tự động tăng" value=product.position)
+                div(class="form-group col-md-6")
+                    label(for="status") Trạng thái
+                    select(id="status" class="form-control" name="status")
+                        option(
+                            value="active"
+                            selected = product.status === "active"
+                        ) Hoạt động
+                        option(
+                            value="inactive"
+                            selected = product.status === "inactive"
+                        ) Ngừng hoạt động
+
+            button(class="btn btn-primary" type="submit") Chỉnh sửa
