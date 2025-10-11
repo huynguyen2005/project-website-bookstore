@@ -54,11 +54,7 @@ if(categoryLevel1){
         const valueCategoryLevel1 = categoryLevel1.value;
 
         categoryLevel2.innerHTML = "";
-        const option = document.createElement("option");
-        option.textContent = "-- Loại sách --";
-        option.value = "";
-        categoryLevel2.appendChild(option);
-
+        
         allOptions.forEach(item => {
             if(!valueCategoryLevel1 || item.getAttribute('data-parent') === valueCategoryLevel1){
                 categoryLevel2.appendChild(item);
