@@ -10,7 +10,7 @@ body {
 }
 
 .card-header-custom {
-  background-color: #1b2a49; /* xanh than */
+  background-color: #253a62; /* xanh than */
   color: #fff;
   border-radius: 10px 10px 0 0;
 }
@@ -47,7 +47,7 @@ body {
 }
 
 .btn-back {
-  background-color: #1b2a49;
+  background-color: #253a62;
   color: #fff;
   border: none;
 }
