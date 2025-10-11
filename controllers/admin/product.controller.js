@@ -190,3 +190,4 @@ module.exports.detail = async (req, res) => {
         pageTitle: "Chi tiết sản phẩm | Admin",
         product: product
     })
+}
