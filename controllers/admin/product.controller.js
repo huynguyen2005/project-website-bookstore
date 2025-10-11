@@ -189,4 +189,4 @@ module.exports.detail = async (req, res) => {
     res.render('admin/pages/products/detail', {
         pageTitle: "Chi tiết sản phẩm | Admin",
         product: product
-    })
+    }}
