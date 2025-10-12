@@ -203,3 +203,31 @@ if(buttonsDetailProduct.length > 0){
     });
 }
 //End button detail product
+
+// public/js/preview-multiple-images.js
+function previewMultipleImages(event) {
+  const container = document.getElementById('preview-container');
+  if (!container) return;
+
+  // Xoá toàn bộ ảnh cũ trước khi hiển thị ảnh mới
+  container.innerHTML = '';
+
+  const files = event.target.files;
+  if (!files || files.length === 0) return;
+
+  Array.from(files).forEach(file => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      const img = document.createElement('img');
+      img.src = e.target.result;
+      img.style.width = '100px';
+      img.style.height = '100px';
+      img.style.objectFit = 'cover';
+      img.style.borderRadius = '8px';
+      img.style.margin = '4px';
+      img.style.border = '1px solid #ccc';
+      container.appendChild(img);
+    };
+    reader.readAsDataURL(file);
+  });
+}

@@ -132,15 +132,18 @@ block main
                         type="file"
                         class="d-none"
                         id="images"
-                        name="images"
+                        name="images[]"
                         accept="image/*"
                         multiple
+                        onchange="previewMultipleImages(event)"
                     )  
-                each image in product.images
-                    img(
-                        src=image.url
-                        class="image-preview"
-                    )
+                    // Đưa vòng lặp vào trong preview-container
+                div(id="preview-container" class="mt-2 d-flex flex-wrap gap-2")
+                    each image in product.images
+                        img(
+                            src=image.url
+                            class="image-preview"
+                        )
 
             div(class="form-row")
                 div(class="form-group col-md-6")
