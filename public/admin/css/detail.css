@@ -10,7 +10,7 @@ body {
 }
 
 .card-header-custom {
-  background-color: #253a62; /* xanh than */
+  background-color: #253a62; 
   color: #fff;
   border-radius: 10px 10px 0 0;
 }
@@ -24,7 +24,7 @@ body {
 }
 
 .text-secondary {
-  color: #565555 !important; /* hoặc chọn màu khác như #666 */
+  color: #565555 !important; 
 }
 
 .info-label {
@@ -37,13 +37,13 @@ body {
 }
 
 .thumbnail-img {
-  max-width: 140px;  /* Bằng ảnh chi tiết */
+  max-width: 140px; 
   height: auto;
 } 
 
-/* Giữ icon luôn trắng (hoặc màu bạn muốn) */
+/* Màu icon */
 .btn-back i {
-  color: #fff; /* icon trắng mặc định */
+  color: #fff; 
 }
 
 .btn-back {
@@ -60,7 +60,7 @@ body {
   color: #fff;            
 }
 
-/* xóa viền xanh khi bấm nút quay lại */
+/* xóa viền xanh*/
 .btn-back:focus,
 .btn-back:active {
   outline: none ;
