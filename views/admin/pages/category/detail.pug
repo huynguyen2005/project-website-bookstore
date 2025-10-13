@@ -6,11 +6,10 @@ block styles
 block main
   .card.card-custom
     .card-header.card-header-custom.d-flex.justify-content-between.align-items-center
-      h5(class="mb-0 font-weight-bold") Chi tiết sản phẩm
+      h5(class="mb-0 font-weight-bold") Chi tiết danh mục
       a(class="btn btn-back btn-sm" href=`${prefixAdmin}/products`)
         i(class="bi bi-arrow-left mr-1")
         span Quay lại
-
     .card-body
       // --- Tên sách
       h2(class="font-weight-bold mb-3" style="color:#1b2a49") #{product.bookName}
@@ -97,24 +96,4 @@ block main
             span(class="info-label") Cập nhật gần nhất:
             |  #{product.updatedAt ? product.updatedAt.toLocaleString() : '—'}
 
-      hr
 
-      // --- Ảnh đại diện 
-      h6(class="section-title") Ảnh đại diện
-      if product.thumbnail
-        .d-flex.flex-column.align-items-start.mb-4
-          img(src=product.thumbnail alt="Ảnh đại diện" class="img-thumbnail mb-2 shadow-sm thumbnail-img")
-          a(href=product.thumbnail target="_blank" class="small text-muted")= product.thumbnail
-      else
-        p(class="text-muted") Không có ảnh đại diện
-
-      // --- Ảnh chi tiết
-      h6(class="section-title") Ảnh chi tiết
-      if product.images && product.images.length
-        .d-flex.flex-wrap.gap-3
-          each imgItem in product.images
-            .p-2.text-center
-              img(src=imgItem.url alt=imgItem.imageName class="img-thumbnail shadow-sm mb-2" style="max-width:140px;")
-              a(href=imgItem.url target="_blank" class="small text-muted d-block")= imgItem.url
-      else
-        p(class="text-muted") Không có ảnh chi tiết

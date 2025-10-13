@@ -17,7 +17,6 @@ app.use(express.static('public'));
 app.use(methodOverride("_method"));
 app.use(express.urlencoded({ extended: true }));
 
-
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
 
 routeAdmin(app);

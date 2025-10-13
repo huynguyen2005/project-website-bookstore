@@ -1,0 +1,26 @@
+doctype html
+html
+  head
+    title Quên mật khẩu
+    link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css")
+    link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css")
+    link(rel="stylesheet", href="/admin/css/login.css")
+  body
+    .login-card
+      h5.text-center.mb-4.font-weight-bold QUÊN MẬT KHẨU
+
+      if error
+        .alert.alert-danger.text-center #{error}
+      if success
+        .alert.alert-success.text-center #{success}
+
+      form(action="/admin/auth/forgot" method="POST")
+        .form-group
+          label Nhập Email *
+          i(class="bi bi-envelope input-icon")
+          input.form-control(type="email" name="email" placeholder="Nhập email của bạn" required)
+
+        button.btn.btn-login.btn-block.mt-3(type="submit") Lấy mật khẩu
+
+        .d-flex.justify-content-between.mt-3
+          a.text-dark(href="/admin/auth/login") Quay lại đăng nhập

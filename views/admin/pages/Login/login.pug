@@ -1,0 +1,39 @@
+doctype html
+html
+  head
+    title Đăng nhập
+    link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css")
+    link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css")
+    link(rel="stylesheet", href="/admin/css/login.css")
+  body
+    .login-card
+      h5.text-center.mb-4.font-weight-bold ĐĂNG NHẬP
+      if error
+        .alert.alert-danger.text-center #{error}
+      form(action="/auth/login" method="POST")
+        .form-group
+          label Tài khoản *
+          i(class="bi bi-person input-icon")
+          input.form-control(type="text" name="username" placeholder="Tên đăng nhập" required)
+
+        .form-group
+          label Mật khẩu *
+          i(class="bi bi-lock input-icon")
+          input.form-control(type="password" name="password" placeholder="Mật khẩu" required)
+          i(class="bi bi-eye-slash toggle-password") 
+
+        button.btn.btn-login.btn-block.mt-3(type="submit") Đăng nhập
+
+        .d-flex.justify-content-between.mt-3
+          a.text-dark(href="/admin/auth/forgot") Quên mật khẩu ?
+        .register-link.mt-4.text-center
+
+    script.
+      const toggle = document.querySelector('.toggle-password');
+      const password = document.querySelector('input[name="password"]');
+      toggle.addEventListener('click', () => {
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        toggle.classList.toggle('bi-eye');
+        toggle.classList.toggle('bi-eye-slash');
+      });

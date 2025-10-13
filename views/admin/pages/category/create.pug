@@ -3,7 +3,7 @@ extends ../../layouts/default
 block main
   .card
     .card-header.d-flex.justify-content-between.align-items-center
-        h5.mb-0 Thêm sản phẩm mới
+        h5.mb-0 Thêm danh mục mới
 
     .card-body
         form(
@@ -12,8 +12,8 @@ block main
             enctype="multipart/form-data"
         )
             div(class="form-group")
-                label(for="bookName") Tên sách
-                input(id="bookName" class="form-control" type="text" name="bookName" placeholder="Nhập tên sách")
+                label(for="bookName") Tên danh mục
+                input(id="bookName" class="form-control" type="text" name="bookName" placeholder="Nhập tên danh mục")
 
             div(class="form-group")
                 label(for="description") Mô tả
@@ -87,48 +87,8 @@ block main
                                 data-parent=item2.categoryName
                             ) #{item2.genreName}
 
-            div(class="form-group" upload-image)
-                label(for="thumbnail") Ảnh đại diện
-                div(class="d-flex align-items-center gap-2")
-                    // Nút chọn tệp
-                    label(for="thumbnail" class="btn btn-success d-flex align-items-center gap-2 m-0 px-3 py-2")
-                        i(class="bi bi-upload") 
-                        span Chọn tệp
-                    // Input thật ẩn đi
-                    input(
-                        type="file"
-                        class="d-none"
-                        id="thumbnail"
-                        name="thumbnail"
-                        accept="image/*"
-                        upload-image-input
-                        )
-                img(
-                    src=""
-                    class="image-preview"
-                    upload-image-preview
-                )
-
-            div(class="form-group")
-                label(for="images") Ảnh chi tiết
-                div(class="d-flex align-items-center gap-2")
-                    // Nút chọn tệp
-                    label(for="images" class="btn btn-success d-flex align-items-center gap-2 m-0 px-3 py-2")
-                        i(class="bi bi-upload")
-                        span Chọn tệp
-                    // Input thật ẩn đi
-                    input(
-                        type="file"
-                        class="d-none"
-                        id="images"
-                        name="images[]"
-                        accept="image/*"
-                        multiple
-                        onchange="previewMultipleImages(event)"
-                    )  
-                div(id="preview-container" class="mt-2 d-flex flex-wrap gap-2")
-
             div(class="form-row")
+                // Ô nhập vị trí hiển thị
                 div(class="form-group col-md-6")
                     label(for="position") Vị trí hiển thị
                     input(
@@ -138,7 +98,7 @@ block main
                         name="position"
                         min="1"
                         placeholder="Tự động tăng"
-                    )
+                     )
                 div(class="form-group col-md-6")
                     label(for="status") Trạng thái
                     select(id="status" class="form-control" name="status")
@@ -146,3 +106,5 @@ block main
                         option(value="inactive") Ngừng hoạt động
 
             button(class="btn btn-primary" type="submit") Tạo mới
+
+

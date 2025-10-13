@@ -1,129 +1,221 @@
-/* ============================= */
-/* ==== SIDEBAR CHUNG ==== */
-/* ============================= */
+/* Sidebar chung */
 .sidebar {
   width: 240px;
   background: #111827;
   color: #c7c7c7;
-  height: 100vh;
+  height: 100vh;         
   position: fixed;
   top: 0;
   left: 0;
-  overflow-y: auto;
-  z-index: 100; /* ✅ Sidebar luôn nằm trên main */
+  overflow-y: auto;       
 }
 
+/* Ẩn/thu gọn thanh cuộn */
 .sidebar::-webkit-scrollbar {
   width: 6px;
 }
-.sidebar::-webkit-scrollbar-thumb {
-  background: #374151;
-  border-radius: 3px;
-}
-.sidebar::-webkit-scrollbar-thumb:hover {
-  background: #4b5563;
+
+.sidebar-logo {
+  padding-left: 10px;
 }
 
-/* Logo */
-.sidebar-logo img {
-  max-height: 2.5rem;
+/* Logo chữ trong sidebar */
+.sidebar-logo-text {
+  font-family: 'Arial', sans-serif;
+  font-size: 34px;
+  font-weight: 700;
+  text-decoration: none;
+  color: inherit;
+  user-select: none;
+  cursor: pointer; 
+}
+
+.sidebar-logo-text .logo-green2 {
+  color: #3dc23dfb; 
+}
+
+.sidebar-logo-text .logo-red2 {
+  color: #ec2121; 
+}
+/* Bỏ mọi hiệu ứng hover */
+.sidebar-logo-text:hover {
+  text-decoration: none;
+  transform: none;
+  filter: none;
 }
 
 /* Nhóm tiêu đề */
 .sidebar .nav-group {
   font-weight: 600;
-  font-size: 0.75rem;
+  font-size: 12px;
   letter-spacing: 1px;
-  color: #6b7280 !important;
-  padding-left: 0.625rem;
+  color: #6b7280 ;
 }
 
-/* Link cha */
 .sidebar .nav-link {
   color: #9ca3af;
-  padding: 0.625rem 0.9375rem;
+  padding: 10px; 
+  margin: 0;                    
+  border-radius: 10px;             
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  border-radius: 4px;
+  gap: 8px;
   transition: all 0.2s ease;
+  width: 100%;                  
+  box-sizing: border-box;      
 }
+
+/* Cho item sát lề */
+.sidebar ul.nav li {
+  padding: 0;
+  margin: 0 ;
+}
+
 .sidebar .nav-link i {
-  font-size: 1rem;
-  color: #9ca3af;
+  font-size: 16px;
+  color: #9ca3af; 
 }
+
+/* Hover menu cha */
 .sidebar .nav-link:hover {
+  background: #1f2937;   
+  color: #fff;          
+}
+.sidebar .nav-link:hover i {
+  color: #0dcaf0;        
+}
+
+/* Active menu cha */
+.sidebar .nav-link.active {
+  background: #1f2937;   
+  color: #fff ;
+}
+.sidebar .nav-link.active i {
+  color: #0dcaf0;        
+}
+
+/* Khi menu cha đang mở (aria-expanded=true) thì active */
+.sidebar .nav-link[aria-expanded="true"] {
   background: #1f2937;
   color: #fff;
 }
-.sidebar .nav-link:hover i {
+
+.sidebar .nav-link[aria-expanded="true"] i {
   color: #0dcaf0;
 }
-.sidebar .nav-link.active {
-  background: #1f2937;
-  color: #fff !important;
+
+.sidebar .nav-link[aria-expanded="true"] i.bi-chevron-down {
+  transform: rotate(180deg);
 }
-.sidebar .nav-link.active i {
-  color: #0dcaf0;
+
+.sidebar .collapse {
+  margin-top: 8px;
+  display: block ;   
+  overflow: hidden;            
+  height: 0;                   
+}
+
+.sidebar .collapse.show {
+  height: auto;                
+}
+
+.sidebar .collapsing {
+  height: auto ;     
+  overflow: hidden ; 
 }
 
 /* Submenu */
 .sidebar .collapse .nav-link {
-  font-size: 0.875rem;
-  padding: 0.5rem 0.9375rem 0.5rem 1.875rem;
-  color: #9ca3af;
-}
-.sidebar .collapse .nav-link:hover,
-.sidebar .collapse .nav-link.active {
-  background: #1f2937;
-  color: #fff;
+  font-size: 16px;
+  padding: 5px 15px 8px 10px;
+  color: #9ca3af; 
 }
 
-/* ============================= */
-/* ==== MAIN & HEADER ==== */
-/* ============================= */
+.sidebar .collapse .nav-link:not(:hover) {
+  background: none;
+  color: #9ca3af;
+}
+
+/* Màu submenu khi đang được chọn (active) */
+.sidebar .collapse .nav-link.active {
+  color: #fff ;     
+}
+
+/* Icon trong submenu khi active */
+.sidebar .collapse .nav-link.active i {
+  color: #0dcaf0;     
+}
+
+/* Main tổng */
 .main {
-  margin-left: 240px;
+  margin-left: 240px; 
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   background: #f5f6fa;
-  position: relative;
-  z-index: 1; /* ✅ Nằm dưới sidebar */
 }
 
+/* Header */
 .main-header {
   position: fixed;
   top: 0;
   left: 240px;
   right: 0;
-  height: 3.75rem;
+  height: 60px;
   background: #fff;
   border-bottom: 1px solid #e5e5e5;
-  z-index: 99;
+  z-index: 1000;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 1.25rem;
+  padding: 0 20px;
 }
 .main-header h5 {
-  font-size: 1rem;
+  font-size: 16px;
   font-weight: 600;
   color: #333;
 }
 
+/* Logo header */
+.sidebar-logo-text .logo-green1 {
+  color: #3cb43cfb; 
+}
+
+.sidebar-logo-text .logo-red1 {
+  color: #dc2020; 
+}
+
+a.d-flex.align-items-center.text-dark.mr-1:hover {
+  text-decoration: none; 
+}
+
+a.d-flex.align-items-center.text-dark.mr-1 span {
+  color: black;
+}
+
+a.d-flex.align-items-center.text-dark.mr-1 span:hover {
+  color: rgb(38, 38, 244);
+}
+
+a.d-flex.align-items-center.text-dark.mr-1 i {
+  color: black;
+}
+
+
+/* Avatar
 .user-avatar {
-  width: 2rem;
-  height: 2rem;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   background: #28a745;
   color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.875rem;
+  font-size: 14px;
   font-weight: bold;
-}
+} */
+
 
 /* ============================= */
 /* ==== MAIN CONTENT ==== */
@@ -159,7 +251,7 @@
 }
 
 .card-header {
-  background-color: #1b2a49;
+  background-color: #253a62;
   color: #fff;
   border-radius: 0.75rem 0.75rem 0 0;
   padding: 1rem 1.25rem;
@@ -171,36 +263,56 @@
 }
 
 .btn-primary {
-  background-color: #1b2a49;
-  border: none;
+  background-color: #fff;
+  color: rgb(0, 0, 0);
+  border-color: #1b2a49;
   font-size: clamp(0.8rem, 0.9vw, 0.95rem);
   padding: 0.5rem 1rem;
   border-radius: 0.4rem;
 }
+
+.btn.btn-primary {
+  border-color: rgba(0,0,0,0.2);
+}
+
 .btn-primary:hover {
-  background-color: #14233a;
+  background-color: #4c7be8;
+  color: #fff;
 }
 .btn-outline-secondary {
-  color: #1b2a49;
-  border-color: #1b2a49;
+  background-color: #fff;
+  border-color: rgba(0, 0, 0, 0.144);
+  color: rgb(0, 0, 0);
   font-size: clamp(0.8rem, 0.9vw, 0.95rem);
-  padding: 0.45rem 1rem;
+  padding: 0.45rem 1rem;  
   border-radius: 0.4rem;
 }
 .btn-outline-secondary:hover {
-  background-color: #1b2a49;
+  background-color: #6892f3;
   color: #fff;
 }
 
 /* Input focus */
 .form-control:focus {
-  border-color: #1b2a49;
   box-shadow: 0 0 0.3rem rgba(27, 42, 73, 0.3);
 }
 .form-control {
+  background-color: #ffffff;
   font-size: clamp(0.8rem, 0.9vw, 0.95rem);
   border-radius: 0.4rem;
+  color: black;
 }
+
+/* Tăng chiều cao ô nhập*/
+#form-search .form-control {  
+  font-size: 0.9rem;
+}
+/* Giảm chiều cao nút tìm kiếm */
+#form-search .btn-outline-secondary {
+  padding: 0.2rem 0.9rem; 
+  height: auto;           
+}
+
 
 /* ============================= */
 /* ==== BẢNG SẢN PHẨM ==== */
@@ -226,10 +338,12 @@
   border: none;
   letter-spacing: 0.3px;
   white-space: nowrap;
+  text-align: center;
 }
 
 .table tbody tr {
   transition: background 0.25s ease;
+  background-color: inherit;
 }
 .table tbody tr:hover {
   background-color: #f6f8fc;
@@ -239,21 +353,19 @@
   border-top: 1px solid #eee;
   padding: 0.8rem;
   vertical-align: middle;
-  color: #333;
+  color: #000000;
   text-align: center;
 }
 
 /* Ảnh sản phẩm linh động */
 td img {
-  width: clamp(35px, 5vw, 60px);
-  height: auto;
+  width: auto;              
+  height: 100px;            
+  object-fit: contain;      
   border-radius: 0.5rem;
-  border: 1px solid #ddd;
-  object-fit: cover;
+  background-color: #f8f8f8;
+  padding: 2px;
   transition: transform 0.2s;
-}
-td img:hover {
-  transform: scale(1.05);
 }
 
 /* Checkbox */
@@ -265,24 +377,30 @@ input[type="checkbox"] {
 /* Tên sản phẩm */
 .table td strong {
   font-size: clamp(0.9rem, 1vw, 1.1rem);
-  color: #1b2a49;
+  color: #000000;
 }
 .table td small {
   font-size: clamp(0.75rem, 0.9vw, 0.9rem);
-  color: #666;
+  color:#666;;
 }
 
 /* Link thao tác */
 .table td a[data-id],
 .table td span[data-id] {
-  color: #1b2a49;
+  color: #495164;
   text-decoration: none;
   font-weight: 500;
 }
-.table td a[data-id]:hover,
-.table td span[data-id]:hover {
-  color: #0d6efd;
-  text-decoration: underline;
+/* Áp dụng cho các liên kết "Chi tiết", "Sửa", "Xóa" */
+.table td a[data-id]:hover {
+  color: #0d6efd;           
+  text-decoration: none;    
+}
+
+/* Áp dụng riêng cho trạng thái (span[data-status]) */
+.table td span[data-status]:hover {
+  color: #0d6efd;          
+  text-decoration: underline; 
 }
 
 /* Giá */
@@ -291,7 +409,7 @@ input[type="checkbox"] {
   color: #1b2a49;
 }
 .table td small.text-muted {
-  color: #888 !important;
+  color: #495164 !important;
   font-size: clamp(0.75rem, 0.9vw, 0.9rem);
 }
 
@@ -306,23 +424,23 @@ input[type="checkbox"] {
   text-align: center;
 }
 .badge-active {
-  background-color: #e7f6ed;
-  color: #1b5e20;
+  background-color: #42ce7a;
+  color: #ffffffe9;
   border: 1px solid #b7e0c4;
 }
 .badge-inactive {
-  background-color: #fde8e8;
-  color: #b71c1c;
+  background-color: #e46671;
+  color: #ffffffe9;
   border: 1px solid #f5b5b5;
 }
 
-/* Bo góc header bảng */
+ /* Bo góc header bảng */
 .table tr:first-child th:first-child {
   border-top-left-radius: 0.75rem;
 }
 .table tr:first-child th:last-child {
   border-top-right-radius: 0.75rem;
-}
+} 
 
 /* Image Preview */
 .image-preview {
@@ -342,6 +460,33 @@ input[type="checkbox"] {
 .cursor-pointer {
   cursor: pointer;
 }
+
+/* chọn tệp ở chỉnh sửa */
+.btn.btn-success {
+  border: none;
+  width: 112.5px;
+  height: 37px;
+  font-weight: 500;
+  border-radius: 6px;
+  padding: 4px 10px;  /* ↓ giảm khoảng trống trong nút */
+  font-size: 14px;    /* ↓ giảm cỡ chữ */
+  transition: background-color 0.2s ease;
+  background-color:#007aff;
+}
+
+.btn.btn-success i {
+  margin-right: 6px; /* khoảng cách giữa icon và chữ */
+  font-size: 16px;
+}
+
+.btn.btn-success:hover {
+  background-color: #0e6cf8; /* Xanh đậm hơn khi hover */
+}
+
+.btn i {
+  font-size: 18px;
+}
+
 
 /* ============================= */
 /* ==== PHÂN TRANG (PAGINATION) ==== */
@@ -372,16 +517,16 @@ input[type="checkbox"] {
 
 /* Hover nút */
 .page-link:hover {
-  background: #1b2a49;       /* ✅ xanh than */
+  background: #3162d2;     
   color: #fff;
-  border-color: #1b2a49;
+  border-color: #3162d2;
 }
 
 /* Nút đang chọn */
 .page-item.active .page-link {
-  background: #1b2a49;       /* ✅ xanh than */
+  background: #3162d2;       /* ✅ xanh than */
   color: #fff;
-  border-color: #1b2a49;
+  border-color: #3162d2;
   font-weight: 600;
   cursor: default;
 }
@@ -396,8 +541,8 @@ input[type="checkbox"] {
 
 /* Bo tròn 2 đầu */
 .page-link:first-child {
-  border-radius: 6px 0 0 6px;
+  border-radius: 6px;
 }
 .page-link:last-child {
-  border-radius: 0 6px 6px 0;
+  border-radius: 6px;
 }

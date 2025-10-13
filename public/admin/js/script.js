@@ -10,8 +10,6 @@ if(buttonsPagination.length > 0){
         });
     });
 }
-//End button pagination 
-
 
 //Button-change-status
 const buttonsStatus = document.querySelectorAll('[button-change-status]');
@@ -30,8 +28,6 @@ if(buttonsStatus.length > 0){
         })
     });
 }
-//End button-change-status
-
 
 //Button search product
 const formSearch = document.querySelector('#form-search');
@@ -54,14 +50,11 @@ const categoryLevel2 = document.querySelector('[category-level-2]');
 const allOptions = Array.from(categoryLevel2.options);
 if(categoryLevel1){
     categoryLevel1.addEventListener('change', () => {
+        categoryLevel2.blur(); 
         const valueCategoryLevel1 = categoryLevel1.value;
 
         categoryLevel2.innerHTML = "";
-        const option = document.createElement("option");
-        option.textContent = "-- Loại sách --";
-        option.value = "";
-        categoryLevel2.appendChild(option);
-
+        
         allOptions.forEach(item => {
             if(!valueCategoryLevel1 || item.getAttribute('data-parent') === valueCategoryLevel1){
                 categoryLevel2.appendChild(item);
@@ -90,8 +83,6 @@ if(formFilterProduct){
     });
 }
 //End button filter product
-
-
 
 //Check-box
 const checkBoxMulti = document.querySelector('[check-box-multi]');
@@ -212,3 +203,31 @@ if(buttonsDetailProduct.length > 0){
     });
 }
 //End button detail product
+
+// public/js/preview-multiple-images.js
+function previewMultipleImages(event) {
+  const container = document.getElementById('preview-container');
+  if (!container) return;
+
+  // Xoá toàn bộ ảnh cũ trước khi hiển thị ảnh mới
+  container.innerHTML = '';
+
+  const files = event.target.files;
+  if (!files || files.length === 0) return;
+
+  Array.from(files).forEach(file => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      const img = document.createElement('img');
+      img.src = e.target.result;
+      img.style.width = '100px';
+      img.style.height = '100px';
+      img.style.objectFit = 'cover';
+      img.style.borderRadius = '8px';
+      img.style.margin = '4px';
+      img.style.border = '1px solid #ccc';
+      container.appendChild(img);
+    };
+    reader.readAsDataURL(file);
+  });
+}
