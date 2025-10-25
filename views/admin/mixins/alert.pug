@@ -1,0 +1,24 @@
+//- alert thông báo thành công
+mixin alert-success(time)
+    //- không phải truyền messages vì nó là biến global
+    - if (messages.success)
+        .message.info
+            div(
+                class="alert alert-success" 
+                show-alert
+                data-time=time
+            ) #{messages.success} 
+                span(close-alert) ✕
+
+
+//- alert thông báo lỗi
+mixin alert-error(time)
+    //- không phải truyền messages vì nó là biến global
+    - if (messages.error)
+        .message.info
+            div(
+                class="alert alert-danger" 
+                show-alert
+                data-time=time
+            ) #{messages.error} 
+                span(close-alert) ✕ 

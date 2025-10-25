@@ -19,12 +19,16 @@ if(buttonsStatus.length > 0){
     const formChangeStatus = document.querySelector('#form-change-status');
     const path = formChangeStatus.getAttribute('data-path');
     const page = formChangeStatus.getAttribute('data-page');
+    let curentPage = "";
+    if(page){
+        curentPage = `&page=${page}`;
+    }
     buttonsStatus.forEach(item => {
         item.addEventListener("click", () => {
             const id = item.getAttribute('data-id');
             const status = item.getAttribute('data-status');
             const newStatus = status === "active" ? "inactive" : "active";
-            const action = path + `/${id}/${newStatus}?_method=PATCH&page=${page}`;
+            const action = path + `/${id}/${newStatus}?_method=PATCH${curentPage}`;
             formChangeStatus.setAttribute("action", action);
             formChangeStatus.submit();
         })
@@ -33,8 +37,8 @@ if(buttonsStatus.length > 0){
 //End button-change-status
 
 
-//Button search product
-const formSearch = document.querySelector('#form-search');
+//Button search item
+const formSearch = document.querySelector('[form-search]');
 if(formSearch){
     let url = new URL(window.location.href);
     formSearch.addEventListener("submit", (e) => {
@@ -44,52 +48,34 @@ if(formSearch){
         window.location.href = url;
     });
 }
-//End button search product
+//End button search item
 
 
 
-//Change categoryLevel2
-const categoryLevel1 = document.querySelector('[category-level-1]');
-const categoryLevel2 = document.querySelector('[category-level-2]');
-const allOptions = Array.from(categoryLevel2.options);
-if(categoryLevel1){
-    categoryLevel1.addEventListener('change', () => {
-        const valueCategoryLevel1 = categoryLevel1.value;
-
-        categoryLevel2.innerHTML = "";
-        const option = document.createElement("option");
-        option.textContent = "-- Loại sách --";
-        option.value = "";
-        categoryLevel2.appendChild(option);
-
-        allOptions.forEach(item => {
-            if(!valueCategoryLevel1 || item.getAttribute('data-parent') === valueCategoryLevel1){
-                categoryLevel2.appendChild(item);
-            }
-    });
-    categoryLevel2.selectedIndex = 0;
-});
-}
-//End change categoryLevel2
-
-
-
-//Button filter product
-const formFilterProduct = document.querySelector('#form-filter-products');
-if(formFilterProduct){
+//Button filter item
+const formFilter = document.querySelector('[form-filter]');
+if(formFilter){
     let url = new URL(window.location.href);
     const status = document.querySelector('#status');
-    const categoryLevel1 = document.querySelector('[category-level-1]');
-    const categoryLevel2 = document.querySelector('[category-level-2]');
-    formFilterProduct.addEventListener("submit", (e) => {
+    const bookCategory = document.querySelector('#book_category_id');
+    const coverType = document.querySelector('#cover_type_id');
+    const sortSelect = document.querySelector('[sort-select]');
+    const createBy = document.querySelector('#createBy');
+    formFilter.addEventListener("submit", (e) => {
         e.preventDefault();
-        status.value ? url.searchParams.set("status", status.value) : url.searchParams.delete("status");
-        categoryLevel1.value ? url.searchParams.set("categoryLevel1", categoryLevel1.value) : url.searchParams.delete("categoryLevel1");
-        categoryLevel2.value ? url.searchParams.set("categoryLevel2", categoryLevel2.value) : url.searchParams.delete("categoryLevel2");
+        status?.value ? url.searchParams.set("status", status.value) : url.searchParams.delete("status");
+        bookCategory?.value ? url.searchParams.set("book_category_id", bookCategory.value) : url.searchParams.delete("book_category_id");
+        coverType?.value ? url.searchParams.set("cover_type_id", coverType.value) : url.searchParams.delete("cover_type_id");
+        createBy?.value ? url.searchParams.set("createBy", createBy.value) : url.searchParams.delete("createBy");
+        if(sortSelect.value){
+            const [sortKey, sortValue] = sortSelect.value.split('-');
+            url.searchParams.set('sortKey', sortKey);
+            url.searchParams.set('sortValue', sortValue);
+        }
         window.location.href = url;
     });
 }
-//End button filter product
+//End button filter item
 
 
 
@@ -134,24 +120,26 @@ if(formChangeMulti){
 
 
 
-//Button delete product
-const buttonDeleteProduct = document.querySelectorAll('[button-delete-product]');
-if(buttonDeleteProduct.length > 0){
-    const formDeleteProduct = document.querySelector('#form-delete-product');
-    const path = formDeleteProduct.getAttribute('data-path');
-    const page = formDeleteProduct.getAttribute('data-page');
-    buttonDeleteProduct.forEach(item => {
+//Button delete item
+const buttonDelete = document.querySelectorAll('[button-delete]');
+if(buttonDelete.length > 0){
+    const formDelete = document.querySelector('[form-delete]');
+    const path = formDelete.getAttribute('data-path');
+    const page = formDelete.getAttribute('data-page');
+    let curentPage = "";
+    if(page){
+        curentPage = `&page=${page}`;
+    }
+    buttonDelete.forEach(item => {
         item.addEventListener("click", () => {
             const id = item.getAttribute('data-id');
-            const action = path + `/${id}?_method=DELETE&page=${page}`;
-            console.log(action);
-            formDeleteProduct.setAttribute('action', action);
-            formDeleteProduct.submit();
+            const action = path + `/${id}?_method=DELETE${curentPage}`;
+            formDelete.setAttribute('action', action);
+            formDelete.submit();
         });
     });
 }
-//End button delete product
-
+//End button delete item
 
 
 //Upload image
@@ -177,38 +165,74 @@ if(uploadImage){
 }
 //End upload image
 
+//Upload images
+const uploadImages = document.querySelector('[upload-images]');
+if(uploadImages){
+    const uploadImagesInput = uploadImages.querySelector('[upload-images-input]');
+    const previewBoxImages = uploadImages.querySelector('[preview-box]');
+    uploadImagesInput.addEventListener('change', (e) => {
+        const files = Array.from(e.target.files);
+        previewBoxImages.innerHTML = '';
+        files.forEach(file => {
+            const img = document.createElement('img');
+            img.src = URL.createObjectURL(file);
+            img.classList.add('image-preview');
+            previewBoxImages.appendChild(img);
+        });
+    });
+}
+//End upload images
 
-
-//Button edit product
-const buttonsEditProduct = document.querySelectorAll('[button-edit-product]');
-if(buttonsEditProduct.length > 0){
-    const formEditProduct = document.querySelector('#form-edit-product');
-    const path = formEditProduct.getAttribute('data-path');
-    buttonsEditProduct.forEach(button => {
+//Button edit item
+const buttonsEdit = document.querySelectorAll('[button-edit]');
+if(buttonsEdit.length > 0){
+    const formEdit = document.querySelector('[form-edit]');
+    const path = formEdit.getAttribute('data-path');
+    buttonsEdit.forEach(button => {
         button.addEventListener("click", () => {
             const id = button.getAttribute('data-id');
             const action = path + `/${id}`;
-            formEditProduct.setAttribute('action', action);
-            formEditProduct.submit();
+            formEdit.setAttribute('action', action);
+            formEdit.submit();
         });
     });
 }
-//End button edit product
+//End button edit item
 
 
 
-//Button detail product
-const buttonsDetailProduct = document.querySelectorAll('[button-detail-product]');
-if(buttonsDetailProduct.length > 0){
-    const formDetailProduct = document.querySelector('#form-detail-product');
-    const path = formDetailProduct.getAttribute('data-path');
-    buttonsDetailProduct.forEach(button => {
+//Button detail item
+const buttonsDetail = document.querySelectorAll('[button-detail]');
+if(buttonsDetail.length > 0){
+    const formDetail = document.querySelector('[form-detail]');
+    const path = formDetail.getAttribute('data-path');
+    buttonsDetail.forEach(button => {
         button.addEventListener('click', () => {
             const id = button.getAttribute('data-id');
             const action = path + `/${id}`;
-            formDetailProduct.setAttribute('action', action);
-            formDetailProduct.submit();
+            formDetail.setAttribute('action', action);
+            formDetail.submit();
         });
     });
 }
-//End button detail product
+//End button detail item
+
+
+//Show alert
+const showAlert = document.querySelector('[show-alert]');
+if(showAlert){
+    const time = parseInt(showAlert.getAttribute("data-time"));
+    const closeAlert = showAlert.querySelector('[close-alert]')
+
+    closeAlert.addEventListener("click", () => {
+        showAlert.classList.add("alert-hidden");
+    })
+
+    setTimeout(() => {
+        showAlert.classList.add("alert-hidden");
+    }, time);
+
+}
+//End show alert
+
+

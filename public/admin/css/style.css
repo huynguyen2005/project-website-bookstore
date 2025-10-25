@@ -401,3 +401,304 @@ input[type="checkbox"] {
 .page-link:last-child {
   border-radius: 0 6px 6px 0;
 }
+
+
+.table-categories td, 
+.table-categories th {
+  vertical-align: top !important;
+  text-align: left !important;
+}
+
+/* Show alert */
+[show-alert] {
+  position: fixed;
+  top: 70px;
+  right: 15px;
+  z-index: 9999;
+}
+
+[show-alert].alert-hidden {
+  animation-name: alert-hidden;
+  animation-duration: 0.5s;
+  animation-fill-mode: both;
+}
+
+@keyframes alert-hidden {
+  from {
+    right: 15px;
+    
+  }
+  to{
+    right: -100%;
+    display: none;
+  }
+}
+
+/* End Show Alert ./
+
+
+/* nút đóng */
+[show-alert] [close-alert] {
+  background: ffffffc4;
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  font-weight: 600;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+
+.settings-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 cột chia đều */
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.settings-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #f9fafc;
+  border-radius: 0.75rem;
+  padding: 2rem 1rem;
+  text-align: center;
+  text-decoration: none !important; /* ❌ bỏ gạch dưới */
+  color: #1b2a49;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: all 0.25s ease;
+}
+
+/* Hover */
+.settings-item:hover {
+  background: #1b2a49;
+  color: #fff;
+  transform: translateY(-3px);
+  text-decoration: none !important; /* ❌ không gạch chân */
+}
+
+/* Icon */
+.settings-icon {
+  font-size: 2.2rem;
+  margin-bottom: 0.75rem;
+  color: #1b2a49;
+  transition: color 0.25s ease;
+}
+
+.settings-item:hover .settings-icon {
+  color: #fff;
+}
+
+/* Tiêu đề & mô tả */
+.settings-title {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  font-size: 1rem;
+}
+
+.settings-desc {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.settings-item:hover .settings-desc {
+  color: #e2e8f0;
+}
+
+
+/* ==== DANH SÁCH NHÓM QUYỀN ==== */
+
+.card {
+  border: none;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+}
+
+.card-header {
+  background-color: #fff;
+  border-bottom: 1px solid #eee;
+  padding: 1rem 1.25rem;
+}
+
+.card-header h5 {
+  color: #1b2a49;
+  font-weight: 600;
+}
+
+.btn-primary {
+  background-color: #4a6cf7;
+  border: none;
+  border-radius: 6px;
+  padding: 0.45rem 1rem;
+  font-size: 0.9rem;
+}
+
+.btn-primary:hover {
+  background-color: #3956c5;
+}
+
+/* Ô tìm kiếm — phiên bản đơn giản */
+.search-box {
+  width: 250px;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 0.4rem 0.6rem;
+  font-size: 0.9rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+/* Hiệu ứng khi focus */
+.search-box input:focus {
+  border-color: #1b2a49;
+  box-shadow: 0 0 0 2px rgba(27, 42, 73, 0.15);
+}
+
+/* Bảng */
+.role-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+}
+
+.role-table thead {
+  background: #f8f9fc;
+  font-weight: 600;
+  color: #1b2a49;
+}
+
+.role-table th,
+.role-table td {
+  padding: 0.8rem 1rem;
+  border: none;
+}
+
+.role-table tbody tr:hover {
+  background-color: #fff8dc; /* vàng nhạt */
+  transition: background 0.2s ease;
+}
+
+.role-table td strong {
+  color: #1b2a49;
+  font-weight: 500;
+}
+
+.role-table td a {
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.role-table td a:hover {
+  text-decoration: underline;
+}
+
+
+/* ==== FORM THÊM NHÓM QUYỀN ==== */
+.card-body .card-header {
+  background: #f9fafc;
+  font-weight: 700; /* In đậm "Thông tin nhóm quyền" */
+  font-size: 0.95rem;
+  border-bottom: 1px solid #eee;
+  color: #1b2a49;
+}
+
+.form-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  font-weight: 400; /* Không in đậm label */
+  color: #333;
+  min-width: 140px; /* Giảm độ rộng để input sát lại */
+  margin-bottom: 0;
+}
+
+.form-group .form-control {
+  flex: 1;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 0.45rem 0.75rem;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.form-group .form-control:focus {
+  border-color: #1b2a49;
+  box-shadow: 0 0 0 2px rgba(27, 42, 73, 0.15);
+}
+
+
+
+/* --- Bảng phân quyền --- */
+.permission-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+.permission-table th,
+.permission-table td {
+  padding: 10px 12px;
+  vertical-align: middle;
+  border: 1px solid #dee2e6;
+}
+
+.permission-table th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+}
+
+.permission-table .table-secondary td {
+  background-color: #f2f2f2;
+  font-weight: 600;
+  color: #333;
+}
+
+/* --- Canh giữa checkbox --- */
+.permission-table input[type="checkbox"] {
+  transform: scale(1.2);
+  cursor: pointer;
+  margin: 0;
+}
+
+/* --- Tiêu đề nhóm (Bài viết, Sản phẩm) --- */
+.permission-table .table-secondary td {
+  background-color: #f7f7f7;
+  font-weight: bold;
+  color: #444;
+}
+
+/* --- Dòng xóa màu đỏ --- */
+.permission-table .text-danger {
+  color: #dc3545 !important;
+}
+
+/* --- Căn đều cột tiêu đề và nội dung --- */
+.permission-table th.text-start,
+.permission-table td.text-start {
+  text-align: left;
+}
+
+/* --- Nút cập nhật --- */
+.btn.btn-primary {
+  padding: 6px 18px;
+  font-weight: 500;
+}
+
+/* --- Giữa ô checkbox ở các cột --- */
+.permission-table td.text-center {
+  text-align: center;
+}
+

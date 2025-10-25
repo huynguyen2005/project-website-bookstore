@@ -1,0 +1,102 @@
+extends ../../layouts/default
+include ../../mixins/pagination.pug
+include ../../mixins/search.pug
+include ../../mixins/table-tree.pug
+include ../../mixins/alert.pug
+
+block main
+  +alert-success(5000)  
+  +alert-error(5000)
+  .card
+    .card-header(class="d-flex justify-content-between align-items-center")
+      h5(class="mb-0") Danh sách danh mục
+
+      div(class="d-flex align-items-center")
+        a(href=`${prefixAdmin}/categories/create` class="btn btn-primary mr-2") + Thêm danh mục
+          
+        form(
+          class="d-flex align-items-center"
+          action=`${prefixAdmin}/categories/change-multi?_method=PATCH`
+          method="POST"
+          form-change-multi
+        )
+          select(class="form-control w-auto mr-2" name="type")
+            option(value="") -- Thao tác --
+            option(value="active") Hoạt động
+            option(value="inactive") Ngừng hoạt động
+            option(value="delete-all") Xóa đã chọn
+            option(value="export") Xuất Excel
+          input(
+            type="text"
+            name="ids"
+            value=""
+            class="form-control d-none"
+          )
+          button(type="submit" class="btn btn-outline-secondary") Áp dụng
+
+    .card-body
+      div(class="d-flex align-items-center mb-3")
+        +search(keyword, "categories")
+
+        form(
+          class="form-inline ml-3"
+          form-filter
+          action=`${prefixAdmin}/categories`
+          method="GET"
+        )
+          select(class="form-control mr-2" id="status")
+            option(value="") -- Trạng thái --
+            option(value="active") Hoạt động
+            option(value="inactive") Ngừng hoạt động
+
+          select(class="form-control mr-2" id="createBy")
+            option(value="") -- Người tạo --
+
+          div(class="d-flex gap-2")
+            button(class="btn btn-outline-secondary mr-2" button-filter-category) Lọc
+
+      // --- Bảng danh mục ---
+      table(class="table table-hover table-bordered table-categories" check-box-multi)
+        thead(class="thead-light")
+          tr
+            th(scope="col")
+              input(type="checkbox" check-box-all)
+            th(scope="col") Tên danh mục
+            th(scope="col") Vị trí
+            th(scope="col") Trạng thái
+            th(scope="col") Người tạo
+
+        tbody
+          if categories.length
+            +table-tree(categories)
+          else
+            tr
+              td(colspan="6" class="text-center text-muted") Chưa có danh mục nào
+
+      form(
+        action=""
+        method="POST"
+        id="form-change-status"
+        data-path=`${prefixAdmin}/categories/change-status`
+      )
+
+      form(
+        action=""
+        method="POST"
+        form-delete
+        data-path=`${prefixAdmin}/categories/delete`
+      )
+
+      form(
+        action=""
+        method="GET"
+        form-edit
+        data-path=`${prefixAdmin}/categories/edit`
+      )
+
+      form(
+        action=""
+        method="GET"
+        form-detail
+        data-path=`${prefixAdmin}/categories/detail`
+      )

@@ -1,0 +1,32 @@
+extends ../../layouts/default
+
+block main
+  .card
+    .card-header
+      h5.mb-0 Cài đặt chung
+
+    .card-body
+      .settings-grid
+        //- Danh sách tài khoản
+        a.settings-item(href="/admin/accounts")
+          i(class="bi bi-people-fill settings-icon")
+          h6.settings-title Danh sách tài khoản
+          p.settings-desc Thiết lập tài khoản
+
+        //- Nhóm quyền
+        a.settings-item(href="/admin/roles")
+          i(class="bi bi-gear-fill settings-icon")
+          h6.settings-title Nhóm quyền
+          p.settings-desc Thiết lập nhóm quyền
+
+        //- Phân quyền
+        a.settings-item(href="/admin/roles/permissions")
+          i(class="bi bi-person-fill-gear settings-icon")
+          h6.settings-title Phân quyền
+          p.settings-desc Thiết lập phân quyền
+
+        //- Duyệt bài viết
+        a.settings-item(href="/admin/posts/approval")
+          i(class="bi bi-pencil-square settings-icon")
+          h6.settings-title Duyệt bài viết
+          p.settings-desc Thiết lập quyền duyệt bài viết
