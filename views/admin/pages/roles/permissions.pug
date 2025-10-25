@@ -1,0 +1,66 @@
+extends ../../layouts/default
+
+block main
+  div(class="card")
+    div(class="card-header d-flex justify-content-between align-items-center")
+      h5(class="mb-0") Thiết lập phân quyền
+      button(class="btn btn-primary" type="submit") Cập nhật
+
+    div(class="card-body")
+      table(class="table table-bordered align-middle text-center permission-table")
+        thead
+          tr(class="bg-light fw-semibold text-dark align-middle")
+            th(class="text-start" style="width: 30%")
+            each role in roles 
+              th(class="text-center") #{role.title}
+          tr(data-name="id")
+            th(class="text-start" style="width: 30%")
+              each role in roles  
+                  th
+                    input(type="text" value=role.id)      
+        tbody
+          tr
+            td(class="text-start") Chọn tất cả
+            td(class="text-center")
+              input(type="checkbox" class="form-check-input check-all")
+            td(class="text-center")
+              input(type="checkbox" class="form-check-input check-all")
+
+          tr(class="table-secondary fw-semibold text-dark")
+            td(class="text-start" colspan="3") Bài viết
+
+          tr
+            td(class="text-start") Xem
+            td(class="text-center")
+              input(type="checkbox" class="form-check-input")
+            td(class="text-center")
+              input(type="checkbox" class="form-check-input")
+
+          tr
+            td(class="text-start") Thêm mới
+            td(class="text-center")
+              input(type="checkbox" class="form-check-input")
+            td(class="text-center")
+              input(type="checkbox" class="form-check-input")
+
+          tr
+            td(class="text-start") Thay đổi trạng thái
+            td(class="text-center")
+              input(type="checkbox" class="form-check-input")
+            td(class="text-center")
+              input(type="checkbox" class="form-check-input")
+
+          tr
+            td(class="text-start") Cập nhật
+            td(class="text-center")
+              input(type="checkbox" class="form-check-input")
+            td(class="text-center")
+              input(type="checkbox" class="form-check-input")
+
+          tr
+            td(class="text-start text-danger fw-semibold") Xóa
+            td(class="text-center")
+              input(type="checkbox" class="form-check-input")
+            td(class="text-center")
+              input(type="checkbox" class="form-check-input")
+
