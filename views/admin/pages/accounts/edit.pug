@@ -1,0 +1,172 @@
+extends ../../layouts/default
+include ../../mixins/alert.pug
+
+block main
+  +alert-success(5000)
+  +alert-error(5000)
+
+  form(action=`${prefixAdmin}/accounts/edit/${account._id}?_method=PATCH` method="POST" enctype="multipart/form-data")
+    div(class="card")
+      div(class="card-header d-flex justify-content-between align-items-center")
+        h5(class="mb-0") Chỉnh sửa tài khoản
+        a(href=`${prefixAdmin}/accounts` class="btn btn-outline-secondary") Quay lại danh sách
+
+      div(class="card-body")
+        // --- Tabs ---
+        ul(class="nav nav-tabs mb-3" role="tablist" style="border-bottom: 2px solid #f0f0f5;")
+          li(class="nav-item")
+            a(
+              class="nav-link active fw-semibold"
+              href="javascript:;"
+              data-bs-toggle="tab"
+              role="tab"
+              style="color:#4a6cf7; border:none; border-bottom:3px solid #4a6cf7; background:none;"
+            )
+              i(class="bi bi-person-fill me-1" style="color:#4a6cf7;")
+              | Thông tin tài khoản
+
+        // --- Tab nội dung ---
+        div(class="tab-content")
+          div(class="tab-pane fade show active" id="account-info" role="tabpanel")
+            h6(class="mb-3 fw-bold") Thông tin tài khoản
+
+            div(class="form-group mb-3")
+              label(for="username") Tên đăng nhập
+              input(
+                id="username"
+                class="form-control"
+                type="text"
+                name="username"
+                required
+                value=account.username
+              )
+
+            div(class="form-group mb-3")
+              label(for="password") Mật khẩu mới
+              input(id="password" class="form-control" type="password" name="password" placeholder="Nhập mật khẩu mới")
+
+            div(class="form-group mb-3")
+              label(for="email") Email
+              input(
+                id="email"
+                class="form-control"
+                type="email"
+                name="email"
+                required
+                value=account.email
+              )
+
+            div(class="form-group mb-3")
+              label(for="role_id") Nhóm quyền
+              select(id="role_id" class="form-control" name="role_id")
+                option(value="") Lựa chọn
+                each role in roles
+                  if role._id == account.role_id
+                    option(value=role._id selected) #{role.title}
+                  else
+                    option(value=role._id) #{role.title}
+
+            div(class="form-group row mb-3 align-items-center")
+              label(for="status" class="col-sm-2 col-form-label mb-0") Trạng thái
+              div(class="col-sm-10 d-flex align-items-center")
+                div(class="form-check me-3")
+                  input(
+                    class="form-check-input"
+                    type="radio"
+                    name="status"
+                    id="active"
+                    value="active"
+                    checked=account.status === "active"
+                  )
+                  label(class="form-check-label" for="active") Hoạt động
+                div(class="form-check")
+                  input(
+                    class="form-check-input"
+                    type="radio"
+                    name="status"
+                    id="inactive"
+                    value="inactive"
+                    checked=account.status === "inactive"
+                  )
+                  label(class="form-check-label" for="inactive") Dừng hoạt động
+
+        hr(class="my-4")
+
+        // --- Thông tin cá nhân ---
+        h6(class="mb-3 fw-bold") Thông tin cá nhân
+
+        div(class="form-group mb-3")
+          label(for="fullName") Họ và tên *
+          input(
+            id="fullName"
+            class="form-control"
+            type="text"
+            name="fullName"
+            required
+            value=account.fullName
+          )
+
+        div(class="form-group mb-3")
+          label(for="phone") Số điện thoại *
+          input(
+            id="phone"
+            class="form-control"
+            type="text"
+            name="phone"
+            required
+            value=account.phone
+          )
+
+        div(class="form-group mb-3")
+          label(for="address") Địa chỉ
+          input(
+            id="address"
+            class="form-control"
+            type="text"
+            name="address"
+            value=account.address
+          )
+
+        div(class="form-group mb-3")
+          label(for="birthday") Ngày sinh
+          input(
+            id="birthday"
+            class="form-control"
+            type="date"
+            name="birthday"
+            value=account.birthday
+          )
+
+        // --- Ảnh đại diện ---
+        div(class="form-group mb-3" upload-image)
+          label(class="mb-2 fw-semibold") Ảnh đại diện
+          div(class="form-group mb-3")
+            input(
+              type="file"
+              class="form-control-file w-auto"
+              id="thumbnail"
+              name="thumbnail"
+              accept="image/*"
+              upload-image-input
+            )
+            if account.thumbnail
+              img(
+                src=account.thumbnail
+                class="image-preview mt-2"
+                upload-image-preview
+                style="width:120px; height:120px; border-radius:10px; border:1px solid #ddd; object-fit:cover;"
+              )
+            else
+              img(
+                src=""
+                class="image-preview mt-2"
+                upload-image-preview
+                style="width:120px; height:120px; border-radius:10px; border:1px solid #ddd; object-fit:cover;"
+              )
+            span(
+              btn-close
+              style="cursor:pointer; font-weight:bold;"
+            )
+
+        div(class="text-end mt-4")
+          button(class="btn btn-primary" type="submit") Lưu thay đổi

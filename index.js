@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const methodOverride = require("method-override");
 const database = require('./config/database');
@@ -7,7 +9,7 @@ const flash = require('express-flash');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const path = require('path');
-require('dotenv').config();
+
 
 //Kết nối database
 database.connectDatabase();

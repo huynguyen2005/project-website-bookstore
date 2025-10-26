@@ -1,7 +1,7 @@
 const BookCategory = require("../../models/book-category.model");
 const systemConfig = require("../../config/system");
-const createTreeHelper = require("../../helper/createTree");
-const searchInforHelper = require("../../helper/searchInfor");
+const createTreeHelper = require("../../helpers/createTree");
+const searchInforHelper = require("../../helpers/searchInfor");
 
 //[GET] /admin/books/
 module.exports.index = async (req, res) => {

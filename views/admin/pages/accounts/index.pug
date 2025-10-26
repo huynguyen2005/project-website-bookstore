@@ -1,0 +1,86 @@
+extends ../../layouts/default
+include ../../mixins/pagination.pug
+include ../../mixins/search.pug
+include ../../mixins/alert.pug
+include ../../mixins/sort.pug
+
+block main
+  +alert-success(5000)
+  div(class="card")
+    div(class="card-header d-flex justify-content-between align-items-center")
+      h5(class="mb-0") Danh sách tài khoản
+      div(class="d-flex align-items-center")
+        a(href=`${prefixAdmin}/accounts/create` class="btn btn-primary mr-2") + Thêm tài khoản
+
+    div(class="card-body")
+      div(class="d-flex align-items-center mb-3 flex-wrap gap-2")
+        +search(keyword, "accounts")
+        form(
+          class="form-inline ml-3"
+          form-filter
+          action=`${prefixAdmin}/accounts`
+          method="GET"
+        )
+          select(class="form-control mr-2" name="status" id="status")
+            option(value="") -- Trạng thái --
+            option(value="active" selected=(filter.status == 'active')) Hoạt động
+            option(value="inactive" selected=(filter.status == 'inactive')) Ngừng hoạt động
+
+          select(class="form-control mr-2" name="role_id" id="role_id")
+            option(value="") -- Phân quyền --
+            each role in roles
+              option(value=role.id selected=(filter.role_id == role._id)) #{role.title}
+              
+          button(class="btn btn-outline-secondary" type="submit") Lọc
+          //- button(class="btn btn-outline-secondary" type="submit") Clear
+
+      table(class="table table-hover table-bordered align-middle" check-box-multi)
+        thead(class="thead-light")
+          tr
+            th(scope="col")
+              input(type="checkbox" check-box-all)
+            th(scope="col") Họ tên
+            th(scope="col") Ảnh
+            th(scope="col") Phân quyền
+            th(scope="col") Email
+            th(scope="col") Số điện thoại
+        tbody
+          if accounts.length
+            each account in accounts
+              tr
+                td
+                  input(type="checkbox" name="id" value=account.id)
+                td
+                  strong #{account.fullName}
+                  br
+                  small(class="text-muted")
+                    a(href="javascript:;" data-id=account.id button-edit) Sửa
+                    |  ·  
+                    a(href="javascript:;" data-id=account.id button-delete) Xóa
+                td
+                  if account.thumbnail
+                    img(src=account.thumbnail alt="avatar" style="width:40px; height:40px; border-radius:50%; object-fit:cover;")
+                  else
+                    i(class="bi bi-person-circle fs-4 text-secondary")
+                td #{account.role ? account.role.title : '—'}
+                td #{account.email}
+                td #{account.phone || '—'}
+          else
+            tr
+              td(colspan="7" class="text-center text-muted py-4") Không có dữ liệu tài khoản
+
+      +pagination(pagination)
+
+      form(
+        action=""
+        method="POST"
+        form-delete
+        data-path=`${prefixAdmin}/accounts/delete`
+        data-page=pagination.currentPage
+      )
+      form(
+        action=""
+        method="GET"
+        form-edit
+        data-path=`${prefixAdmin}/accounts/edit`
+      )
