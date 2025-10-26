@@ -44,7 +44,7 @@ block main
           action=`${prefixAdmin}/categories`
           method="GET"
         )
-          select(class="form-control mr-2" id="status")
+          select(class="form-control mr-2" name="status")
             option(value="") -- Trạng thái --
             option(value="active") Hoạt động
             option(value="inactive") Ngừng hoạt động
@@ -53,7 +53,7 @@ block main
             option(value="") -- Người tạo --
 
           div(class="d-flex gap-2")
-            button(class="btn btn-outline-secondary mr-2" button-filter-category) Lọc
+            button(class="btn btn-outline-secondary mr-2" type="submit") Lọc
 
       // --- Bảng danh mục ---
       table(class="table table-hover table-bordered table-categories" check-box-multi)

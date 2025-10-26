@@ -1,6 +1,6 @@
 //Button pagination
 const buttonsPagination = document.querySelectorAll('[button-pagination]');
-if(buttonsPagination.length > 0){
+if (buttonsPagination.length > 0) {
     let url = new URL(window.location.href);
     buttonsPagination.forEach(button => {
         button.addEventListener('click', () => {
@@ -15,12 +15,12 @@ if(buttonsPagination.length > 0){
 
 //Button-change-status
 const buttonsStatus = document.querySelectorAll('[button-change-status]');
-if(buttonsStatus.length > 0){
+if (buttonsStatus.length > 0) {
     const formChangeStatus = document.querySelector('#form-change-status');
     const path = formChangeStatus.getAttribute('data-path');
     const page = formChangeStatus.getAttribute('data-page');
     let curentPage = "";
-    if(page){
+    if (page) {
         curentPage = `&page=${page}`;
     }
     buttonsStatus.forEach(item => {
@@ -39,7 +39,7 @@ if(buttonsStatus.length > 0){
 
 //Button search item
 const formSearch = document.querySelector('[form-search]');
-if(formSearch){
+if (formSearch) {
     let url = new URL(window.location.href);
     formSearch.addEventListener("submit", (e) => {
         e.preventDefault();
@@ -54,24 +54,28 @@ if(formSearch){
 
 //Button filter item
 const formFilter = document.querySelector('[form-filter]');
-if(formFilter){
-    let url = new URL(window.location.href);
-    const status = document.querySelector('#status');
-    const bookCategory = document.querySelector('#book_category_id');
-    const coverType = document.querySelector('#cover_type_id');
-    const sortSelect = document.querySelector('[sort-select]');
-    const createBy = document.querySelector('#createBy');
-    formFilter.addEventListener("submit", (e) => {
+if (formFilter) {
+    const url = new URL(window.location.href);
+
+    formFilter.addEventListener('submit', (e) => {
         e.preventDefault();
-        status?.value ? url.searchParams.set("status", status.value) : url.searchParams.delete("status");
-        bookCategory?.value ? url.searchParams.set("book_category_id", bookCategory.value) : url.searchParams.delete("book_category_id");
-        coverType?.value ? url.searchParams.set("cover_type_id", coverType.value) : url.searchParams.delete("cover_type_id");
-        createBy?.value ? url.searchParams.set("createBy", createBy.value) : url.searchParams.delete("createBy");
-        if(sortSelect.value){
+        const inputs = formFilter.querySelectorAll('select[name]');
+
+        inputs.forEach(input => {
+            const name = input.name;
+            const value = input.value.trim();
+
+            if (value) url.searchParams.set(name, value);
+            else url.searchParams.delete(name);
+        });
+
+        const sortSelect = document.querySelector('[sort-select]');
+        if (sortSelect && sortSelect.value) {
             const [sortKey, sortValue] = sortSelect.value.split('-');
             url.searchParams.set('sortKey', sortKey);
             url.searchParams.set('sortValue', sortValue);
         }
+
         window.location.href = url;
     });
 }
@@ -81,11 +85,11 @@ if(formFilter){
 
 //Check-box
 const checkBoxMulti = document.querySelector('[check-box-multi]');
-if(checkBoxMulti){
+if (checkBoxMulti) {
     const checkBoxAll = checkBoxMulti.querySelector('[check-box-all]');
     const checkBoxs = checkBoxMulti.querySelectorAll('input[name="id"]');
     checkBoxAll.addEventListener("click", () => {
-        if(checkBoxAll.checked) checkBoxs.forEach(item => item.checked = true);
+        if (checkBoxAll.checked) checkBoxs.forEach(item => item.checked = true);
         else checkBoxs.forEach(item => item.checked = false);
     });
     checkBoxs.forEach(checkBox => {
@@ -101,11 +105,11 @@ if(checkBoxMulti){
 
 //Change-multi
 const formChangeMulti = document.querySelector('[form-change-multi]');
-if(formChangeMulti){
+if (formChangeMulti) {
     formChangeMulti.addEventListener("submit", () => {
         const checkBoxMulti = document.querySelector('[check-box-multi]');
         const boxChecked = checkBoxMulti.querySelectorAll('input[name="id"]:checked');
-        if(boxChecked.length > 0){
+        if (boxChecked.length > 0) {
             const inputContainId = formChangeMulti.querySelector('input[name="ids"]');
             let ids = [];
             boxChecked.forEach(item => {
@@ -122,16 +126,17 @@ if(formChangeMulti){
 
 //Button delete item
 const buttonDelete = document.querySelectorAll('[button-delete]');
-if(buttonDelete.length > 0){
+if (buttonDelete.length > 0) {
     const formDelete = document.querySelector('[form-delete]');
     const path = formDelete.getAttribute('data-path');
     const page = formDelete.getAttribute('data-page');
     let curentPage = "";
-    if(page){
+    if (page) {
         curentPage = `&page=${page}`;
     }
     buttonDelete.forEach(item => {
         item.addEventListener("click", () => {
+            if(!confirm("Bạn chắc chắn muốn xóa không?")) return;
             const id = item.getAttribute('data-id');
             const action = path + `/${id}?_method=DELETE${curentPage}`;
             formDelete.setAttribute('action', action);
@@ -144,14 +149,14 @@ if(buttonDelete.length > 0){
 
 //Upload image
 const uploadImage = document.querySelector('[upload-image]');
-if(uploadImage){
+if (uploadImage) {
     const uploadImageInput = uploadImage.querySelector('[upload-image-input]');
     const uploadImagePreview = uploadImage.querySelector('[upload-image-preview]');
     const btnClose = uploadImage.querySelector('[btn-close]');
 
     uploadImageInput.addEventListener('change', (e) => {
         const [file] = e.target.files;
-        if(file){
+        if (file) {
             uploadImagePreview.src = URL.createObjectURL(file);
             btnClose.textContent = "✕";
         }
@@ -167,7 +172,7 @@ if(uploadImage){
 
 //Upload images
 const uploadImages = document.querySelector('[upload-images]');
-if(uploadImages){
+if (uploadImages) {
     const uploadImagesInput = uploadImages.querySelector('[upload-images-input]');
     const previewBoxImages = uploadImages.querySelector('[preview-box]');
     uploadImagesInput.addEventListener('change', (e) => {
@@ -185,7 +190,7 @@ if(uploadImages){
 
 //Button edit item
 const buttonsEdit = document.querySelectorAll('[button-edit]');
-if(buttonsEdit.length > 0){
+if (buttonsEdit.length > 0) {
     const formEdit = document.querySelector('[form-edit]');
     const path = formEdit.getAttribute('data-path');
     buttonsEdit.forEach(button => {
@@ -203,7 +208,7 @@ if(buttonsEdit.length > 0){
 
 //Button detail item
 const buttonsDetail = document.querySelectorAll('[button-detail]');
-if(buttonsDetail.length > 0){
+if (buttonsDetail.length > 0) {
     const formDetail = document.querySelector('[form-detail]');
     const path = formDetail.getAttribute('data-path');
     buttonsDetail.forEach(button => {
@@ -220,7 +225,7 @@ if(buttonsDetail.length > 0){
 
 //Show alert
 const showAlert = document.querySelector('[show-alert]');
-if(showAlert){
+if (showAlert) {
     const time = parseInt(showAlert.getAttribute("data-time"));
     const closeAlert = showAlert.querySelector('[close-alert]')
 
@@ -236,3 +241,16 @@ if(showAlert){
 //End show alert
 
 
+
+
+//function check confirm password
+var check = function() {
+  if (document.getElementById('password').value == document.getElementById('confirmPassword').value) {
+    document.getElementById('message').style.color = 'green';
+    document.getElementById('message').innerHTML = 'Passwords match';
+  } else {
+    document.getElementById('message').style.color = 'red';
+    document.getElementById('message').innerHTML = 'Passwords do not match';
+  }
+}
+//end function check confirm password
