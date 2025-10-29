@@ -2,39 +2,33 @@ extends ../../layouts/default
 include ../../mixins/pagination.pug
 include ../../mixins/search.pug
 include ../../mixins/alert.pug
-include ../../mixins/sort.pug
+include ../../mixins/formatDateTime.pug
 
 block main
-  if(role.permissions.includes("accounts_view"))
+  if (role.permissions.includes("accounts_view"))
     +alert-success(5000)
+    +alert-error(5000)
     div(class="card")
       div(class="card-header d-flex justify-content-between align-items-center")
         h5(class="mb-0") Danh sách tài khoản
         div(class="d-flex align-items-center")
-        if(role.permissions.includes("accounts_create"))
-          a(href=`${prefixAdmin}/accounts/create` class="btn btn-primary mr-2") + Thêm tài khoản
+          if (role.permissions.includes("accounts_create"))
+            a(href=`${prefixAdmin}/accounts/create` class="btn btn-primary mr-2") + Thêm tài khoản
 
       div(class="card-body")
         div(class="d-flex align-items-center mb-3 flex-wrap gap-2")
           +search(keyword, "accounts")
-          form(
-            class="form-inline ml-3"
-            form-filter
-            action=`${prefixAdmin}/accounts`
-            method="GET"
-          )
+          form(class="form-inline ml-3" form-filter action=`${prefixAdmin}/accounts` method="GET")
             select(class="form-control mr-2" name="status" id="status")
               option(value="") -- Trạng thái --
-              option(value="active" selected=(filter.status == 'active')) Hoạt động
-              option(value="inactive" selected=(filter.status == 'inactive')) Ngừng hoạt động
-
+              option(value="active") Hoạt động
+              option(value="inactive") Ngừng hoạt động
             select(class="form-control mr-2" name="role_id" id="role_id")
               option(value="") -- Phân quyền --
               each record in records
-                option(value=record.id selected=(filter.role_id == record._id)) #{record.title}
-                
+                option(value=record.id)= record.title
             button(class="btn btn-outline-secondary" type="submit") Lọc
-            //- button(class="btn btn-outline-secondary" type="submit") Clear
+            button(class="btn btn-outline-secondary" type="button" btn-clear-filter) Clear
 
         table(class="table table-hover table-bordered align-middle" check-box-multi)
           thead(class="thead-light")
@@ -45,9 +39,10 @@ block main
               th(scope="col") Ảnh
               th(scope="col") Phân quyền
               th(scope="col") Email
-              th(scope="col") Số điện thoại
+              th(scope="col") Trạng thái
+              th(scope="col") Người tạo
           tbody
-            if accounts.length
+            if (accounts.length)
               each account in accounts
                 tr
                   td
@@ -56,37 +51,40 @@ block main
                     strong #{account.fullName}
                     br
                     small(class="text-muted")
-                      if(role.permissions.includes("accounts_edit"))
+                      a(href="javascript:;" data-id=account.id button-detail) Chi tiết
+                      if (role.permissions.includes("accounts_edit"))
+                        |  · 
                         a(href="javascript:;" data-id=account.id button-edit) Sửa
-                      if(role.permissions.includes("accounts_delete"))
-                        |  ·  
+                      if (role.permissions.includes("accounts_delete"))
+                        |  · 
                         a(href="javascript:;" data-id=account.id button-delete) Xóa
                   td
-                    if account.thumbnail
+                    if (account.thumbnail)
                       img(src=account.thumbnail alt="avatar" style="width:40px; height:40px; border-radius:50%; object-fit:cover;")
                     else
                       i(class="bi bi-person-circle fs-4 text-secondary")
-                  each record in records 
-                    if(record.id === account.role_id)
-                      td #{record.title}
+                  td
+                    - const foundRole = records.find(r => r.id === account.role_id);
+                    if (foundRole)
+                      | #{foundRole.title}
+                    else
+                      span(class="text-muted") Không xác định
                   td #{account.email}
-                  td #{account.phone || '—'}
+                  td
+                    if (account.status === "active")
+                      span(class="badge-status badge-active") Hoạt động
+                    else
+                      span(class="badge-status badge-inactive") Ngừng hoạt động
+                  td
+                    p #{account.accountFullName}
+                    p
+                      +formatDateTime(account.createdBy.createdAt)
             else
               tr
                 td(colspan="7" class="text-center text-muted py-4") Không có dữ liệu tài khoản
 
         +pagination(pagination)
 
-        form(
-          action=""
-          method="POST"
-          form-delete
-          data-path=`${prefixAdmin}/accounts/delete`
-          data-page=pagination.currentPage
-        )
-        form(
-          action=""
-          method="GET"
-          form-edit
-          data-path=`${prefixAdmin}/accounts/edit`
-        )
+        form(action="" method="POST" form-delete data-path=`${prefixAdmin}/accounts/delete` data-page=pagination.currentPage)
+        form(action="" method="GET" form-edit data-path=`${prefixAdmin}/accounts/edit`)
+        form(action="" method="GET" form-detail data-path=`${prefixAdmin}/accounts/detail`)

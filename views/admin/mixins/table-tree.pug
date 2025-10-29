@@ -1,3 +1,4 @@
+
 mixin table-tree(items, level = 1)
   each item in items
     - const prefix = Array(level + 1).join('-- ')
@@ -23,7 +24,6 @@ mixin table-tree(items, level = 1)
           if(role.permissions.includes("book-category_delete"))
             |  · 
             a(href="javascript:;" data-id=item.id button-delete) Xóa
-
           if(role.permissions.includes("book-category_edit"))
             if item.status === "inactive"
               |  · 
@@ -45,19 +45,22 @@ mixin table-tree(items, level = 1)
       // Vị trí
       td #{item.position}
 
+      // Người tạo
+      td
+        if item.accountFullName
+          p #{item.accountFullName}
+          p 
+            +formatDateTime(item.createdBy.createdAt)
+
+        else
+          span(class="text-muted") Không rõ
+
       // Trạng thái
       td
         if item.status === "active"
           span(class="badge-status badge-active") Hoạt động
         else
           span(class="badge-status badge-inactive") Ngừng hoạt động
-
-      // Người tạo
-      td
-        if item.createdBy
-          span #{item.createdBy}
-        else
-          span(class="text-muted") Không rõ
 
     if item.children && item.children.length > 0
       +table-tree(item.children, level + 1)

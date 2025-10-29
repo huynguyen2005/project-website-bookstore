@@ -56,15 +56,15 @@ if (formSearch) {
 const formFilter = document.querySelector('[form-filter]');
 if (formFilter) {
     const url = new URL(window.location.href);
+    const btnClear = formFilter.querySelector('[btn-clear-filter]');
 
+    // Submit form filter
     formFilter.addEventListener('submit', (e) => {
         e.preventDefault();
         const inputs = formFilter.querySelectorAll('select[name]');
-
         inputs.forEach(input => {
             const name = input.name;
             const value = input.value.trim();
-
             if (value) url.searchParams.set(name, value);
             else url.searchParams.delete(name);
         });
@@ -76,7 +76,39 @@ if (formFilter) {
             url.searchParams.set('sortValue', sortValue);
         }
 
-        window.location.href = url;
+        window.location.href = url.toString();
+    });
+
+    // Giữ option đã chọn khi reload
+    const setSelectedOption = (paramName) => {
+        const current = url.searchParams.get(paramName);
+        if (current) {
+            const select = formFilter.querySelector(`select[name="${paramName}"]`);
+            if (!select) return; 
+            const option = select.querySelector(`option[value="${current}"]`);
+            if (option) option.selected = true;
+        }
+    };
+    setSelectedOption('status');
+    setSelectedOption('book_category_id');
+    setSelectedOption('cover_type_id');
+    setSelectedOption('role_id');
+
+    const sortKey = url.searchParams.get('sortKey');
+    const sortValue = url.searchParams.get('sortValue');
+    if (sortKey && sortValue) {
+        const value = `${sortKey}-${sortValue}`;
+        const sortSelect = document.querySelector('[sort-select]');
+        const option = sortSelect.querySelector(`option[value="${value}"]`);
+        if (option) option.selected = true;
+    }
+
+    //Clear
+    btnClear.addEventListener('click', (e) => {
+        e.preventDefault();
+        const url = new URL(window.location.href);
+        url.search = ""; // xoá toàn bộ query string
+        window.location.href = url.toString();
     });
 }
 //End button filter item
@@ -136,7 +168,7 @@ if (buttonDelete.length > 0) {
     }
     buttonDelete.forEach(item => {
         item.addEventListener("click", () => {
-            if(!confirm("Bạn chắc chắn muốn xóa không?")) return;
+            if (!confirm("Bạn chắc chắn muốn xóa không?")) return;
             const id = item.getAttribute('data-id');
             const action = path + `/${id}?_method=DELETE${curentPage}`;
             formDelete.setAttribute('action', action);
@@ -244,13 +276,13 @@ if (showAlert) {
 
 
 //function check confirm password
-var check = function() {
-  if (document.getElementById('password').value == document.getElementById('confirmPassword').value) {
-    document.getElementById('message').style.color = 'green';
-    document.getElementById('message').innerHTML = 'Passwords match';
-  } else {
-    document.getElementById('message').style.color = 'red';
-    document.getElementById('message').innerHTML = 'Passwords do not match';
-  }
+var check = function () {
+    if (document.getElementById('password').value == document.getElementById('confirmPassword').value) {
+        document.getElementById('message').style.color = 'green';
+        document.getElementById('message').innerHTML = 'Passwords match';
+    } else {
+        document.getElementById('message').style.color = 'red';
+        document.getElementById('message').innerHTML = 'Passwords do not match';
+    }
 }
 //end function check confirm password

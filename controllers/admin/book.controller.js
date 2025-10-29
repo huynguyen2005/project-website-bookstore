@@ -1,6 +1,7 @@
 const Book = require("../../models/book.model");
 const BookCategory = require("../../models/book-category.model");
 const CoverType = require("../../models/cover-type.model");
+const Account = require("../../models/account.model");
 const systemConfig = require("../../config/system");
 const createTreeHelper = require("../../helpers/createTree");
 const searchInforHelper = require("../../helpers/searchInfor");
@@ -26,30 +27,30 @@ module.exports.index = async (req, res) => {
 
     // Search book
     const objectSearch = searchInforHelper(req.query.keyword);
-    if(objectSearch.regex){
+    if (objectSearch.regex) {
         find.bookName = objectSearch.regex;
     }
     // End search book
 
 
     //Lấy danh mục sách
-    const bookCategories = await BookCategory.find({deleted: false});
-    const newBookCategories =  createTreeHelper.createTree(bookCategories);
+    const bookCategories = await BookCategory.find({ deleted: false });
+    const newBookCategories = createTreeHelper.createTree(bookCategories);
     //End 
 
     //Lấy loại bìa
-    const coverTypes = await CoverType.find({deleted: false});
+    const coverTypes = await CoverType.find({ deleted: false });
     //End 
 
-    
+
     //Filter book
-    if(req.query.status){
+    if (req.query.status) {
         find.status = req.query.status;
     }
-    if(req.query.book_category_id){
+    if (req.query.book_category_id) {
         find.book_category_id = req.query.book_category_id;
     }
-    if(req.query.coverType_id){
+    if (req.query.coverType_id) {
         find.coverType_id = req.query.coverType_id;
     }
     //End filter book
@@ -64,6 +65,12 @@ module.exports.index = async (req, res) => {
         return item;
     });
 
+    for (const book of newBooks) {
+        const account = await Account.findOne({ _id: book.createdBy.account_id }).select("-password");
+        if (account) {
+            book.accountFullName = account.fullName;
+        }
+    }
     res.render("admin/pages/books/index.pug", {
         pageTitle: "Danh sách sách | Admin",
         activeMenu: "books",
@@ -81,7 +88,14 @@ module.exports.changeStatus = async (req, res) => {
     const id = req.params.id;
     const status = req.params.status;
     const page = req.query.page;
-    await Book.updateOne({ _id: id }, { status: status });
+    const updatedBy = {
+        account_id: res.locals.user.id,
+        updateAt: Date.now()
+    }
+    await Book.updateOne({ _id: id }, {
+        status: status,
+        $push: { updatedBy: updatedBy }
+    });
     req.flash('success', 'Cập nhật trạng thái sách thành công');
     res.redirect(`${systemConfig.prefixAdmin}/books/?page=${page}`);
 };
@@ -90,17 +104,26 @@ module.exports.changeStatus = async (req, res) => {
 module.exports.changeMulti = async (req, res) => {
     const ids = req.body.ids.split(", ");
     const type = req.body.type;
+
+    const updatedBy = {
+        account_id: res.locals.user.id,
+        updateAt: Date.now()
+    }
     switch (type) {
         case "active":
-            await Book.updateMany({ _id: { $in: ids } }, { status: type });
+            await Book.updateMany({ _id: { $in: ids } }, { status: type, $push: { updatedBy: updatedBy } });
             req.flash('success', 'Cập nhật trạng thái sách thành công');
             break;
         case "inactive":
-            await Book.updateMany({ _id: { $in: ids } }, { status: type });
+            await Book.updateMany({ _id: { $in: ids } }, { status: type, $push: { updatedBy: updatedBy } });
             req.flash('success', 'Cập nhật trạng thái sách thành công');
             break;
         case "delete-all":
-            await Book.updateMany({ _id: { $in: ids } }, { deleted: true, deletedAt: new Date() });
+            const deletedBy = {
+                account_id: res.locals.user.id,
+                deletedAt: Date.now()
+            }
+            await Book.updateMany({ _id: { $in: ids } }, { deleted: true, deletedBy: deletedBy });
             req.flash('success', 'Xóa sách thành công');
             break;
         default:
@@ -112,11 +135,11 @@ module.exports.changeMulti = async (req, res) => {
 // [GET] /admin/books/create
 module.exports.create = async (req, res) => {
     //Lấy danh mục sách
-    const bookCategories = await BookCategory.find({deleted: false});
-    const newBookCategories =  createTreeHelper.createTree(bookCategories);
+    const bookCategories = await BookCategory.find({ deleted: false });
+    const newBookCategories = createTreeHelper.createTree(bookCategories);
     //End 
     //Lấy loại bìa
-    const coverTypes = await CoverType.find({deleted: false});
+    const coverTypes = await CoverType.find({ deleted: false });
     //End 
     res.render("admin/pages/books/create", {
         pageTitle: "Thêm sách | Admin",
@@ -145,6 +168,11 @@ module.exports.createBook = async (req, res) => {
 
     req.body.authorName = req.body.authorName.split(", ");
 
+    const createdBy = {
+        account_id: res.locals.user._id,
+    }
+    req.body.createdBy = createdBy;
+
     try {
         const book = new Book(req.body);
         await book.save();
@@ -162,7 +190,10 @@ module.exports.deleteBook = async (req, res) => {
     const page = req.query.page;
     await Book.updateOne({ _id: id }, {
         deleted: true,
-        deletedAt: new Date()
+        deletedBy: {
+            account_id: res.locals.user._id,
+            deletedAt: Date.now()
+        }
     });
     req.flash('success', 'Xóa sách thành công');
     res.redirect(`${systemConfig.prefixAdmin}/books?page=${page}`);
@@ -173,11 +204,11 @@ module.exports.edit = async (req, res) => {
     const id = req.params.id;
     const book = await Book.findOne({ _id: id });
     //Lấy danh mục sách
-    const bookCategories = await BookCategory.find({deleted: false});
-    const newBookCategories =  createTreeHelper.createTree(bookCategories);
+    const bookCategories = await BookCategory.find({ deleted: false });
+    const newBookCategories = createTreeHelper.createTree(bookCategories);
     //End 
     //Lấy loại bìa
-    const coverTypes = await CoverType.find({deleted: false});
+    const coverTypes = await CoverType.find({ deleted: false });
     //End 
     res.render("admin/pages/books/edit", {
         pageTitle: "Chỉnh sửa sách | Admin",
@@ -208,8 +239,16 @@ module.exports.editBook = async (req, res) => {
 
     req.body.authorName = req.body.authorName.split(", ");
 
+    const updatedBy = {
+        account_id: res.locals.user.id,
+        updateAt: Date.now()
+    }
+
     try {
-        await Book.updateOne({ _id: id }, req.body);
+        await Book.updateOne({ _id: id }, {
+            ...req.body,
+            $push: { updatedBy: updatedBy }
+        });
         req.flash('success', 'Sửa sách thành công');
         res.redirect(`${systemConfig.prefixAdmin}/books/edit/${id}`);
     } catch (error) {
@@ -224,12 +263,26 @@ module.exports.detail = async (req, res) => {
     const book = await Book.findOne({ _id: id });
     let category = "";
     let coverType = "";
-    if(book.book_category_id){
-        category = await BookCategory.findOne({_id: book.book_category_id});
+    if (book.book_category_id) {
+        category = await BookCategory.findOne({ _id: book.book_category_id });
     }
-    if(book.coverType_id){
-        coverType = await CoverType.findOne({_id: book.coverType_id});
+    if (book.coverType_id) {
+        coverType = await CoverType.findOne({ _id: book.coverType_id });
     }
+
+    //Lấy ra thông tin người tạo
+    const account = await Account.findOne({ _id: book.createdBy.account_id }).select("-password");
+    if (account) {
+        book.accountFullName = account.fullName;
+    }
+
+    //Lấy ra thông tin người cập nhật gần nhất
+    const updatedBy = book.updatedBy.slice(-1)[0];
+    if(updatedBy){
+        const account = await Account.findOne({ _id: updatedBy.account_id }).select("-password");
+        updatedBy.fullName = account.fullName;
+    }
+    
     res.render("admin/pages/books/detail", {
         pageTitle: "Chi tiết sách | Admin",
         book: book,

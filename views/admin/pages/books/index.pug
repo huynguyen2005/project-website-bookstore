@@ -4,10 +4,12 @@ include ../../mixins/search.pug
 include ../../mixins/select-tree.pug
 include ../../mixins/alert.pug
 include ../../mixins/sort.pug
+include ../../mixins/formatDateTime.pug
 
 block main
   if(role.permissions.includes("books_view"))
     +alert-success(5000)
+    +alert-error(5000)
     div(class="card")
       div(class="card-header d-flex justify-content-between align-items-center")
         h5(class="mb-0") Danh sách sách
@@ -61,7 +63,7 @@ block main
                 option(value=coverType.id) #{coverType.title}
             +sort()
             button(class="btn btn-outline-secondary" type="submit") Lọc
-            //- button(class="btn btn-outline-secondary") Clear
+            button(class="btn btn-outline-secondary" btn-clear-filter) Clear
 
         // Bảng sách
         table(class="table table-hover table-bordered align-middle" check-box-multi)
@@ -74,6 +76,7 @@ block main
               th(scope="col") Giá / Giá đặc biệt
               th(scope="col") Số lượng
               th(scope="col") Vị trí
+              th(scope="col") Người tạo
               th(scope="col") Trạng thái
 
           tbody
@@ -120,6 +123,10 @@ block main
                   small(class="text-muted") #{item.newPrice} VND
                 td #{item.stockQuantity}
                 td #{item.position}
+                td 
+                  p #{item.accountFullName}
+                  p
+                    +formatDateTime(item.createdBy.createdAt)
                 td 
                   if item.status === "active"
                     span(class="badge-status badge-active") Hoạt động
