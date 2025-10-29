@@ -3,75 +3,76 @@ include ../../mixins/select-tree.pug
 include ../../mixins/alert.pug
 
 block main
-  +alert-success(5000)  
-  +alert-error(5000)
-  div(class="card")
-    div(class="card-header d-flex justify-content-between align-items-center")
-      h5(class="mb-0") Chỉnh sửa danh mục
+  if(role.permissions.includes("book-category_edit"))
+    +alert-success(5000)  
+    +alert-error(5000)
+    div(class="card")
+      div(class="card-header d-flex justify-content-between align-items-center")
+        h5(class="mb-0") Chỉnh sửa danh mục
 
-    div(class="card-body")
-      form(
-        action=`${prefixAdmin}/categories/edit/${category._id}?_method=PATCH`
-        method="POST"
-      )
+      div(class="card-body")
+        form(
+          action=`${prefixAdmin}/categories/edit/${category._id}?_method=PATCH`
+          method="POST"
+        )
 
-        // --- Tên danh mục ---
-        div(class="form-group")
-          label(for="title") Tên danh mục
-          input(
-            id="title"
-            class="form-control"
-            type="text"
-            name="title"
-            placeholder="Nhập tên danh mục"
-            required
-            value=category.title
-          )
+          // --- Tên danh mục ---
+          div(class="form-group")
+            label(for="title") Tên danh mục
+            input(
+              id="title"
+              class="form-control"
+              type="text"
+              name="title"
+              placeholder="Nhập tên danh mục"
+              required
+              value=category.title
+            )
 
-        // --- Mô tả ---
-        div(class="form-group")
-          label(for="description") Mô tả
-          textarea(
-            id="description"
-            class="form-control"
-            name="description"
-            rows="3"
-            placeholder="Nhập mô tả danh mục..."
-          ) #{category.description}
+          // --- Mô tả ---
+          div(class="form-group")
+            label(for="description") Mô tả
+            textarea(
+              id="description"
+              class="form-control"
+              name="description"
+              rows="3"
+              placeholder="Nhập mô tả danh mục..."
+            ) #{category.description}
 
-        // --- Danh mục cha ---
-        div(class="form-group")
-          label(for="parent_id") Danh mục cha
-          select(
-            id="parent_id"
-            class="form-control"
-            name="parent_id"
-          )
-            option(value="") --Chọn danh mục cha--
-            +select-tree-edit(bookCategories, 1, category.parent_id)
+          // --- Danh mục cha ---
+          div(class="form-group")
+            label(for="parent_id") Danh mục cha
+            select(
+              id="parent_id"
+              class="form-control"
+              name="parent_id"
+            )
+              option(value="") --Chọn danh mục cha--
+              +select-tree-edit(bookCategories, 1, category.parent_id)
 
-        // --- Vị trí hiển thị ---
-        div(class="form-group")
-          label(for="position") Vị trí hiển thị
-          input(
-            id="position"
-            class="form-control"
-            type="number"
-            name="position"
-            min="1"
-            placeholder="VD: 1"
-            value=category.position
-          )
+          // --- Vị trí hiển thị ---
+          div(class="form-group")
+            label(for="position") Vị trí hiển thị
+            input(
+              id="position"
+              class="form-control"
+              type="number"
+              name="position"
+              min="1"
+              placeholder="VD: 1"
+              value=category.position
+            )
 
-        // --- Trạng thái ---
-        div(class="form-group")
-          label(for="status") Trạng thái
-          select(
-            id="status"
-            class="form-control"
-            name="status"
-          )
-            option(value="active" selected=category.status==="active") Hoạt động
-            option(value="inactive" selected=category.status==="inactive") Ngừng hoạt động
+          // --- Trạng thái ---
+          div(class="form-group")
+            label(for="status") Trạng thái
+            select(
+              id="status"
+              class="form-control"
+              name="status"
+            )
+              option(value="active" selected=category.status==="active") Hoạt động
+              option(value="inactive" selected=category.status==="inactive") Ngừng hoạt động
 
-        button(class="btn btn-primary" type="submit") Chỉnh sửa
+          button(class="btn btn-primary" type="submit") Chỉnh sửa

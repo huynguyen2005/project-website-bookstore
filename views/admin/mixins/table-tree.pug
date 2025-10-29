@@ -16,26 +16,31 @@ mixin table-tree(items, level = 1)
         br
         small(class="text-muted")
           a(href="javascript:;" data-id=item.id button-detail) Chi tiết
-          |  · 
-          a(href="javascript:;" data-id=item.id button-edit) Sửa
-          |  · 
-          a(href="javascript:;" data-id=item.id button-delete) Xóa
-          if item.status === "inactive"
+          if(role.permissions.includes("book-category_edit"))
             |  · 
-            span(
-              class="text-success cursor-pointer"
-              data-id=item.id
-              data-status=item.status
-              button-change-status
-            ) Hoạt động
-          else
+            a(href="javascript:;" data-id=item.id button-edit) Sửa
+
+          if(role.permissions.includes("book-category_delete"))
             |  · 
-            span(
-              class="text-danger cursor-pointer"
-              data-id=item.id
-              data-status=item.status
-              button-change-status
-            ) Ngừng hoạt động
+            a(href="javascript:;" data-id=item.id button-delete) Xóa
+
+          if(role.permissions.includes("book-category_edit"))
+            if item.status === "inactive"
+              |  · 
+              span(
+                class="text-success cursor-pointer"
+                data-id=item.id
+                data-status=item.status
+                button-change-status
+              ) Hoạt động
+            else
+              |  · 
+              span(
+                class="text-danger cursor-pointer"
+                data-id=item.id
+                data-status=item.status
+                button-change-status
+              ) Ngừng hoạt động
 
       // Vị trí
       td #{item.position}

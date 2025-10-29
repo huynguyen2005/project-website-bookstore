@@ -2,65 +2,168 @@ extends ../../layouts/default
 include ../../mixins/alert
 
 block main
-  +alert-success(5000)
-  div(data-role = roles)
-  div(class="card")
-    div(class="card-header d-flex justify-content-between align-items-center")
-      h5(class="mb-0") Thiết lập phân quyền
-      button(class="btn btn-primary" type="submit" form="form-permissions") Cập nhật
+  if(role.permissions.includes("permissions_view"))
+    +alert-success(5000)
+    div(data-role = roles)
+    div(class="card")
+      div(class="card-header d-flex justify-content-between align-items-center")
+        h5(class="mb-0") Thiết lập phân quyền
+        if(role.permissions.includes("permissions_edit"))
+          button(class="btn btn-primary" type="submit" form="form-permissions") Cập nhật
 
-    div(class="card-body")
-      table(class="table table-bordered align-middle text-center permission-table" permission-table)
-        thead
-          tr(class="bg-light fw-semibold text-dark align-middle")
-            th(class="text-start" style="width: 30%")
-            each role in roles 
-              th(class="text-center") #{role.title}
-          tr(data-name="id" class="d-none")
-            th(class="text-start" style="width: 30%")
-              each role in roles  
-                  th
-                    input(type="text" value=role.id)      
-        tbody
-          tr(checkbox-all)
-            td(class="text-start") Chọn tất cả
-            td(class="text-center")
-              input(type="checkbox" class="form-check-input check-all")
-            td(class="text-center")
-              input(type="checkbox" class="form-check-input check-all")
-
-          tr(class="table-secondary fw-semibold text-dark")
-            td(class="text-start" colspan="3") Danh mục sách
-
-          tr(data-name="book-category_view")
-            td(class="text-start") Xem
-            each role in roles
+      div(class="card-body")
+        table(class="table table-bordered align-middle text-center permission-table" permission-table)
+          thead
+            tr(class="bg-light fw-semibold text-dark align-middle")
+              th(class="text-start" style="width: 30%")
+              each role in roles 
+                th(class="text-center") #{role.title}
+            tr(data-name="id" class="d-none")
+              th(class="text-start" style="width: 30%")
+                each role in roles  
+                    th
+                      input(type="text" value=role.id)      
+          tbody
+            tr(checkbox-all)
+              td(class="text-start") Chọn tất cả
               td(class="text-center")
-                input(type="checkbox" class="form-check-input")
-
-          tr(data-name="book-category_create")
-            td(class="text-start") Thêm mới
-            each role in roles
+                input(type="checkbox" class="form-check-input check-all")
               td(class="text-center")
-                input(type="checkbox" class="form-check-input")
+                input(type="checkbox" class="form-check-input check-all")
 
-          tr(data-name="book-category_edit")
-            td(class="text-start") Chỉnh sửa
-            each role in roles
-              td(class="text-center")
-                input(type="checkbox" class="form-check-input")
+            //- Danh mục sách
+            tr(class="table-secondary fw-semibold text-dark")
+              td(class="text-start" colspan="3") Danh mục sách
 
-          tr(data-name="book-category_delete")
-            td(class="text-start text-danger fw-semibold") Xóa
-            each role in roles
-              td(class="text-center")
-                input(type="checkbox" class="form-check-input")
+            tr(data-name="book-category_view")
+              td(class="text-start") Xem
+              each role in roles
+                td(class="text-center")
+                  input(type="checkbox" class="form-check-input")
 
-    form(
-        id="form-permissions"
-        action=`${prefixAdmin}/roles/permissions?_method=PATCH`
-        method="POST"
-        form-permissions
-    ) 
-        input(type="text" name="permissions" input-permissions class="d-none")   
-    script(src="/admin/js/role.js") 
+            tr(data-name="book-category_create")
+              td(class="text-start") Thêm mới
+              each role in roles
+                td(class="text-center")
+                  input(type="checkbox" class="form-check-input")
+
+            tr(data-name="book-category_edit")
+              td(class="text-start") Chỉnh sửa
+              each role in roles
+                td(class="text-center")
+                  input(type="checkbox" class="form-check-input")
+
+            tr(data-name="book-category_delete")
+              td(class="text-start text-danger fw-semibold") Xóa
+              each role in roles
+                td(class="text-center")
+                  input(type="checkbox" class="form-check-input")
+            
+            //- Danh sách sách
+            tr(class="table-secondary fw-semibold text-dark")
+              td(class="text-start" colspan="3") Danh sách sách
+
+            tr(data-name="books_view")
+              td(class="text-start") Xem
+              each role in roles
+                td(class="text-center")
+                  input(type="checkbox" class="form-check-input")
+
+            tr(data-name="books_create")
+              td(class="text-start") Thêm mới
+              each role in roles
+                td(class="text-center")
+                  input(type="checkbox" class="form-check-input")
+
+            tr(data-name="books_edit")
+              td(class="text-start") Chỉnh sửa
+              each role in roles
+                td(class="text-center")
+                  input(type="checkbox" class="form-check-input")
+
+            tr(data-name="books_delete")
+              td(class="text-start text-danger fw-semibold") Xóa
+              each role in roles
+                td(class="text-center")
+                  input(type="checkbox" class="form-check-input")
+            
+            //- Nhóm quyền
+            tr(class="table-secondary fw-semibold text-dark")
+              td(class="text-start" colspan="3") Nhóm quyền
+
+            tr(data-name="roles_view")
+              td(class="text-start") Xem
+              each role in roles
+                td(class="text-center")
+                  input(type="checkbox" class="form-check-input")
+
+            tr(data-name="roles_create")
+              td(class="text-start") Thêm mới
+              each role in roles
+                td(class="text-center")
+                  input(type="checkbox" class="form-check-input")
+
+            tr(data-name="roles_edit")
+              td(class="text-start") Chỉnh sửa
+              each role in roles
+                td(class="text-center")
+                  input(type="checkbox" class="form-check-input")
+
+            tr(data-name="roles_delete")
+              td(class="text-start text-danger fw-semibold") Xóa
+              each role in roles
+                td(class="text-center")
+                  input(type="checkbox" class="form-check-input")
+
+            //- Danh sách tài khoản
+            tr(class="table-secondary fw-semibold text-dark")
+              td(class="text-start" colspan="3") Danh sách tài khoản
+
+            tr(data-name="accounts_view")
+              td(class="text-start") Xem
+              each role in roles
+                td(class="text-center")
+                  input(type="checkbox" class="form-check-input")
+
+            tr(data-name="accounts_create")
+              td(class="text-start") Thêm mới
+              each role in roles
+                td(class="text-center")
+                  input(type="checkbox" class="form-check-input")
+
+            tr(data-name="accounts_edit")
+              td(class="text-start") Chỉnh sửa
+              each role in roles
+                td(class="text-center")
+                  input(type="checkbox" class="form-check-input")
+
+            tr(data-name="accounts_delete")
+              td(class="text-start text-danger fw-semibold") Xóa
+              each role in roles
+                td(class="text-center")
+                  input(type="checkbox" class="form-check-input")
+
+            //- Phân quyền
+            tr(class="table-secondary fw-semibold text-dark")
+              td(class="text-start" colspan="3") Phân quyền
+
+            tr(data-name="permissions_view")
+              td(class="text-start") Xem
+              each role in roles
+                td(class="text-center")
+                  input(type="checkbox" class="form-check-input")
+
+            tr(data-name="permissions_edit")
+              td(class="text-start") Chỉnh sửa
+              each role in roles
+                td(class="text-center")
+                  input(type="checkbox" class="form-check-input")
+
+      form(
+          id="form-permissions"
+          action=`${prefixAdmin}/roles/permissions?_method=PATCH`
+          method="POST"
+          form-permissions
+      ) 
+          input(type="text" name="permissions" input-permissions class="d-none")   
+      script(src="/admin/js/role.js") 
