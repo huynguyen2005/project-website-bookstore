@@ -32,5 +32,5 @@ router.patch(
   controller.editAccount
 );
 
-
+router.get("/detail/:id", controller.detail);
 module.exports = router;

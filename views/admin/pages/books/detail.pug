@@ -1,4 +1,5 @@
 extends ../../layouts/default
+include ../../mixins/formatDateTime.pug
 
 block styles
   link(rel="stylesheet" href="/admin/css/detail.css")
@@ -89,11 +90,17 @@ block main
               span(class="info-label") Vị trí hiển thị:
               |  #{book.position}
             p
-              span(class="info-label") Ngày tạo:
-              |  #{book.createdAt ? book.createdAt.toLocaleString() : '—'}
+              span(class="info-label") Người tạo:
+              |  #{book.accountFullName}
+              span(class="info-label")  - Ngày tạo: 
+              +formatDateTime(book.createdBy.createdAt)
             p
-              span(class="info-label") Cập nhật gần nhất:
-              |  #{book.updatedAt ? book.updatedAt.toLocaleString() : '—'}
+              if(book.updatedBy.length)
+                span(class="info-label") Cập nhật gần nhất:
+                - const updatedBy = book.updatedBy.slice(-1)[0];
+                |  #{updatedBy.fullName}
+                span(class="info-label")  - Ngày cập nhật: 
+                +formatDateTime(updatedBy.updatedAt)
 
         hr
 

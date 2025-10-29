@@ -1,5 +1,6 @@
 extends ../../layouts/default
 include ../../mixins/search.pug
+include ../../mixins/formatDateTime.pug
 
 block main
   if(role.permissions.includes("roles_view"))
@@ -22,6 +23,7 @@ block main
                 input(type="checkbox" check-box-all)
               th Nhóm quyền
               th Mô tả ngắn
+              th Người tạo
           tbody
             if records.length
               each record in records
@@ -31,12 +33,19 @@ block main
                   td
                     strong #{record.title}
                     br
+                    a(href="javascript:;" data-id=record.id button-detail) Xem 
+
                     if(role.permissions.includes("roles_edit"))
+                      |  ·  
                       a(href="javascript:;" data-id=record.id button-edit) Sửa 
                     if(role.permissions.includes("roles_delete")) 
-                      |  
+                      |  · 
                       a(href="javascript:;" data-id=record.id button-delete) Xóa
                   td #{record.description}
+                  td 
+                    p #{record.accountFullName}
+                    p 
+                      +formatDateTime(role.createdBy.createdAt)
             else
               tr
                 td(colspan="3" class="text-center text-muted py-4")
@@ -55,4 +64,11 @@ block main
           method="GET"
           form-edit
           data-path=`${prefixAdmin}/roles/edit`
+        )
+
+        form(
+          action=""
+          method="GET"
+          form-detail
+          data-path=`${prefixAdmin}/roles/detail`
         )

@@ -1,14 +1,16 @@
 extends ../../layouts/default
-include ../../mixins/alert
+include ../../mixins/alert.pug
 
 block main
-  if(role.permissions.includes("permissions_view"))
+  if (role.permissions.includes("permissions_view"))
     +alert-success(5000)
-    div(data-role = roles)
+
+    div(data-role=roles)
+
     div(class="card")
       div(class="card-header d-flex justify-content-between align-items-center")
         h5(class="mb-0") Thiết lập phân quyền
-        if(role.permissions.includes("permissions_edit"))
+        if (role.permissions.includes("permissions_edit"))
           button(class="btn btn-primary" type="submit" form="form-permissions") Cập nhật
 
       div(class="card-body")
@@ -20,20 +22,21 @@ block main
                 th(class="text-center") #{role.title}
             tr(data-name="id" class="d-none")
               th(class="text-start" style="width: 30%")
-                each role in roles  
-                    th
-                      input(type="text" value=role.id)      
+              each role in roles  
+                th
+                  input(type="text" value=role.id)      
+
           tbody
+            //- Chọn tất cả
             tr(checkbox-all)
               td(class="text-start") Chọn tất cả
-              td(class="text-center")
-                input(type="checkbox" class="form-check-input check-all")
-              td(class="text-center")
-                input(type="checkbox" class="form-check-input check-all")
+              each role in roles  
+                td(class="text-center")
+                  input(type="checkbox" class="form-check-input check-all")
 
             //- Danh mục sách
             tr(class="table-secondary fw-semibold text-dark")
-              td(class="text-start" colspan="3") Danh mục sách
+              td(class="text-start" colspan=roles.length + 1) Danh mục sách
 
             tr(data-name="book-category_view")
               td(class="text-start") Xem
@@ -58,10 +61,10 @@ block main
               each role in roles
                 td(class="text-center")
                   input(type="checkbox" class="form-check-input")
-            
+
             //- Danh sách sách
             tr(class="table-secondary fw-semibold text-dark")
-              td(class="text-start" colspan="3") Danh sách sách
+              td(class="text-start" colspan=roles.length + 1) Danh sách sách
 
             tr(data-name="books_view")
               td(class="text-start") Xem
@@ -86,10 +89,10 @@ block main
               each role in roles
                 td(class="text-center")
                   input(type="checkbox" class="form-check-input")
-            
+
             //- Nhóm quyền
             tr(class="table-secondary fw-semibold text-dark")
-              td(class="text-start" colspan="3") Nhóm quyền
+              td(class="text-start" colspan=roles.length + 1) Nhóm quyền
 
             tr(data-name="roles_view")
               td(class="text-start") Xem
@@ -117,7 +120,7 @@ block main
 
             //- Danh sách tài khoản
             tr(class="table-secondary fw-semibold text-dark")
-              td(class="text-start" colspan="3") Danh sách tài khoản
+              td(class="text-start" colspan=roles.length + 1) Danh sách tài khoản
 
             tr(data-name="accounts_view")
               td(class="text-start") Xem
@@ -145,7 +148,7 @@ block main
 
             //- Phân quyền
             tr(class="table-secondary fw-semibold text-dark")
-              td(class="text-start" colspan="3") Phân quyền
+              td(class="text-start" colspan=roles.length + 1) Phân quyền
 
             tr(data-name="permissions_view")
               td(class="text-start") Xem
@@ -159,11 +162,12 @@ block main
                 td(class="text-center")
                   input(type="checkbox" class="form-check-input")
 
-      form(
-          id="form-permissions"
-          action=`${prefixAdmin}/roles/permissions?_method=PATCH`
-          method="POST"
-          form-permissions
-      ) 
-          input(type="text" name="permissions" input-permissions class="d-none")   
-      script(src="/admin/js/role.js") 
+    form(
+      id="form-permissions"
+      action=`${prefixAdmin}/roles/permissions?_method=PATCH`
+      method="POST"
+      form-permissions
+    )
+      input(type="text" name="permissions" input-permissions class="d-none")
+
+    script(src="/admin/js/role.js")

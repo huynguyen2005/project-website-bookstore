@@ -1,4 +1,5 @@
 extends ../../layouts/default
+include ../../mixins/formatDateTime.pug
 
 block styles
   link(rel="stylesheet" href="/admin/css/detail.css")
@@ -56,9 +57,15 @@ block main
         div(class="row")
           div(class="col-md-6")
             p
-              span(class="info-label") Ngày tạo:
-              |  #{category.createdAt ? category.createdAt.toLocaleString() : '—'}
+              span(class="info-label") Người tạo:
+              |  #{category.accountFullName}
+              span(class="info-label")  - Ngày tạo: 
+              +formatDateTime(category.createdBy.createdAt)
           div(class="col-md-6")
             p
-              span(class="info-label") Cập nhật gần nhất:
-              |  #{category.updatedAt ? category.updatedAt.toLocaleString() : '—'}
+              if(category.updatedBy.length)
+                span(class="info-label") Cập nhật gần nhất:
+                - const updatedBy = category.updatedBy.slice(-1)[0];
+                |  #{updatedBy.fullName}
+                span(class="info-label")  - Ngày cập nhật: 
+                +formatDateTime(updatedBy.updatedAt)

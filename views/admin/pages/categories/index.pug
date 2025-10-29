@@ -3,6 +3,7 @@ include ../../mixins/pagination.pug
 include ../../mixins/search.pug
 include ../../mixins/table-tree.pug
 include ../../mixins/alert.pug
+include ../../mixins/formatDateTime.pug
 
 block main
   if(role.permissions.includes("book-category_view"))
@@ -57,6 +58,8 @@ block main
 
             div(class="d-flex gap-2")
               button(class="btn btn-outline-secondary mr-2" type="submit") Lọc
+              button(class="btn btn-outline-secondary" btn-clear-filter) Clear
+
 
         // --- Bảng danh mục ---
         table(class="table table-hover table-bordered table-categories" check-box-multi)
@@ -66,8 +69,8 @@ block main
                 input(type="checkbox" check-box-all)
               th(scope="col") Tên danh mục
               th(scope="col") Vị trí
-              th(scope="col") Trạng thái
               th(scope="col") Người tạo
+              th(scope="col") Trạng thái
 
           tbody
             if categories.length

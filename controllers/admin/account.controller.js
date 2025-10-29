@@ -6,7 +6,10 @@ const md5 = require('md5');
 
 // [GET] /admin/accounts
 module.exports.index = async (req, res) => {
-    let find = { deleted: false };
+    let find = {
+        _id: { $ne: res.locals.user._id },
+        deleted: false
+    };
 
     const objectPagination = {
         currentPage: 1,
@@ -40,6 +43,12 @@ module.exports.index = async (req, res) => {
         .limit(objectPagination.limitItems)
         .skip(objectPagination.skip);
 
+    for (const act of accounts) {
+        const account = await Account.findOne({ _id: act.createdBy.account_id }).select("-password");
+        if (account) {
+            act.accountFullName = account.fullName;
+        }
+    }
 
     res.render("admin/pages/accounts/index", {
         pageTitle: "Tài khoản | Admin",
@@ -47,11 +56,7 @@ module.exports.index = async (req, res) => {
         accounts: accounts,
         pagination: objectPagination,
         keyword: objectSearch.keyword,
-        records: roles,
-        filter: {
-            status: req.query.status || "",
-            role_id: req.query.role_id || "",
-        },
+        records: roles
     });
 };
 
@@ -78,6 +83,12 @@ module.exports.createAccount = async (req, res) => {
         }
         else {
             req.body.password = md5(req.body.password);
+
+            const createdBy = {
+                account_id: res.locals.user._id,
+            }
+            req.body.createdBy = createdBy;
+            
             const account = new Account(req.body);
             await account.save();
             req.flash("success", "Thêm tài khoản thành công");
@@ -93,10 +104,13 @@ module.exports.createAccount = async (req, res) => {
 module.exports.deleteAccount = async (req, res) => {
     const id = req.params.id;
     const page = req.query.page;
-    await Account.updateOne(
-        { _id: id },
-        { deleted: true, deletedAt: new Date() }
-    );
+    await Account.updateOne({_id: id },{   
+        deleted: true, 
+        deletedBy: {
+            account_id: res.locals.user._id,
+            deletedAt: Date.now()
+        }
+    });
     req.flash("success", "Xóa tài khoản thành công");
     res.redirect(`${systemConfig.prefixAdmin}/accounts?page=${page}`);
 };
@@ -133,7 +147,16 @@ module.exports.editAccount = async (req, res) => {
             } else {
                 delete req.body.password;
             }
-            await Account.updateOne({ _id: id }, req.body);
+
+            const updatedBy = {
+                account_id: res.locals.user.id,
+                updateAt: Date.now()
+            }
+
+            await Account.updateOne({ _id: id },{
+                ...req.body,
+                $push: { updatedBy: updatedBy }
+            });
             req.flash("success", "Cập nhật tài khoản thành công");
             res.redirect(`${systemConfig.prefixAdmin}/accounts/edit/${id}`);
         }
@@ -141,5 +164,33 @@ module.exports.editAccount = async (req, res) => {
         req.flash("error", "Cập nhật tài khoản thất bại");
         res.redirect(`${systemConfig.prefixAdmin}/accounts`);
     }
+};
+
+// [GET] /admin/accounts/detail/:id
+module.exports.detail = async (req, res) => {
+    const id = req.params.id;
+    const account = await Account.findOne({ _id: id }).select("-password");
+
+    //Lấy ra người tạo
+    const accountCreated = await Account.findOne({_id: account.createdBy.account_id}).select("-password");
+    if(accountCreated){
+        account.accountFullName = accountCreated.fullName;
+    }
+
+    //Lấy ra người sửa
+    const updatedBy = account.updatedBy.slice(-1)[0];
+    if(updatedBy){
+        const account = await Account.findOne({ _id: updatedBy.account_id }).select("-password");
+        updatedBy.fullName = account.fullName;
+    }
+
+    //Lấy ra quyền
+    const role = await Role.findOne({_id: account.role_id});
+    account.roleName = role.title;
+
+    res.render("admin/pages/accounts/detail", {
+        pageTitle: "Chi tiết tài khoản | Admin",
+        account: account,
+    });
 };
 

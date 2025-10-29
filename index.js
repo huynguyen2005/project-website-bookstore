@@ -9,7 +9,7 @@ const flash = require('express-flash');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const path = require('path');
-
+const moment = require('moment');
 
 //Kết nối database
 database.connectDatabase();
@@ -33,6 +33,7 @@ app.use(session({ cookie: { maxAge: 60000 }}));
 app.use(flash());
 
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
+app.locals.moment = moment;
 
 //TinyMCE
 app.use('/tinymce', 
