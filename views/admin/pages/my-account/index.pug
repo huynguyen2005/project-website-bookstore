@@ -1,0 +1,82 @@
+extends ../../layouts/default
+include ../../mixins/alert.pug
+
+block main
+  +alert-success(5000)
+  +alert-error(5000)
+
+  div(class="card")
+    div(class="card-header d-flex justify-content-between align-items-center")
+      h5(class="mb-0") Thông tin tài khoản
+      a(
+        href=`${prefixAdmin}/my-account/edit`
+        class="btn btn-warning btn-sm"
+      )
+        i(class="bi bi-pencil-square mr-1")
+        | Chỉnh sửa
+
+    div(class="card-body")
+
+      // --- Ảnh đại diện ---
+      if user.thumbnail
+        div(class="mb-4 text-center")
+          img(
+            src=user.thumbnail
+            alt="Avatar"
+            style="width:120px;height:120px;border-radius:50%;object-fit:cover;border:2px solid #ccc;"
+          )
+      else
+        div(class="mb-4 text-center text-muted") (Chưa có ảnh đại diện)
+
+      // --- Họ tên ---
+      div(class="form-group")
+        label(class="font-weight-bold") Họ và tên:
+        p #{user.fullName}
+
+      // --- Email ---
+      div(class="form-group")
+        label(class="font-weight-bold") Email:
+        p #{user.email}
+
+      // --- Số điện thoại ---
+      div(class="form-group")
+        label(class="font-weight-bold") Số điện thoại:
+        if user.phone
+          p #{user.phone}
+        else
+          p.text-muted (Chưa cập nhật)
+
+      // --- Địa chỉ ---
+      div(class="form-group")
+        label(class="font-weight-bold") Địa chỉ:
+        if user.address
+          p #{user.address}
+        else
+          p.text-muted (Chưa cập nhật)
+
+      // --- Ngày sinh ---
+      div(class="form-group")
+        label(class="font-weight-bold") Ngày sinh:
+        if user.birthday
+          p #{user.birthday}
+        else
+          p.text-muted (Chưa cập nhật)
+
+      // --- Vai trò ---
+      if role
+        div(class="form-group")
+          label(class="font-weight-bold") Vai trò:
+          p #{role.title}
+
+      // --- Trạng thái ---
+      div(class="form-group")
+        label(class="font-weight-bold") Trạng thái:
+        if user.status === "active"
+          span(class="badge badge-success") Hoạt động
+        else
+          span(class="badge badge-danger") Ngừng hoạt động
+
+      // --- Ngày tạo ---
+      div(class="form-group")
+        label(class="font-weight-bold") Ngày tạo:
+        p #{new Date(user.createdAt).toLocaleString('vi-VN')}

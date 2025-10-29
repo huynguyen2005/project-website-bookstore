@@ -28,10 +28,10 @@ block main
             h6(class="mb-3 fw-bold") Thông tin tài khoản
 
             div(class="form-group row mb-3 align-items-start")
-              label(for="username" class="col-sm-2 col-form-label") Tên đăng nhập
+              label(for="email" class="col-sm-2 col-form-label") Email
               div(class="col-sm-10")
-                input(id="username" class="form-control" type="text" name="username" required placeholder="Nhập tên đăng nhập")
-
+                input(id="email" class="form-control" type="email" name="email" required placeholder="Nhập email")
+              
             div(class="form-group row mb-3 align-items-start")
               label(for="password" class="col-sm-2 col-form-label") Mật khẩu
               div(class="col-sm-10")
@@ -42,11 +42,6 @@ block main
               div(class="col-sm-10")
                 input(id="confirmPassword" class="form-control w-100" type="password" name="confirmPassword" required placeholder="Nhập lại mật khẩu" onkeyup="check();")
                 small(id="message" class="d-block mt-1 fw-semibold" style="color:red;")
-
-            div(class="form-group row mb-3 align-items-start")
-              label(for="email" class="col-sm-2 col-form-label") Email
-              div(class="col-sm-10")
-                input(id="email" class="form-control" type="email" name="email" required placeholder="Nhập email")
 
             div(class="form-group row mb-3 align-items-start")
               label(for="role_id" class="col-sm-2 col-form-label") Nhóm quyền

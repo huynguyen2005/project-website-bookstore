@@ -4,60 +4,61 @@ block styles
   link(rel="stylesheet" href="/admin/css/detail.css")
 
 block main
-  div(class="card card-custom")
-    div(class="card-header card-header-custom d-flex justify-content-between align-items-center")
-      h5(class="mb-0 font-weight-bold") Chi tiết danh mục
-      a(class="btn btn-back btn-sm" href=`${prefixAdmin}/categories`)
-        i(class="bi bi-arrow-left mr-1")
-        | Quay lại
+  if(role.permissions.includes("book-category_view"))
+    div(class="card card-custom")
+      div(class="card-header card-header-custom d-flex justify-content-between align-items-center")
+        h5(class="mb-0 font-weight-bold") Chi tiết danh mục
+        a(class="btn btn-back btn-sm" href=`${prefixAdmin}/categories`)
+          i(class="bi bi-arrow-left mr-1")
+          | Quay lại
 
-    div(class="card-body")
-      // --- Tên danh mục ---
-      h2(class="font-weight-bold mb-3" style="color:#1b2a49") #{category.title}
+      div(class="card-body")
+        // --- Tên danh mục ---
+        h2(class="font-weight-bold mb-3" style="color:#1b2a49") #{category.title}
 
-      // --- Mô tả ---
-      if category.description
-        p(class="text-secondary") !{category.description}
-      else
-        p(class="text-muted") Không có mô tả
+        // --- Mô tả ---
+        if category.description
+          p(class="text-secondary") !{category.description}
+        else
+          p(class="text-muted") Không có mô tả
 
-      hr
+        hr
 
-      // --- Thông tin cơ bản ---
-      h6(class="section-title") Thông tin cơ bản
-      div(class="row")
-        div(class="col-md-6")
-          p
-            span(class="info-label") Danh mục cha:
-            |  
-            if parentCategory
-              | #{parentCategory}
-            else
-              | Không có (danh mục gốc)
-        div(class="col-md-6")
-          p
-            span(class="info-label") Vị trí hiển thị:
-            |  #{category.position}
-          p
-            span(class="info-label") Trạng thái:
-            if category.status === 'active'
-              span(class="badge badge-success ml-1") Hoạt động
-            else
-              span(class="badge badge-danger ml-1") Ngừng hoạt động
-          p
-            span(class="info-label") Đã xóa:
-            |  #{category.deleted ? 'Có' : 'Không'}
+        // --- Thông tin cơ bản ---
+        h6(class="section-title") Thông tin cơ bản
+        div(class="row")
+          div(class="col-md-6")
+            p
+              span(class="info-label") Danh mục cha:
+              |  
+              if parentCategory
+                | #{parentCategory}
+              else
+                | Không có (danh mục gốc)
+          div(class="col-md-6")
+            p
+              span(class="info-label") Vị trí hiển thị:
+              |  #{category.position}
+            p
+              span(class="info-label") Trạng thái:
+              if category.status === 'active'
+                span(class="badge badge-success ml-1") Hoạt động
+              else
+                span(class="badge badge-danger ml-1") Ngừng hoạt động
+            p
+              span(class="info-label") Đã xóa:
+              |  #{category.deleted ? 'Có' : 'Không'}
 
-      hr
+        hr
 
-      // --- Thông tin thời gian ---
-      h6(class="section-title") Thông tin thời gian
-      div(class="row")
-        div(class="col-md-6")
-          p
-            span(class="info-label") Ngày tạo:
-            |  #{category.createdAt ? category.createdAt.toLocaleString() : '—'}
-        div(class="col-md-6")
-          p
-            span(class="info-label") Cập nhật gần nhất:
-            |  #{category.updatedAt ? category.updatedAt.toLocaleString() : '—'}
+        // --- Thông tin thời gian ---
+        h6(class="section-title") Thông tin thời gian
+        div(class="row")
+          div(class="col-md-6")
+            p
+              span(class="info-label") Ngày tạo:
+              |  #{category.createdAt ? category.createdAt.toLocaleString() : '—'}
+          div(class="col-md-6")
+            p
+              span(class="info-label") Cập nhật gần nhất:
+              |  #{category.updatedAt ? category.updatedAt.toLocaleString() : '—'}

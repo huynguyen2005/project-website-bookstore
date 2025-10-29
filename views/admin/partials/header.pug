@@ -1,16 +1,21 @@
-header(class="main-header")
+header(class="main-header d-flex justify-content-between align-items-center p-3 border-bottom bg-white shadow-sm")
   // Bên trái
-  h5(class="mb-0 font-weight-bold") Bắp Perfume Authentic
+  h5(class="mb-0 font-weight-bold text-primary") Bắp Perfume Authentic
 
   // Bên phải
   div(class="header-right d-flex align-items-center")
-    // Icon thông báo
-    a(href="#" class="notification mr-3")
-      i(class="bi bi-bell-fill text-danger")
 
-    // Xin chào
-    span(class="mr-2") Xin chào, Administrator
+    // --- Tên người dùng (click vào để xem thông tin cá nhân)
+    a(
+      href=`${prefixAdmin}/my-account`
+      class="text-decoration-none text-dark font-weight-bold mr-3"
+      style="cursor: pointer;"
+    ) #{user.fullName}
 
-    // Avatar
-    div(class="user-avatar")
-      span A
+    // --- Nút đăng xuất
+    a(
+      href=`${prefixAdmin}/auth/logout`
+      class="btn btn-danger btn-sm"
+    )
+      i(class="bi bi-box-arrow-right mr-1")
+      | Đăng xuất

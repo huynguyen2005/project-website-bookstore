@@ -6,148 +6,154 @@ include ../../mixins/alert.pug
 include ../../mixins/sort.pug
 
 block main
-  +alert-success(5000)
-  div(class="card")
-    div(class="card-header d-flex justify-content-between align-items-center")
-      h5(class="mb-0") Danh sách sách
-      div(class="d-flex align-items-center")
-        a(href=`${prefixAdmin}/books/create` class="btn btn-primary mr-2") + Thêm sách
+  if(role.permissions.includes("books_view"))
+    +alert-success(5000)
+    div(class="card")
+      div(class="card-header d-flex justify-content-between align-items-center")
+        h5(class="mb-0") Danh sách sách
+        div(class="d-flex align-items-center")
+          if(role.permissions.includes("books_create"))
+            a(href=`${prefixAdmin}/books/create` class="btn btn-primary mr-2") + Thêm sách
           
-        form(
-          class="d-flex align-items-center"
-          action=`${prefixAdmin}/books/change-multi?_method=PATCH&page=${pagination.currentPage}`
-          method="POST"
-          form-change-multi
-        )
-          select(class="form-control w-auto mr-2" name="type")
-            option(value="") -- Thao tác --
-            option(value="active") Hoạt động
-            option(value="inactive") Ngừng hoạt động
-            option(value="delete-all") Xóa đã chọn
-            option(value="export") Xuất Excel
-          input(
-            type="text"
-            name="ids"
-            value=""
-            class="form-control d-none"
+          if(role.permissions.includes("books_edit"))
+            form(
+              class="d-flex align-items-center"
+              action=`${prefixAdmin}/books/change-multi?_method=PATCH&page=${pagination.currentPage}`
+              method="POST"
+              form-change-multi
+            )
+              select(class="form-control w-auto mr-2" name="type")
+                option(value="") -- Thao tác --
+                option(value="active") Hoạt động
+                option(value="inactive") Ngừng hoạt động
+                option(value="delete-all") Xóa đã chọn
+                option(value="export") Xuất Excel
+              input(
+                type="text"
+                name="ids"
+                value=""
+                class="form-control d-none"
+              )
+              button(type="submit" class="btn btn-outline-secondary") Áp dụng
+
+      div(class="card-body")
+        div(class="d-flex align-items-center mb-3")
+          +search(keyword, "products")
+
+          form(
+            class="form-inline ml-3"
+            form-filter
+            action=`${prefixAdmin}/books`
+            method="GET"
           )
-          button(type="submit" class="btn btn-outline-secondary") Áp dụng
+            select(class="form-control mr-2" name="status" id="status")
+              option(value="") -- Trạng thái --
+              option(value="active") Hoạt động
+              option(value="inactive") Ngừng hoạt động
 
-    div(class="card-body")
-      div(class="d-flex align-items-center mb-3")
-        +search(keyword, "products")
+            select(class="form-control mr-2" name="book_category_id" id="book_category_id")
+              option(value="") -- Danh mục sách --
+              +select-tree-create(bookCategories)
+
+            select(class="form-control mr-2" name="cover_type_id" id="cover_type_id")
+              option(value="") -- Loại bìa --
+              each coverType in coverTypes 
+                option(value=coverType.id) #{coverType.title}
+            +sort()
+            button(class="btn btn-outline-secondary" type="submit") Lọc
+            //- button(class="btn btn-outline-secondary") Clear
+
+        // Bảng sách
+        table(class="table table-hover table-bordered align-middle" check-box-multi)
+          thead(class="thead-light")
+            tr
+              th(scope="col")
+                input(type="checkbox" check-box-all)
+              th(scope="col") Hình ảnh
+              th(scope="col") Tên sách
+              th(scope="col") Giá / Giá đặc biệt
+              th(scope="col") Số lượng
+              th(scope="col") Vị trí
+              th(scope="col") Trạng thái
+
+          tbody
+            each item in books
+              tr
+                td
+                  input(type="checkbox" name="id" value=item.id)
+                td
+                  img(
+                    src=item.thumbnail
+                    alt=item.bookName
+                    style="width:40px; height:40px; object-fit:cover;"
+                  )
+                td
+                  strong #{item.bookName}
+                  br
+                  small(class="text-muted") 
+                    a(href="javascript:;" data-id=item.id button-detail) Chi tiết
+                    if(role.permissions.includes("books_edit"))
+                      |  ·
+                      a(href="javascript:;" data-id=item.id button-edit)  Sửa 
+                    if(role.permissions.includes("books_delete"))
+                      |  · 
+                      a(href="javascript:;" data-id=item.id button-delete) Xóa 
+                    if(role.permissions.includes("books_edit")) 
+                      if item.status === "inactive"
+                        |  ·
+                        span(
+                          class="text-success cursor-pointer"
+                          data-id=item.id
+                          data-status=item.status
+                          button-change-status
+                        ) Hoạt động 
+                      else
+                        |  · 
+                        span(
+                          class="text-danger cursor-pointer"
+                          data-id=item.id
+                          data-status=item.status
+                          button-change-status
+                        ) Ngừng hoạt động
+                td
+                  span(class="d-block") #{item.price} VND
+                  small(class="text-muted") #{item.newPrice} VND
+                td #{item.stockQuantity}
+                td #{item.position}
+                td 
+                  if item.status === "active"
+                    span(class="badge-status badge-active") Hoạt động
+                  else  
+                    span(class="badge-status badge-inactive") Ngừng hoạt động
+
+        +pagination(pagination)
 
         form(
-          class="form-inline ml-3"
-          form-filter
-          action=`${prefixAdmin}/books`
-          method="GET"
+          action=""
+          method="POST"
+          id="form-change-status"
+          data-path=`${prefixAdmin}/books/change-status`
+          data-page=pagination.currentPage
         )
-          select(class="form-control mr-2" name="status" id="status")
-            option(value="") -- Trạng thái --
-            option(value="active") Hoạt động
-            option(value="inactive") Ngừng hoạt động
 
-          select(class="form-control mr-2" name="book_category_id" id="book_category_id")
-            option(value="") -- Danh mục sách --
-            +select-tree-create(bookCategories)
+        form(
+          action=""
+          method="POST"
+          form-delete
+          data-path=`${prefixAdmin}/books/delete`
+          data-page=pagination.currentPage
+        )
 
-          select(class="form-control mr-2" name="cover_type_id" id="cover_type_id")
-            option(value="") -- Loại bìa --
-            each coverType in coverTypes 
-              option(value=coverType.id) #{coverType.title}
-          +sort()
-          button(class="btn btn-outline-secondary" type="submit") Lọc
-          //- button(class="btn btn-outline-secondary") Clear
+        form(
+          action=""
+          method="GET"
+          form-edit
+          data-path=`${prefixAdmin}/books/edit`
+        )
 
-      // Bảng sách
-      table(class="table table-hover table-bordered align-middle" check-box-multi)
-        thead(class="thead-light")
-          tr
-            th(scope="col")
-              input(type="checkbox" check-box-all)
-            th(scope="col") Hình ảnh
-            th(scope="col") Tên sách
-            th(scope="col") Giá / Giá đặc biệt
-            th(scope="col") Số lượng
-            th(scope="col") Vị trí
-            th(scope="col") Trạng thái
-
-        tbody
-          each item in books
-            tr
-              td
-                input(type="checkbox" name="id" value=item.id)
-              td
-                img(
-                  src=item.thumbnail
-                  alt=item.bookName
-                  style="width:40px; height:40px; object-fit:cover;"
-                )
-              td
-                strong #{item.bookName}
-                br
-                small(class="text-muted") 
-                  a(href="javascript:;" data-id=item.id button-detail) Chi tiết
-                  |  ·
-                  a(href="javascript:;" data-id=item.id button-edit)  Sửa 
-                  |  · 
-                  a(href="javascript:;" data-id=item.id button-delete) Xóa  
-                  if item.status === "inactive"
-                    |  ·
-                    span(
-                      class="text-success cursor-pointer"
-                      data-id=item.id
-                      data-status=item.status
-                      button-change-status
-                    ) Hoạt động 
-                  else
-                    |  · 
-                    span(
-                      class="text-danger cursor-pointer"
-                      data-id=item.id
-                      data-status=item.status
-                      button-change-status
-                    ) Ngừng hoạt động
-              td
-                span(class="d-block") #{item.price} VND
-                small(class="text-muted") #{item.newPrice} VND
-              td #{item.stockQuantity}
-              td #{item.position}
-              td 
-                if item.status === "active"
-                  span(class="badge-status badge-active") Hoạt động
-                else  
-                  span(class="badge-status badge-inactive") Ngừng hoạt động
-
-      +pagination(pagination)
-
-      form(
-        action=""
-        method="POST"
-        id="form-change-status"
-        data-path=`${prefixAdmin}/books/change-status`
-        data-page=pagination.currentPage
-      )
-
-      form(
-        action=""
-        method="POST"
-        form-delete
-        data-path=`${prefixAdmin}/books/delete`
-        data-page=pagination.currentPage
-      )
-
-      form(
-        action=""
-        method="GET"
-        form-edit
-        data-path=`${prefixAdmin}/books/edit`
-      )
-
-      form(
-        action=""
-        method="GET"
-        form-detail
-        data-path=`${prefixAdmin}/books/detail`
-      )
+        form(
+          action=""
+          method="GET"
+          form-detail
+          data-path=`${prefixAdmin}/books/detail`
+        )

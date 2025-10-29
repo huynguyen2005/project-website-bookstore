@@ -36,18 +36,18 @@ module.exports.index = async (req, res) => {
     const roles = await Role.find({ deleted: false });
 
     const accounts = await Account.find(find)
-        .populate("role_id") //join bảng
         .select("-password -token")
         .limit(objectPagination.limitItems)
         .skip(objectPagination.skip);
 
+
     res.render("admin/pages/accounts/index", {
         pageTitle: "Tài khoản | Admin",
-        activeMenu: "accounts",
+        activeMenu: "setting",
         accounts: accounts,
         pagination: objectPagination,
         keyword: objectSearch.keyword,
-        roles: roles,
+        records: roles,
         filter: {
             status: req.query.status || "",
             role_id: req.query.role_id || "",
@@ -60,8 +60,7 @@ module.exports.create = async (req, res) => {
     const roles = await Role.find({ deleted: false });
     res.render("admin/pages/accounts/create", {
         pageTitle: "Thêm tài khoản | Admin",
-        activeMenu: "accounts",
-        activeSubMenu: "createAccount",
+        activeMenu: "setting",
         roles: roles,
     });
 };
@@ -73,14 +72,6 @@ module.exports.createAccount = async (req, res) => {
             email: req.body.email,
             deleted: false
         });
-        const usernameExit = await Account.findOne({
-            username: req.body.username,
-            deleted: false
-        });
-        if (usernameExit) {
-            req.flash("error", `Tên đăng nhập ${req.body.username} đã tồn tại`);
-            res.redirect(`${systemConfig.prefixAdmin}/accounts/create`);
-        }
         if (emailExit) {
             req.flash("error", `Email ${req.body.email} đã tồn tại`);
             res.redirect(`${systemConfig.prefixAdmin}/accounts/create`);
@@ -118,10 +109,9 @@ module.exports.edit = async (req, res) => {
 
     res.render("admin/pages/accounts/edit", {
         pageTitle: "Chỉnh sửa tài khoản | Admin",
-        activeMenu: "accounts",
-        activeSubMenu: "accountList",
+        activeMenu: "setting",
         account: account,
-        roles: roles,
+        records: roles,
     });
 };
 

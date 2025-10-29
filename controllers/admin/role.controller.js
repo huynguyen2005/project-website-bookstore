@@ -18,9 +18,9 @@ module.exports.index = async (req, res) => {
 
     res.render("admin/pages/roles/index", {
         pageTitle: "Danh sách nhóm quyền | Admin",
-        roles: roles,
+        activeMenu: "setting",
+        records: roles,
         keyword: keyword,
-        activeMenu: "accounts"
     });
 };
 
@@ -29,7 +29,7 @@ module.exports.index = async (req, res) => {
 module.exports.create = (req, res) => {
     res.render("admin/pages/roles/create", {
         pageTitle: "Thêm nhóm quyền | Admin",
-        activeMenu: "accounts"
+        activeMenu: "setting",
     });
 };
 
@@ -57,8 +57,8 @@ module.exports.edit = async (req, res) => {
     const role = await Role.findOne(find);
     res.render("admin/pages/roles/edit", {
         pageTitle: "Chỉnh sửa nhóm quyền | Admin",
-        role: role,
-        activeMenu: "accounts"
+        record: role,
+        activeMenu: "setting",
     });
 };
 
@@ -97,7 +97,7 @@ module.exports.permission = async (req, res) => {
     res.render("admin/pages/roles/permissions", {
         pageTitle: "Phân quyền | Admin",
         roles: roles,
-        activeMenu: "accounts"
+        activeMenu: "setting",
     });
 };
 

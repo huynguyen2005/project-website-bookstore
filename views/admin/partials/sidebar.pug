@@ -17,10 +17,6 @@ nav(class="sidebar d-flex flex-column p-3")
       a(href="/admin/posts" class="nav-link")
         i(class="bi bi-journal-text")
         span Bài viết
-    li
-      a(href="/admin/media" class="nav-link")
-        i(class="bi bi-folder")
-        span Media
 
     // Nhóm: QUẢN LÝ SÁCH
     li(class="nav-group text-uppercase text-muted small mt-3 mb-2") Quản lý sách
@@ -31,21 +27,20 @@ nav(class="sidebar d-flex flex-column p-3")
           |  Sách
         i(class="bi bi-chevron-down small")
       ul(id="submenuBooks" class=`collapse list-unstyled pl-4 ${activeMenu === "books" ? "show" : ""}`)
-        li
-          a(href="/admin/books/create" class=`nav-link ${activeSubMenu === "createBook" ? "active" : ""}`) Thêm sách
-        li
-          a(href="/admin/books" class=`nav-link ${activeSubMenu === "bookList" ? "active" : ""}`) Danh sách
-        li
-          a(href="/admin/categories" class=`nav-link ${activeSubMenu === "categorieList" ? "active" : ""}`) Danh mục
+        if(role.permissions.includes("books_create"))
+          li
+            a(href="/admin/books/create" class=`nav-link ${activeSubMenu === "createBook" ? "active" : ""}`) Thêm sách
+        if(role.permissions.includes("books_view"))
+          li
+            a(href="/admin/books" class=`nav-link ${activeSubMenu === "bookList" ? "active" : ""}`) Danh sách
+        if(role.permissions.includes("book-category_view"))
+          li
+            a(href="/admin/categories" class=`nav-link ${activeSubMenu === "categorieList" ? "active" : ""}`) Danh mục
 
     li
       a(href="/admin/orders" class="nav-link")
         i(class="bi bi-bag-check")
         span Đơn hàng
-    li
-      a(href="/admin/reports" class="nav-link")
-        i(class="bi bi-graph-up")
-        span Báo cáo
 
     // Nhóm: KHÁCH HÀNG
     li(class="nav-group text-uppercase text-muted small mt-3 mb-2") Khách hàng
@@ -65,7 +60,7 @@ nav(class="sidebar d-flex flex-column p-3")
     // Nhóm: CÀI ĐẶT
     li(class="nav-group text-uppercase text-muted small mt-3 mb-2") Cài đặt
     li
-      a(href="/admin/settings" class=`nav-link ${activeMenu === "accounts" ? "active" : ""}`)
+      a(href="/admin/settings" class=`nav-link ${activeMenu === "setting" ? "active" : ""}`)
         i(class="bi bi-gear")
         span Cài đặt chung
     li
