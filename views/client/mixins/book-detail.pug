@@ -1,0 +1,42 @@
+//- views/mixins/book-detail.pug
+mixin bookDetail(book)
+  // KHỐI TRÁI + GIỮA
+  .col-lg-9
+    .row 
+      // ẢNH SÁCH (trái)
+      .col-lg-5
+        .product-gallery
+          img.img-main(src=book.thumbnail, alt=book.bookName)
+          if book.images && book.images.length
+            .thumb-list.mt-3
+              each imgItem in book.images
+                img.thumb-item(src=imgItem, alt="")
+
+      // THÔNG TIN (giữa)
+      .col-lg-7
+        h3.product-title #{book.bookName}
+
+        if book.publisher
+          p.publisher Nhà xuất bản: #{book.publisher}
+
+        .price-row.mb-3
+          span.price-new #{book.newPrice}đ
+          if book.discountPercent > 0
+            span.price-old #{book.price}đ
+
+        // SỐ LƯỢNG
+        .qty-line.mb-3
+          .qty-box
+            button.qty-btn(type="button" aria-label="minus") -
+            input.qty-input(
+              type="number",
+              min="1",
+              value="1",
+              data-stock=book.stockQuantity
+            )
+            button.qty-btn(type="button" aria-label="plus") +
+
+        // NÚT MUA
+        .action-row
+          button.btn-add(type="button") THÊM VÀO GIỎ
+          button.btn-buy(type="button") MUA NGAY

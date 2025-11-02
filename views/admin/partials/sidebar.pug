@@ -36,6 +36,12 @@ nav(class="sidebar d-flex flex-column p-3")
         if(role.permissions.includes("book-category_view"))
           li
             a(href="/admin/categories" class=`nav-link ${activeSubMenu === "categorieList" ? "active" : ""}`) Danh mục
+        if(role.permissions.includes("authors_view"))
+          li
+            a(href="/admin/authors" class=`nav-link ${activeSubMenu === "authorList" ? "active" : ""}`) Tác giả
+        if(role.permissions.includes("cover-types_view"))
+          li
+            a(href="/admin/cover-types" class=`nav-link ${activeSubMenu === "coverTypeList" ? "active" : ""}`) Loại bìa
 
     li
       a(href="/admin/orders" class="nav-link")

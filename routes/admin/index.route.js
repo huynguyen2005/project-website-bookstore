@@ -1,6 +1,8 @@
 const dashboardRouter = require('./dashboard.route');
 const bookRouter = require('./book.route');
 const categoryRouter = require('./category.route');
+const authorRouter = require('./author.route');
+const coverTypeRouter = require('./cover-type.route');
 const settingRouter = require('./setting.route');
 const roleRouter = require('./role.route');
 const accountRouter = require('./account.route');
@@ -21,6 +23,14 @@ module.exports = (app) => {
     app.use(systemConfig.prefixAdmin + "/categories", 
         authMiddleware.requireAuth,
         categoryRouter
+    );
+    app.use(systemConfig.prefixAdmin + "/authors", 
+        authMiddleware.requireAuth,
+        authorRouter
+    );
+    app.use(systemConfig.prefixAdmin + "/cover-types", 
+        authMiddleware.requireAuth,
+        coverTypeRouter
     );
     app.use(systemConfig.prefixAdmin + "/settings", 
         authMiddleware.requireAuth,

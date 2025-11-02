@@ -1,0 +1,42 @@
+extends ../../layouts/default
+include ../../mixins/alert.pug
+
+block main
+  if (role.permissions.includes("authors_edit"))
+    +alert-success(5000)
+    +alert-error(5000)
+
+    div(class="card")
+      div(class="card-header d-flex justify-content-between align-items-center")
+        h5(class="mb-0") Sửa tác giả
+        div(class="d-flex align-items-center gap-2")
+          a(href=`${prefixAdmin}/authors` class="btn btn-outline-secondary") Quay lại danh sách
+          button(type="submit" form="form-author" class="btn btn-primary")
+            i(class="bi bi-check-lg mr-1")
+            | Cập nhật
+
+      div(class="card-body")
+        form(id="form-author" action=`${prefixAdmin}/authors/edit/${record._id}?_method=PATCH` method="POST")
+          div(class="card")
+            div(class="card-header bg-light text-dark font-weight-semibold") Thông tin tác giả
+            div(class="card-body")
+
+              div(class="form-group")
+                label Tên tác giả *
+                input(
+                  type="text"
+                  name="title"
+                  class="form-control"
+                  placeholder="Nhập tên tác giả"
+                  required
+                  value=record.fullName
+                )
+
+              div(class="form-group")
+                label Mô tả
+                textarea(
+                  name="description"
+                  rows="3"
+                  class="form-control"
+                  placeholder="Nhập mô tả (nếu có)"
+                )= record.description

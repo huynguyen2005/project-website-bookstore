@@ -1,0 +1,9 @@
+include ./product-item.pug
+
+mixin product-grid(products)
+  if products && products.length
+    .container
+      .row
+        each item in products
+          .col-md-3.col-sm-6.mb-4
+            +product-item(item)

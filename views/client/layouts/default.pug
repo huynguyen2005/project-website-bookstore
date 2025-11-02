@@ -1,16 +1,27 @@
-doctype html 
-html 
-    head 
-        title= title 
-        link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css")
-        link(rel="stylesheet", href="/client/css/style.css")
-    body 
-        include ../partials/header.pug 
+doctype html
+html(lang="vi")
+  head
+    title #{pageTitle}
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css")
+    link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css")
+    link(href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap" rel="stylesheet")
 
-        block main 
+    link(rel="stylesheet", href="/client/css/style.css")
+    block styles
 
-        include ../partials/footer.pug 
+  body
+    div(class="wrapper d-flex flex-column min-vh-100")
+      header
+        include ../partials/header-top.pug
+        include ../partials/header-main.pug
 
+      main(class="container my-4 flex-grow-1")
+        block main
 
-        script(src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js")
-        script(src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js") 
+      include ../partials/footer.pug
+
+    script(src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js")
+    script(src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js")
+    script(src="/client/js/script.js")

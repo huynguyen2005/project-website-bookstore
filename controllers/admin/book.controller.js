@@ -1,6 +1,7 @@
 const Book = require("../../models/book.model");
 const BookCategory = require("../../models/book-category.model");
 const CoverType = require("../../models/cover-type.model");
+const Author = require("../../models/author.model");
 const Account = require("../../models/account.model");
 const systemConfig = require("../../config/system");
 const createTreeHelper = require("../../helpers/createTree");
@@ -23,27 +24,21 @@ module.exports.index = async (req, res) => {
     const totalItem = await Book.countDocuments({ deleted: false });
     objectPagination.skip = (objectPagination.currentPage - 1) * objectPagination.limitItems;
     objectPagination.totalPage = Math.ceil(totalItem / objectPagination.limitItems);
-    // End Pagination
 
     // Search book
     const objectSearch = searchInforHelper(req.query.keyword);
     if (objectSearch.regex) {
         find.bookName = objectSearch.regex;
     }
-    // End search book
 
-
-    //Lấy danh mục sách
+    // Lấy danh mục sách
     const bookCategories = await BookCategory.find({ deleted: false });
     const newBookCategories = createTreeHelper.createTree(bookCategories);
-    //End 
 
-    //Lấy loại bìa
+    // Lấy loại bìa
     const coverTypes = await CoverType.find({ deleted: false });
-    //End 
 
-
-    //Filter book
+    // Filter book
     if (req.query.status) {
         find.status = req.query.status;
     }
@@ -53,7 +48,6 @@ module.exports.index = async (req, res) => {
     if (req.query.coverType_id) {
         find.coverType_id = req.query.coverType_id;
     }
-    //End filter book
 
     const books = await Book.find(find)
         .sort({ position: "desc" })
@@ -111,9 +105,6 @@ module.exports.changeMulti = async (req, res) => {
     }
     switch (type) {
         case "active":
-            await Book.updateMany({ _id: { $in: ids } }, { status: type, $push: { updatedBy: updatedBy } });
-            req.flash('success', 'Cập nhật trạng thái sách thành công');
-            break;
         case "inactive":
             await Book.updateMany({ _id: { $in: ids } }, { status: type, $push: { updatedBy: updatedBy } });
             req.flash('success', 'Cập nhật trạng thái sách thành công');
@@ -134,19 +125,20 @@ module.exports.changeMulti = async (req, res) => {
 
 // [GET] /admin/books/create
 module.exports.create = async (req, res) => {
-    //Lấy danh mục sách
     const bookCategories = await BookCategory.find({ deleted: false });
     const newBookCategories = createTreeHelper.createTree(bookCategories);
-    //End 
-    //Lấy loại bìa
+
     const coverTypes = await CoverType.find({ deleted: false });
-    //End 
+
+    const authors = await Author.find({ deleted: false }).select('_id fullName');
+
     res.render("admin/pages/books/create", {
         pageTitle: "Thêm sách | Admin",
         activeMenu: "books",
         activeSubMenu: "createBook",
         bookCategories: newBookCategories,
-        coverTypes: coverTypes
+        coverTypes: coverTypes,
+        authors: authors
     });
 };
 
@@ -165,8 +157,6 @@ module.exports.createBook = async (req, res) => {
         const countBook = await Book.countDocuments();
         req.body.position = countBook + 1;
     }
-
-    req.body.authorName = req.body.authorName.split(", ");
 
     const createdBy = {
         account_id: res.locals.user._id,
@@ -203,26 +193,33 @@ module.exports.deleteBook = async (req, res) => {
 module.exports.edit = async (req, res) => {
     const id = req.params.id;
     const book = await Book.findOne({ _id: id });
-    //Lấy danh mục sách
+
+    if (!book) {
+        req.flash('error', 'Không tìm thấy sách');
+        return res.redirect(`${systemConfig.prefixAdmin}/books`);
+    }
+
     const bookCategories = await BookCategory.find({ deleted: false });
     const newBookCategories = createTreeHelper.createTree(bookCategories);
-    //End 
-    //Lấy loại bìa
+
     const coverTypes = await CoverType.find({ deleted: false });
-    //End 
+    const authors = await Author.find({ deleted: false }).select('_id fullName');
+
     res.render("admin/pages/books/edit", {
         pageTitle: "Chỉnh sửa sách | Admin",
         book: book,
         activeMenu: "books",
         activeSubMenu: "bookList",
         bookCategories: newBookCategories,
-        coverTypes: coverTypes
+        coverTypes: coverTypes,
+        authors: authors
     });
 };
 
 // [PATCH] /admin/books/edit/:id
 module.exports.editBook = async (req, res) => {
     const id = req.params.id;
+
     req.body.price ? req.body.price = parseInt(req.body.price) : req.body.price = 0;
     req.body.discountPercent ? req.body.discountPercent = parseInt(req.body.discountPercent) : req.body.discountPercent = 0;
     req.body.pageCount ? req.body.pageCount = parseInt(req.body.pageCount) : req.body.pageCount = 0;
@@ -236,8 +233,6 @@ module.exports.editBook = async (req, res) => {
         const countBook = await Book.countDocuments();
         req.body.position = countBook + 1;
     }
-
-    req.body.authorName = req.body.authorName.split(", ");
 
     const updatedBy = {
         account_id: res.locals.user.id,
@@ -263,30 +258,34 @@ module.exports.detail = async (req, res) => {
     const book = await Book.findOne({ _id: id });
     let category = "";
     let coverType = "";
+    let author = "";
+
     if (book.book_category_id) {
         category = await BookCategory.findOne({ _id: book.book_category_id });
     }
     if (book.coverType_id) {
         coverType = await CoverType.findOne({ _id: book.coverType_id });
     }
+    if (book.author_id) {
+        author = await Author.findOne({ _id: book.author_id });
+    }
 
-    //Lấy ra thông tin người tạo
     const account = await Account.findOne({ _id: book.createdBy.account_id }).select("-password");
     if (account) {
         book.accountFullName = account.fullName;
     }
 
-    //Lấy ra thông tin người cập nhật gần nhất
     const updatedBy = book.updatedBy.slice(-1)[0];
-    if(updatedBy){
+    if (updatedBy) {
         const account = await Account.findOne({ _id: updatedBy.account_id }).select("-password");
         updatedBy.fullName = account.fullName;
     }
-    
+
     res.render("admin/pages/books/detail", {
         pageTitle: "Chi tiết sách | Admin",
         book: book,
         categoryName: category ? category.title : "",
-        coverTypeName: coverType ? coverType.title : ""
+        coverTypeName: coverType ? coverType.title : "",
+        authorName: author ? author.fullName : ""
     });
 };
