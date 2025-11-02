@@ -1,0 +1,260 @@
+/* ========================= KHUNG TRANG ========================= */
+.book-detail { 
+  background:#fff; 
+}
+
+/* ========================= ẢNH CHÍNH & THUMB ========================= */
+.product-gallery .img-main{
+  width:420px;
+  max-width:100%;
+  height:auto;
+  display:block;
+  margin:0 auto;
+  border-radius:6px;
+}
+
+.thumb-list{
+  display:flex;
+  gap:8px;
+  justify-content:flex-start;
+}
+
+.thumb-item{
+  width:70px;
+  height:88px;
+  object-fit:cover;
+  border:1px solid #dcdcdc;
+  border-radius:4px;
+  cursor:pointer;
+  transition: border 0.2s ease;
+}
+.thumb-item.active { border: 2px solid #f7941e; }
+
+/* ========================= FONT CHUNG ========================= */
+.book-detail *{
+  font-family:"Roboto",sans-serif;
+  letter-spacing:0.2px;
+}
+
+/* ========================= TIÊU ĐỀ SÁCH ========================= */
+.product-title{
+  font-size:26px;
+  font-weight:700;
+  color:#333;
+  margin-bottom:6px;
+}
+
+/* ========================= META ========================= */
+.publisher{
+  font-size:15px;
+  font-weight:500;
+  color:#333;
+  margin-bottom:14px;
+}
+
+/* ========================= GIÁ ========================= */
+.price-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:16px;
+}
+
+.price-new{
+  color:#d0021b;
+  font-size:28px;
+  font-weight:300;
+  letter-spacing:0.3px;
+}
+
+.price-old{
+  font-size:14px;
+  color:#8a8a8a;
+  text-decoration:line-through;
+}
+
+/* ========================= SỐ LƯỢNG ========================= */
+.qty-line{ margin-bottom:18px; }
+
+.qty-box{
+  display:flex;
+  width:120px;
+  border:1px solid #cfcfcf;
+  border-radius:4px;
+  overflow:hidden;
+}
+
+.qty-btn{
+  width:34px;
+  height:34px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:none;
+  background:#fff;
+  font-size:18px;
+  cursor:pointer;
+}
+
+.qty-input{
+  width:52px;
+  border:none;
+  text-align:center;
+  font-size:15px;
+  outline:none;
+}
+
+/* ========================= NÚT HÀNH ĐỘNG ========================= */
+.action-row{
+  display:flex;
+  gap:14px;
+  margin-top:6px;
+}
+
+.btn-add,
+.btn-buy{
+  padding:11px 0;
+  min-width:190px;
+  font-weight:700;
+  font-size:14px;
+  border:none;
+  border-radius:4px;
+}
+
+.btn-add{
+  background:#10b981;
+  color:#fff;
+}
+.btn-add:hover{ filter:brightness(.95); }
+
+.btn-buy{
+  background:#3a3a3a;
+  color:#fff;
+}
+.btn-buy:hover{ filter:brightness(1.05); }
+
+/* ========================= SIDEBAR ========================= */
+.vb-side{
+  border:1px solid #e5e7eb;
+  border-radius:6px;
+  background:#fff;
+  padding:0;
+  overflow:hidden;
+  max-width:260px;
+}
+
+.vb-side__head{
+  background:#f3f4f6;
+  font-weight:700;
+  padding:12px 16px;
+  font-size:15px;
+  color:#333;
+}
+
+.vb-side__list{
+  list-style:none;
+  margin:0;
+  padding:14px 16px;
+}
+
+.vb-side__list li{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  padding:10px 0;
+  border-bottom:1px solid #f2f2f2;
+}
+
+.vb-side__list li:last-child{
+  border-bottom:none;
+}
+
+.vb-side__list i{
+  font-size:20px;
+  color:#10b981;
+  margin-top:2px;
+}
+
+.vb-side__list .txt{
+  line-height:1.35;
+  font-size:14px;
+  color:#333;
+}
+
+/* ========================= GIỚI THIỆU SÁCH ========================= */
+.book-description h4 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 22px;
+  position: relative;
+}
+
+.book-description h4::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 1px;
+  background: #ddd;
+  margin-top: 12px;
+}
+
+/* SECTION TITLE */
+.book-description h6 {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 25px 0 10px;
+  color: #222;
+}
+
+/* MÔ TẢ TEXT */
+.book-description .pre-line {
+  font-size: 14px;
+  line-height: 1.7;
+  white-space: pre-line;
+  color: #444;
+}
+
+.book-description .pre-line p {
+  margin: 1px 0 !important;
+  line-height: 1.55;
+}
+
+/* ========================= BẢNG THÔNG TIN CHI TIẾT ========================= */
+.detail-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  margin-top: 14px;
+  border: none; /* bỏ toàn bộ border ngoài */
+}
+
+.detail-table tr {
+  border-bottom: 1px solid #e6e6e6; /* chỉ kẻ 1 đường dưới */
+}
+
+.detail-table tr:last-child {
+  border-bottom: none; /* bỏ border dòng cuối */
+}
+
+.detail-table td {
+  padding: 14px 16px;
+  vertical-align: middle;
+  border: none !important; /* xoá toàn bộ border ô */
+}
+
+/* Cột tiêu đề (bên trái) */
+.detail-table td:first-child {
+  width: 240px;
+  font-weight: 600;
+  color: #222;
+  white-space: nowrap;
+}
+
+/* Cột giá trị (bên phải) */
+.detail-table td:last-child {
+  color: #444;
+  font-weight: 400;
+  padding-left: 24px;
+  word-break: break-word;
+}

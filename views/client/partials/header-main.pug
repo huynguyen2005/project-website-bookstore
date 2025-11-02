@@ -1,0 +1,19 @@
+div(class="header-main bg-white py-3 shadow-sm")
+  div(class="container d-flex align-items-center justify-content-between")
+    a.logo(href="/")
+      span.bookstore-logo
+        | book
+        span.bold store
+        | .com
+
+    form(class="form-inline flex-grow-1 mx-4" action="/search" method="GET")
+      input(class="form-control w-75" type="text" name="keyword" placeholder="Tìm kiếm sản phẩm...")
+      button(class="btn btn-dark ml-2" type="submit") Tìm kiếm
+
+    div(class="right-section d-flex align-items-center")
+      div(class="hotline mr-4 text-end")
+        i(class="bi bi-telephone-outbound me-1")
+        span(class="d-block small text-muted") Tư vấn bán hàng
+        strong 028.73008182
+      a(class="btn btn-outline-success rounded-circle" href="/cart")
+        i(class="bi bi-cart3")

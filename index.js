@@ -4,6 +4,7 @@ const express = require('express');
 const methodOverride = require("method-override");
 const database = require('./config/database');
 const routeAdmin = require('./routes/admin/index.route');
+const routeClient = require('./routes/client/index.route');
 const systemConfig = require('./config/system');
 const flash = require('express-flash');
 const cookieParser = require('cookie-parser');
@@ -41,6 +42,7 @@ app.use('/tinymce',
 );
 
 routeAdmin(app);
+routeClient(app)
 
 app.listen(port, () => {
     console.log(port);

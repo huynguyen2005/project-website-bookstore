@@ -1,0 +1,14 @@
+mixin product-item(item)
+  .product-item
+    if item.discountPercent
+      span.badge-discount -#{item.discountPercent}%
+    a(href=`/books/${item.slug}`)
+      .inner-image
+        img(src=item.thumbnail, alt=item.bookName)
+    .inner-content
+      h3.inner-title
+        a(href=`/books/${item.slug}`)= item.bookName
+      .inner-price
+        span.inner-price-new.price-new #{item.newPrice}đ
+        if item.price
+          span.inner-price-old.price-old #{item.price}đ

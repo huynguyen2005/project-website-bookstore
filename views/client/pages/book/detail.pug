@@ -1,0 +1,17 @@
+extends ../../layouts/default.pug
+include ../../mixins/book-detail.pug
+include ../../mixins/sidebar-detail.pug
+include ../../mixins/book-description.pug
+
+block styles
+  link(rel="stylesheet" href="/client/css/book-detail.css")
+
+block main
+  .book-detail.py-4
+    .container
+      .row.g-4
+        +bookDetail(book)
+        +sidebarDetail()
+
+      // Phần mô tả sản phẩm và thông tin chi tiết
+      +bookDescription(book, author, coverType)

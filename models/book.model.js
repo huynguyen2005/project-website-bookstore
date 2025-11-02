@@ -7,6 +7,7 @@ const bookSchema = new mongoose.Schema({
     bookName: String,
     pageCount: Number,
     description: String,
+    featured: String,
     price: Number,
     size: String,
     publishDate: Date,
@@ -15,7 +16,10 @@ const bookSchema = new mongoose.Schema({
     reviewCount: Number,
     images: [String],
     thumbnail: String,
-    authors: [String],
+    author_id: {
+        type: String,
+        default: ""
+    },
     publisher: String,
     distributor: String,
     coverType_id: {

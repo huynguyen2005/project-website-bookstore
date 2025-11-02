@@ -1,0 +1,83 @@
+extends ../../layouts/default
+include ../../mixins/search.pug
+include ../../mixins/formatDateTime.pug
+include ../../mixins/alert.pug
+
+block main
+  if(role.permissions.includes("cover-types_view"))
+    +alert-success(5000)
+    +alert-error(5000)
+
+    .card
+      .card-header.d-flex.justify-content-between.align-items-center
+        h5.mb-0 Danh sách loại bìa
+
+        if(role.permissions.includes("cover-types_create"))
+          a.btn.btn-primary(href=`${prefixAdmin}/cover-types/create`)
+            i.bi.bi-plus-lg.mr-1
+            | Thêm mới
+
+      .card-body
+        +search(keyword, "cover-types")
+
+        table.table.table-hover.table-bordered.table-categories(check-box-multi)
+          thead.thead-light
+            tr
+              th
+                input(type="checkbox" check-box-all)
+              th Tên loại bìa
+              th Mô tả
+              th Người tạo
+          tbody
+            if records.length
+              each record in records
+                tr
+                  td
+                    input(type="checkbox" name="id" value=record.id)
+                  td
+                    strong #{record.title}
+                    br
+                    a(href="javascript:;" data-id=record.id button-detail) Xem  
+                    if(role.permissions.includes("cover-types_edit"))
+                      | ·  
+                      a(href="javascript:;" data-id=record.id button-edit) Sửa 
+                    if(role.permissions.includes("cover-types_delete"))
+                      | ·  
+                      a(href="javascript:;" data-id=record.id button-delete)  Xóa
+
+                  td !{record.description || '—'}
+                  
+                  td
+                    p #{record.accountFullName || '—'}
+                    p
+                      if record.createdBy && record.createdBy.createdAt
+                        +formatDateTime(record.createdBy.createdAt)
+                      else
+                        | —
+
+            else
+              tr
+                td(colspan="4" class="text-center text-muted py-4")
+                  | Không có dữ liệu loại bìa
+
+        // Form Delete
+        form(
+          action=""
+          method="POST"
+          form-delete
+          data-path=`${prefixAdmin}/cover-types/delete`
+        )
+        // Form Edit
+        form(
+          action=""
+          method="GET"
+          form-edit
+          data-path=`${prefixAdmin}/cover-types/edit`
+        )
+        // Form Detail
+        form(
+          action=""
+          method="GET"
+          form-detail
+          data-path=`${prefixAdmin}/cover-types/detail`
+        )

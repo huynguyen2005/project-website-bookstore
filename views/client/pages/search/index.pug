@@ -1,0 +1,19 @@
+extends ../../layouts/default.pug
+include ../../mixins/product-layout.pug
+include ../../mixins/box-head.pug
+
+block main
+  // Tiêu đề trang
+  .text-center.mb-4
+    h2.font-weight-bold Tìm kiếm
+    p.text-muted Có #{books.length} sản phẩm cho từ khóa 
+      strong "#{keyword}"
+    hr(style="width: 60px; border-top: 3px solid #4a7c12; margin: 15px auto;")
+
+  // Danh sách sản phẩm
+  if books && books.length
+    .product-section
+      +product-grid(books)
+  else
+    .text-center.mt-5.mb-5
+      h4.text-muted Không tìm thấy sản phẩm phù hợp.

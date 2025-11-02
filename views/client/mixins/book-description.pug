@@ -1,0 +1,62 @@
+mixin bookDescription(book, author, coverType)
+  .book-description.mt-5
+    h4.fw-bold.mb-4 GIỚI THIỆU SÁCH
+
+    // MÔ TẢ SẢN PHẨM
+    if book.description
+      h6.fw-bold.mb-2 Mô tả sản phẩm
+      .pre-line !{book.description}
+    // TÁC GIẢ
+    if book.author_id
+      h6.fw-bold.mb-2 Tác giả
+      .pre-line !{author.description}
+
+    // THÔNG TIN CHI TIẾT
+    .book-info.mt-4
+      h6.fw-bold.mb-3 Thông tin chi tiết
+      table.table.table-bordered.detail-table
+        tbody
+          tr
+            td Tên sách
+            td #{book.bookName}
+
+          if author
+            tr
+              td Tác giả
+              td #{author.fullName}
+
+          tr
+            td Nhà xuất bản
+            td #{book.publisher}
+
+          tr
+            td Đơn vị phát hành
+            td #{book.distributor}
+
+          tr
+            td Số trang
+            td #{book.pageCount}
+
+          tr
+            td Kích thước
+            td #{book.size}
+
+          tr
+            td Ngày xuất bản
+            td #{book.publishDate.toLocaleDateString("vi-VN")}
+
+          tr
+            td Hình thức bìa
+            td #{coverType.title}
+
+          tr
+            td Tồn kho
+            td #{book.stockQuantity}
+
+          tr
+            td Giá gốc
+            td #{book.price.toLocaleString()}đ
+
+          tr
+            td Đánh giá
+            td #{book.averageRating} ⭐ (#{book.reviewCount.toLocaleString()} đánh giá)

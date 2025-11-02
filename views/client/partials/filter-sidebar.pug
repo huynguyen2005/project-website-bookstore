@@ -1,0 +1,48 @@
+div(class="filter-sidebar")
+
+  // TÁC GIẢ
+  .filter-box
+    h6.filter-title Tác giả
+    ul.filter-list
+      each author in authors
+        li
+          label.d-flex.align-items-center.gap-2
+            input(type="checkbox" name="author" value=author.slug)
+            span= author.fullName
+
+  // LOẠI SÁCH
+  .filter-box
+    h6.filter-title Loại sách
+    ul.filter-list
+      each coverType in coverTypes
+        li
+          label.d-flex.align-items-center.gap-2
+            input(type="checkbox" name="coverType" value=coverType.slug)
+            span= coverType.title
+
+  // GIÁ SẢN PHẨM
+  .filter-box
+    h6.filter-title Giá sản phẩm
+    ul.filter-list
+      li
+        label.d-flex.align-items-center.gap-2
+          input(type="radio" name="price" value="0-100000")
+          span Dưới 100,000đ
+      li
+        label.d-flex.align-items-center.gap-2
+          input(type="radio" name="price" value="100000-200000")
+          span 100,000đ - 200,000đ
+      li
+        label.d-flex.align-items-center.gap-2
+          input(type="radio" name="price" value="200000-300000")
+          span 200,000đ - 300,000đ
+      li
+        label.d-flex-align-items-center.gap-2
+          input(type="radio" name="price" value="300000-500000")
+          span 300,000đ - 500,000đ
+      li
+        label.d-flex.align-items-center.gap-2
+          input(type="radio" name="price" value="500000-plus")
+          span Trên 500,000đ
+
+  button.btn.btn-success.w-100.mt-2(btn-submit) Áp dụng

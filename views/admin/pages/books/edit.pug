@@ -3,144 +3,241 @@ include ../../mixins/select-tree.pug
 include ../../mixins/alert.pug
 
 block main
-    if(role.permissions.includes("books_edit"))
-        +alert-success(5000)
-        +alert-error(5000)
-        .card
-            .card-header.d-flex.justify-content-between.align-items-center
-                h5.mb-0 Chỉnh sửa sách 
-            .card-body
-                form(
-                    action=`${prefixAdmin}/books/edit/${book.id}?_method=PATCH`
-                    method="POST"
-                    enctype="multipart/form-data"
+  if (role.permissions.includes("books_edit"))
+    +alert-success(5000)
+    +alert-error(5000)
+
+    .card
+      .card-header.d-flex.justify-content-between.align-items-center
+        h5.mb-0 Chỉnh sửa sách
+
+      .card-body
+        form(
+          action=`${prefixAdmin}/books/edit/${book.id}?_method=PATCH`
+          method="POST"
+          enctype="multipart/form-data"
+        )
+
+          // --- Tên sách ---
+          .form-group
+            label(for="bookName") Tên sách
+            input#bookName.form-control(
+              type="text"
+              name="bookName"
+              placeholder="Nhập tên sách"
+              value=book.bookName
+            )
+
+          // --- Nổi bật ---
+          .form-group
+            label(for="featured") Nổi bật
+            .d-flex.align-items-center.gap-4
+              .form-check.form-check-inline
+                input#featured1.form-check-input(
+                  type="radio"
+                  name="featured"
+                  value="1"
+                  checked=(book.featured == 1)
                 )
-                    div(class="form-group")
-                        label(for="bookName") Tên sách
-                        input(id="bookName" class="form-control" type="text" name="bookName" placeholder="Nhập tên sách" value=book.bookName)
+                label.form-check-label(for="featured1") Nổi bật
+              .form-check.form-check-inline
+                input#featured0.form-check-input(
+                  type="radio"
+                  name="featured"
+                  value="0"
+                  checked=(book.featured == 0)
+                )
+                label.form-check-label(for="featured0") Không
 
-                    div(class="form-group")
-                        label(for="description") Mô tả
-                        textarea(id="description" class="form-control" name="description" rows="3" placeholder="Nhập mô tả...") #{book.description}
+          // --- Mô tả ---
+          .form-group
+            label(for="description") Mô tả
+            textarea#description.form-control(
+              name="description"
+              rows="3"
+              placeholder="Nhập mô tả..."
+            )= book.description
 
-                    div(class="form-row")
-                        div(class="form-group col-md-6")
-                            label(for="price") Giá (VNĐ)
-                            input(id="price" class="form-control" type="number" name="price" min="0" placeholder="VD: 170000" value=book.price)
-                        div(class="form-group col-md-6")
-                            label(for="discountPercent") Giảm giá (%)
-                            input(id="discountPercent" class="form-control" type="number" name="discountPercent" min="0" max="100" placeholder="VD: 10" value=book.discountPercent)
+          // --- Giá (VNĐ) ---
+          .form-group
+            label(for="price") Giá (VNĐ)
+            input#price.form-control(
+              type="number"
+              name="price"
+              min="0"
+              placeholder="VD: 170000"
+              value=book.price
+            )
 
-                    div(class="form-row")
-                        div(class="form-group col-md-6")
-                            label(for="size") Kích thước
-                            input(id="size" class="form-control" type="text" name="size" placeholder="VD: 14x20cm" value=book.size)
-                        div(class="form-group col-md-6")
-                            label(for="publishDate") Ngày xuất bản
-                            input(id="publishDate" class="form-control" type="date" name="publishDate" value=book.publishDate ? book.publishDate.toISOString().slice(0, 10) : '')
+          // --- Giảm giá (%) ---
+          .form-group
+            label(for="discountPercent") Giảm giá (%)
+            input#discountPercent.form-control(
+              type="number"
+              name="discountPercent"
+              min="0"
+              max="100"
+              placeholder="VD: 10"
+              value=book.discountPercent
+            )
 
-                    div(class="form-row")
-                        div(class="form-group col-md-6")
-                            label(for="pageCount") Số trang
-                            input(id="pageCount" class="form-control" type="number" name="pageCount" min="0" value=book.pageCount)
-                        div(class="form-group col-md-6")
-                            label(for="stockQuantity") Số lượng tồn kho
-                            input(id="stockQuantity" class="form-control" type="number" name="stockQuantity" min="0" value=book. stockQuantity)
+          // --- Kích thước ---
+          .form-group
+            label(for="size") Kích thước
+            input#size.form-control(
+              type="text"
+              name="size"
+              placeholder="VD: 14x20cm"
+              value=book.size
+            )
 
-                    div(class="form-row")
-                        div(class="form-group col-md-6")
-                            label(for="averageRating") Đánh giá trung bình
-                            input(id="averageRating" class="form-control" type="number" step="0.1" name="averageRating" placeholder="VD: 4.0" value=book.averageRating)
-                        div(class="form-group col-md-6")
-                            label(for="reviewCount") Lượt đánh giá
-                            input(id="reviewCount" class="form-control" type="number" name="reviewCount" placeholder="VD: 5000" value=book.reviewCount)
+          // --- Ngày xuất bản ---
+          .form-group
+            label(for="publishDate") Ngày xuất bản
+            input#publishDate.form-control(
+              type="date"
+              name="publishDate"
+              value=(book.publishDate ? book.publishDate.toISOString().slice(0, 10) : '')
+            )
 
-                    div(class="form-row")
-                        div(class="form-group col-md-6")
-                            label(for="publisher") Nhà xuất bản
-                            input(id="publisher" class="form-control" type="text" name="publisher" placeholder="VD: NXB Trẻ" value=book.publisher)
-                        div(class="form-group col-md-6")
-                            label(for="distributor") Nhà phân phối
-                            input(id="distributor" class="form-control" type="text" name="distributor" placeholder="VD: Alpha Books" value=book.distributor)
+          // --- Số trang ---
+          .form-group
+            label(for="pageCount") Số trang
+            input#pageCount.form-control(
+              type="number"
+              name="pageCount"
+              min="0"
+              value=book.pageCount
+            )
 
-                    div(class="form-row")
-                        div(class="form-group col-md-6")
-                            label(for="authorName") Tác giả
-                            input(id="authorName" class="form-control" type="text" name="authorName" placeholder="VD: Stephen Hawking" value=`${book.authors.join(', ')}`)
-                        div(class="form-group col-md-6")
-                            label(for="coverType_id") Loại bìa
-                            select(id="coverType_id" class="form-control" name="coverType_id")
-                                option(value="") -- Chọn loại bìa --
-                                each coverType in coverTypes 
-                                    option(
-                                        value = coverType.id
-                                        selected=(coverType.id===book.coverType_id)
-                                    ) #{coverType.title}
+          // --- Số lượng tồn kho ---
+          .form-group
+            label(for="stockQuantity") Số lượng tồn kho
+            input#stockQuantity.form-control(
+              type="number"
+              name="stockQuantity"
+              min="0"
+              value=book.stockQuantity
+            )
 
-                    div(class="form-row")
-                        div(class="form-group col-md-6")
-                            label(for="book_category_id") Danh mục sách
-                            select(id="book_category_id" class="form-control" name="book_category_id")
-                                option(value="") -- Danh mục sách --
-                                    +select-tree-edit(bookCategories, 1, book.book_category_id)
+          // --- Đánh giá trung bình ---
+          .form-group
+            label(for="averageRating") Đánh giá trung bình
+            input#averageRating.form-control(
+              type="number"
+              step="0.1"
+              name="averageRating"
+              placeholder="VD: 4.0"
+              value=book.averageRating
+            )
 
-                    div(class="form-group" upload-image)
-                        label(for="thumbnail") Ảnh đại diện
-                        div(class="d-flex align-items-center gap-2")
-                            input(
-                                type="file"
-                                class="form-control-file"
-                                id="thumbnail"
-                                name="thumbnail"
-                                accept="image/*"
-                                upload-image-input
-                            )
-                            span(
-                                btn-close
-                                style="cursor:pointer; font-weight:bold;"
-                            ) 
-                        img(
-                            src=book.thumbnail
-                            class="image-preview"
-                            upload-image-preview
-                        )
+          // --- Lượt đánh giá ---
+          .form-group
+            label(for="reviewCount") Lượt đánh giá
+            input#reviewCount.form-control(
+              type="number"
+              name="reviewCount"
+              placeholder="VD: 5000"
+              value=book.reviewCount
+            )
 
-                    div(class="form-group" upload-images)
-                        label(for="images") Ảnh chi tiết
-                        div(class="d-flex align-items-center gap-2")
-                            input(
-                                type="file"
-                                class="form-control-file"
-                                id="images"
-                                name="images"
-                                accept="image/*"
-                                upload-images-input
-                                multiple
-                            )
-                            span(
-                                style="cursor:pointer; font-weight:bold;"
-                            ) 
-                        div(class="mt-2" preview-box)
-                            each image in book.images
-                                img(
-                                    src=image
-                                    class="image-preview"
-                                )
+          // --- Nhà xuất bản ---
+          .form-group
+            label(for="publisher") Nhà xuất bản
+            input#publisher.form-control(
+              type="text"
+              name="publisher"
+              placeholder="VD: NXB Trẻ"
+              value=book.publisher
+            )
 
-                    div(class="form-row")
-                        div(class="form-group col-md-6")
-                            label(for="position") Vị trí hiển thị
-                            input(id="position" class="form-control" type="number" name="position" min="1" placeholder="Tự động tăng" value=book.position)
-                        div(class="form-group col-md-6")
-                            label(for="status") Trạng thái
-                            select(id="status" class="form-control" name="status")
-                                option(
-                                    value="active"
-                                    selected = book.status === "active"
-                                ) Hoạt động
-                                option(
-                                    value="inactive"
-                                    selected = book.status === "inactive"
-                                ) Ngừng hoạt động
+          // --- Nhà phân phối ---
+          .form-group
+            label(for="distributor") Nhà phân phối
+            input#distributor.form-control(
+              type="text"
+              name="distributor"
+              placeholder="VD: Alpha Books"
+              value=book.distributor
+            )
 
-                    button(class="btn btn-primary" type="submit") Chỉnh sửa
+          // --- Tác giả ---
+          .form-group
+            label(for="author_id") Tác giả
+            select#author_id.form-control(name="author_id")
+              option(value="") -- Chọn tác giả --
+              each author in authors
+                option(
+                  value=author._id
+                  selected=(author.id === book.author_id)
+                ) #{author.fullName}
+
+          // --- Loại bìa ---
+          .form-group
+            label(for="coverType_id") Loại bìa
+            select#coverType_id.form-control(name="coverType_id")
+              option(value="") -- Chọn loại bìa --
+              each coverType in coverTypes
+                option(
+                  value=coverType._id
+                  selected=(coverType.id === book.coverType_id)
+                ) #{coverType.title}
+
+          // --- Danh mục sách ---
+          .form-group
+            label(for="book_category_id") Danh mục sách
+            select#book_category_id.form-control(name="book_category_id")
+              option(value="") -- Chọn danh mục sách --
+              +select-tree-edit(bookCategories, 1, book.book_category_id)
+
+          // --- Ảnh đại diện ---
+          .form-group(upload-image)
+            label(for="thumbnail") Ảnh đại diện
+            .d-flex.align-items-center.gap-2
+              input#thumbnail.form-control-file(
+                type="file"
+                name="thumbnail"
+                accept="image/*"
+                upload-image-input
+              )
+              span.btn-close(style="cursor:pointer; font-weight:bold;")
+            img.image-preview.mt-2(
+              src=book.thumbnail
+              upload-image-preview
+            )
+
+          // --- Ảnh chi tiết ---
+          .form-group(upload-images)
+            label(for="images") Ảnh chi tiết
+            .d-flex.align-items-center.gap-2
+              input#images.form-control-file(
+                type="file"
+                name="images"
+                accept="image/*"
+                upload-images-input
+                multiple
+              )
+              span(style="cursor:pointer; font-weight:bold;")
+            .mt-2(preview-box)
+              each image in book.images
+                img.image-preview(src=image)
+
+          // --- Vị trí hiển thị ---
+          .form-group
+            label(for="position") Vị trí hiển thị
+            input#position.form-control(
+              type="number"
+              name="position"
+              min="1"
+              placeholder="Tự động tăng"
+              value=book.position
+            )
+
+          // --- Trạng thái ---
+          .form-group
+            label(for="status") Trạng thái
+            select#status.form-control(name="status")
+              option(value="active" selected=(book.status === "active")) Hoạt động
+              option(value="inactive" selected=(book.status === "inactive")) Ngừng hoạt động
+
+          button.btn.btn-primary.mt-3(type="submit") Chỉnh sửa
