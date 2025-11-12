@@ -42,6 +42,7 @@ module.exports.order = async (req, res) => {
             books.push(objectBook);
         }
         const order = new Order({
+            user_id: req.cookies.user_id,
             cart_id: cartId,
             userInfor: userInfor,
             status: "initial",

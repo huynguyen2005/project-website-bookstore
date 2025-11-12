@@ -11,6 +11,7 @@ div(class="header-top bg-success text-white py-2")
       | 123 Phan Xích, Đan Phượng, Hà Nội
     div(class="auth-links")
       if(user)
+        a(class="text-white mr-3" href="/user/infor") Tài khoản
         a(class="text-white mr-3" href="/user/logout") Đăng xuất
       else
         a(class="text-white mr-3" href="/user/login") Đăng nhập

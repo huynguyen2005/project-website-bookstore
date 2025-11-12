@@ -1,0 +1,36 @@
+extends ../../layouts/default.pug
+
+block styles
+  link(rel="stylesheet" href="/client/css/account.css")
+
+block main
+  div(class="container py-5")
+    h2(class="text-center mb-4 fw-bold") Tài khoản của bạn
+    hr(class="mb-4")
+
+    div(class="row")
+      // Sidebar bên trái
+      div(class="col-md-3 mb-4 mb-md-0")
+        div(class="list-group")
+          a(class="list-group-item list-group-item-action" href="/user/infor") Thông tin tài khoản
+          a(class="list-group-item list-group-item-action" href="/user/order-list") Lịch sử mua hàng
+          a(class="list-group-item list-group-item-action" href="/user/password/reset") Đổi mật khẩu
+
+      // Nội dung bên phải
+      div(class="col-md-9")
+        div(class="card shadow-sm border-0")
+          div(class="card-body")
+            h5(class="fw-bold mb-3") Thông tin tài khoản
+
+            // Form cập nhật tài khoản
+            form(action="/user/update" method="POST")
+              div(class="mb-3")
+                label(class="form-label" for="fullName") Họ và tên
+                input(class="form-control" type="text" id="fullName" name="fullname" value=user.fullName required)
+
+              div(class="mb-3")
+                label(class="form-label" for="email") Email
+                input(class="form-control" type="email" id="email" name="email" value=user.email readonly)
+
+              // Nút cập nhật
+              button(class="btn btn-primary w-100 mt-3" type="submit") Cập nhật thông tin
