@@ -1,0 +1,93 @@
+extends ../../layouts/default.pug
+include ../../mixins/formatPrice.pug
+
+block styles
+  link(rel="stylesheet" href="/client/css/cart.css")
+
+block main
+  .cart-page.container.py-5
+    h2(class="cart-title") Giỏ hàng của bạn
+    p(class="cart-subtitle") Có #{miniCart.totalQuantityBook} sản phẩm trong giỏ hàng
+
+    if cart.books.length > 0
+      table(class="cart-table")
+        thead
+          tr
+            th 
+            th Tên sản phẩm
+            th Giá
+            th Số lượng
+            th Thành tiền
+            th
+
+        tbody
+          each item in cart.books
+            tr(class="cart-row")
+              // Ảnh
+              td(class="thumb-col")
+                img(class="thumb" src=item.bookInfor.thumbnail alt=item.bookInfor.bookName)
+
+              // Tên sản phẩm
+              td(class="name-col")
+                a(class="product-name" href=`/books/${item.bookInfor.slug}`)= item.bookInfor.bookName
+
+              // Giá
+              td(class="price-col")
+                span(class="new-price")
+                  +formatPrice(item.bookInfor.newPrice)
+                if item.bookInfor.discountPercent > 0
+                  span(class="old-price")
+                    +formatPrice(item.bookInfor.price)
+
+              // Số lượng
+              td(class="qty-col")
+                div(class="qty-box")
+                  button(type="button", aria-label="minus", class="qty-btn") -
+                  input(
+                    type="number",
+                    name="quantity",
+                    value=item.quantity,
+                    min="1",
+                    max=item.bookInfor.stockQuantity,
+                    item-id=item.book_id,
+                    class="qty-input",
+                    data-stock=item.bookInfor.stockQuantity
+                  )
+                  button(type="button", aria-label="plus", class="qty-btn") +
+
+              // Thành tiền
+              td(class="total-col")
+                +formatPrice(item.totalPrice)
+
+              // Xoá
+              td(class="remove-col")
+                a(class="remove-btn" href=`/cart/delete/${item.book_id}`) ✖
+
+            // Dòng kẻ
+            tr(class="line-row")
+              td(colspan="6")
+
+      // Ghi chú
+      .order-note.mt-4
+        h4 Ghi chú đơn hàng
+        textarea(class="note-box" name="note" placeholder="Ghi chú...")
+
+      // Thông tin đơn
+      .order-summary.mt-4
+        h4 Thông tin đơn hàng
+        p Tổng tiền: 
+          span(class="total-price")
+            +formatPrice(cart.total)
+
+        p(class="small text-muted") Phí vận chuyển sẽ được tính ở trang thanh toán.
+        p(class="small text-muted") Bạn cũng có thể nhập mã giảm giá ở trang thanh toán.
+
+        a(class="btn-checkout" href="/checkout") THANH TOÁN
+        a(class="btn-continue" href="/") ← Tiếp tục mua hàng
+
+    else
+      div(class="empty-cart")
+        h3 Giỏ hàng trống
+        a(href="/") ← Quay lại mua hàng
+
+  script(src="/client/js/cart.js")

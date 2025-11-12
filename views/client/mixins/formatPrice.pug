@@ -1,0 +1,4 @@
+mixin formatPrice(value)
+  - const num = Number(value)
+  - const formatted = isNaN(num) ? "0" : num.toLocaleString("vi-VN")
+  span #{formatted}đ

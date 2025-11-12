@@ -9,7 +9,7 @@ const authorSchema = new mongoose.Schema(
         description: String,
         slug: {
             type: String,
-            slug: "title",
+            slug: "fullName",
             unique: true
         },
         deleted: {

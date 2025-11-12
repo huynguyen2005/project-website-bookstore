@@ -10,7 +10,6 @@ const accountSchema = new mongoose.Schema({
         default: generate.generateRandomString(20)
     },
     phone: String,
-    thumbnail: String,
     address: String,
     birthday: String,
     thumbnail: String,

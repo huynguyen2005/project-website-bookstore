@@ -1,42 +1,47 @@
-//- views/mixins/book-detail.pug
 mixin bookDetail(book)
-  // KHỐI TRÁI + GIỮA
-  .col-lg-9
-    .row 
-      // ẢNH SÁCH (trái)
-      .col-lg-5
-        .product-gallery
-          img.img-main(src=book.thumbnail, alt=book.bookName)
+  div(class="col-lg-9")
+    div(class="row")
+      
+      // ẢNH SÁCH
+      div(class="col-lg-5")
+        div(class="product-gallery")
+          img(src=book.thumbnail, alt=book.bookName, class="img-main")
           if book.images && book.images.length
-            .thumb-list.mt-3
+            div(class="thumb-list mt-3")
               each imgItem in book.images
-                img.thumb-item(src=imgItem, alt="")
+                img(src=imgItem, alt="", class="thumb-item")
 
-      // THÔNG TIN (giữa)
-      .col-lg-7
-        h3.product-title #{book.bookName}
+      // THÔNG TIN SÁCH
+      div(class="col-lg-7")
+        h3(class="product-title") #{book.bookName}
 
         if book.publisher
-          p.publisher Nhà xuất bản: #{book.publisher}
+          p(class="publisher") Nhà xuất bản: #{book.publisher}
 
-        .price-row.mb-3
-          span.price-new #{book.newPrice}đ
+        div(class="price-row mb-3")
+          span(class="price-new") #{book.newPrice}đ
           if book.discountPercent > 0
-            span.price-old #{book.price}đ
+            span(class="price-old") #{book.price}đ
 
-        // SỐ LƯỢNG
-        .qty-line.mb-3
-          .qty-box
-            button.qty-btn(type="button" aria-label="minus") -
-            input.qty-input(
-              type="number",
-              min="1",
-              value="1",
-              data-stock=book.stockQuantity
-            )
-            button.qty-btn(type="button" aria-label="plus") +
+        // FORM THÊM VÀO GIỎ
+        form(action=`/cart/add/${book._id}` method="POST")
+          
+          // SỐ LƯỢNG
+          div(class="qty-line mb-3")
+            div(class="qty-box")
+              button(type="button", aria-label="minus", class="qty-btn") -
+              input(
+                type="number",
+                name="quantity",
+                min="1",
+                value="1",
+                max=book.stockQuantity,
+                data-stock=book.stockQuantity,
+                class="qty-input"
+              )
+              button(type="button", aria-label="plus", class="qty-btn") +
 
-        // NÚT MUA
-        .action-row
-          button.btn-add(type="button") THÊM VÀO GIỎ
-          button.btn-buy(type="button") MUA NGAY
+          // NÚT HÀNH ĐỘNG
+          div(class="action-row")
+            button(type="submit", class="btn btn-success") THÊM VÀO GIỎ
+            //- button(type="submit", class="btn btn-primary", name="action", value="buyNow") MUA NGAY

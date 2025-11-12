@@ -1,0 +1,75 @@
+extends ../../layouts/default.pug
+include ../../mixins/formatPrice.pug
+
+block styles
+  link(rel="stylesheet" href="/client/css/cart.css")
+
+block main
+
+  .success-page.container.py-5
+    div.alert.alert-success 
+        h4 Chúc mừng bạn đã đặt hàng thành công! Chúng tôi sẽ xử lý đơn hàng trong thời gian sớm nhất
+
+    if order && order.books.length > 0
+      //===== THÔNG TIN ĐƠN HÀNG =====//
+      .order-info.mt-4
+        h3.section-title Thông tin đơn hàng
+        p
+          strong Mã đơn hàng: 
+          | #{order._id}
+        p
+          strong Khách hàng: 
+          | #{order.userInfor.fullName}
+        p
+          strong Số điện thoại: 
+          | #{order.userInfor.phone}
+        p
+          strong Địa chỉ giao hàng: 
+          | #{order.userInfor.address}
+        if order.userInfor.note
+          p
+            strong Ghi chú: 
+            | #{order.userInfor.note}
+
+      //===== DANH SÁCH SẢN PHẨM =====//
+      h3.section-title.mt-5 Sản phẩm đã đặt
+      table.cart-table
+        thead
+          tr
+            th 
+            th Tên sản phẩm
+            th Giá
+            th Số lượng
+            th Thành tiền
+        tbody
+          each item in order.books
+            tr.cart-row
+              td.thumb-col
+                img.thumb(src=item.inforBook.thumbnail alt=item.inforBook.bookName)
+              td.name-col
+                span #{item.inforBook.bookName}
+              td.price-col
+                span.new-price
+                  +formatPrice(item.newPrice)
+              td.qty-col= item.quantity
+              td.total-col
+                +formatPrice(item.totalPrice)
+            tr.line-row
+              td(colspan="5")
+
+      //===== TỔNG TIỀN =====//
+      .order-summary.mt-4
+        h4 Tổng cộng: 
+          span.total-price
+            +formatPrice(order.totalPrice)
+        p.small.text-muted Cảm ơn bạn đã mua sắm tại BookStore. Chúng tôi sẽ sớm liên hệ để xác nhận đơn hàng.
+
+      //===== NÚT HÀNH ĐỘNG =====//
+      .checkout-actions.mt-4
+        a.btn.btn-success(href="/") Tiếp tục mua hàng
+        a.btn.btn-light(href="/orders") Xem lịch sử đơn hàng
+
+    else
+      .empty-order
+        h3 Không tìm thấy đơn hàng
+        a.btn.btn-light(href="/") Quay lại trang chủ

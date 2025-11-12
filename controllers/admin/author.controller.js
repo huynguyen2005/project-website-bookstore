@@ -51,11 +51,10 @@ module.exports.createAuthor = async (req, res) => {
         const author = new Author(req.body);
         await author.save();
         req.flash("success", "Thêm tác giả thành công");
-        res.redirect(`${systemConfig.prefixAdmin}/authors`);
     } catch (error) {
         req.flash("error", "Thêm tác giả thất bại");
-        res.redirect(`${systemConfig.prefixAdmin}/authors`);
     }
+    res.redirect(`${systemConfig.prefixAdmin}/authors`);
 };
 
 // [GET] /admin/authors/detail/:id
