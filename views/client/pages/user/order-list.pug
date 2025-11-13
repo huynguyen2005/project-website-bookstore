@@ -1,0 +1,60 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert.pug
+include ../../mixins/formatDateTime.pug
+
+block styles
+  link(rel="stylesheet" href="/client/css/account.css")
+
+block main
+  +alert-success(5000)
+  +alert-error(5000)
+
+  div(class="container py-5")
+    h2(class="text-center mb-4 fw-bold") Tài khoản của bạn
+    hr(class="mb-4")
+
+    div(class="row")
+      // Sidebar bên trái
+      div(class="col-md-3 mb-4 mb-md-0")
+        div(class="list-group")
+          a(class="list-group-item list-group-item-action" href="/user/infor") Thông tin tài khoản
+          a(class="list-group-item list-group-item-action active" href="/user/order-list") Lịch sử mua hàng
+          a(class="list-group-item list-group-item-action" href="/user/password/reset") Đổi mật khẩu
+
+      // Nội dung bên phải
+      div(class="col-md-9")
+        div(class="card shadow-sm border-0")
+          div(class="card-body")
+            h5(class="fw-bold mb-3") Lịch sử mua hàng
+
+            if orders && orders.length
+              table(class="table table-striped align-middle")
+                thead
+                  tr
+                    th(scope="col") Ngày mua
+                    th(scope="col") Mã đơn hàng
+                    th(scope="col") Trạng thái
+                    th(scope="col" class="text-center") Thao tác
+                tbody
+                  each order in orders
+                    tr
+                      td 
+                        +formatDateTime(order.createdAt)
+                      td #{order.id}
+                      td 
+                        if order.status === "pending"
+                          span(class="badge bg-warning text-dark") Chờ xác nhận
+                        else if order.status === "processing"
+                          span(class="badge bg-info text-dark") Đang xử lý
+                        else if order.status === "shipping"
+                          span(class="badge bg-primary") Đang giao
+                        else if order.status === "completed"
+                          span(class="badge bg-success") Đã giao
+                        else if order.status === "cancelled"
+                          span(class="badge bg-danger") Đã hủy
+                        else
+                          span(class="badge bg-secondary") Không xác định 
+                      td(class="text-center")
+                        a(class="btn btn-sm btn-outline-primary" href=`/user/order-detail/${order.id}`) Xem chi tiết
+            else
+              p(class="text-muted text-center mt-3") Bạn chưa có đơn hàng nào.

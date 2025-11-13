@@ -10,8 +10,8 @@ const cartMiddleware = require("../../middlewares/client/cart.middleware");
 const userMiddleware = require("../../middlewares/client/user.middleware");
 module.exports = (app) => {
     app.use(booksCategoryMiddleware.category);
-    app.use(['/','/collections','/books','/search','/cart','/checkout', '/user'], cartMiddleware.cartId);
     app.use(userMiddleware.inforUser);
+    app.use(['/','/collections','/books','/search','/cart','/checkout', '/user'], cartMiddleware.cartId);
     app.use('/', homeRoutes);
     app.use('/collections', collectionsRoutes);
     app.use('/books', bookRoutes);

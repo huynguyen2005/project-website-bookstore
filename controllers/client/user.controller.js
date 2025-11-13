@@ -3,7 +3,10 @@ const ForgotPassword = require("../../models/forgot-password.model");
 const md5 = require("md5");
 const generateHelper = require("../../helpers/generate");
 const sendMailHelper = require("../../helpers/sendMail");
+const bookHelper = require("../../helpers/book");
 const Order = require("../../models/order.model");
+const Book = require("../../models/book.model");
+const Cart = require("../../models/cart.model");
 
 //[GET] /user/register
 module.exports.register = async (req, res) => {
@@ -52,6 +55,12 @@ module.exports.loginPost = async (req, res) => {
         req.flash("error", "Tài khoản không hoạt động");
         return res.redirect("/user/login");
     }
+    const exitUserIdinCart = await Cart.findOne({user_id: user.id});
+    if(exitUserIdinCart){
+        res.cookie("cartId", exitUserIdinCart.id);
+    }else{
+        await Cart.updateOne({_id: req.cookies.cartId}, {user_id: user.id});
+    }
     res.cookie("tokenUser", user.tokenUser);
     res.redirect("/");
 }
@@ -59,6 +68,7 @@ module.exports.loginPost = async (req, res) => {
 //[GET] /user/logout
 module.exports.logout = (req, res) => {
     res.clearCookie("tokenUser");
+    res.clearCookie("cartId");
     res.redirect("/");
 }
 
@@ -138,9 +148,45 @@ module.exports.resetPasswordPost = async (req, res) => {
 
 //[GET] /user/infor
 module.exports.inforUser = async (req, res) => {
-    const orders = await Order.find({user_id: req.cookies.user_id});
     res.render("client/pages/user/infor", {
-        pageTitle: "Tài khoản | BookStore",
+        pageTitle: "Tài khoản | BookStore"
+    });
+}
+
+//[POST] /user/infor
+module.exports.inforUserPost = async (req, res) => {
+    try {
+        await User.updateOne({tokenUser: req.cookies.tokenUser}, {fullName: req.body.fullName});
+        req.flash("success", "Cập nhật thành công");
+    } catch (error) {
+        req.flash("error", "Cập nhật thất bại!!!");
+    }
+    res.redirect("/user/infor");
+}
+
+//[GET] /user/order-list
+module.exports.orderList = async (req, res) => {
+    const orders = await Order.find({user_id: res.locals.user.id});
+    res.render("client/pages/user/order-list", {
+        pageTitle: "Lịch sử mua hàng | BookStore",
         orders: orders
+    });
+}
+
+//[GET] /order/order-detail/:orderId
+module.exports.orderDetail = async (req, res) => {
+    const orderId = req.params.orderId;
+    const order = await Order.findOne({_id: orderId});
+    console.log(order);
+    for (let book of order.books) {
+        const inforBook = await Book.findOne({_id: book.book_id});
+        book.bookName = inforBook.bookName;
+        bookHelper.newPriceOneBook(book);
+        book.totalPrice = book.newPrice * book.quantity;
+    }
+    order.totalPrice = order.books.reduce((sum, item) => sum + item.totalPrice, 0);
+    res.render("client/pages/user/order-detail", {
+        pageTitle: "Chi tiết đơn hàng | BookStore",
+        order: order
     });
 }

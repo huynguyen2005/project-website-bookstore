@@ -1,9 +1,12 @@
 extends ../../layouts/default.pug
+include ../../mixins/alert.pug
 
 block styles
   link(rel="stylesheet" href="/client/css/account.css")
 
 block main
+  +alert-success(5000)
+  +alert-error(5000)
   div(class="container py-5")
     h2(class="text-center mb-4 fw-bold") Tài khoản của bạn
     hr(class="mb-4")
@@ -23,14 +26,13 @@ block main
             h5(class="fw-bold mb-3") Thông tin tài khoản
 
             // Form cập nhật tài khoản
-            form(action="/user/update" method="POST")
+            form(action="/user/infor" method="POST")
               div(class="mb-3")
                 label(class="form-label" for="fullName") Họ và tên
-                input(class="form-control" type="text" id="fullName" name="fullname" value=user.fullName required)
+                input(class="form-control" type="text" id="fullName" name="fullName" value=user.fullName required)
 
               div(class="mb-3")
                 label(class="form-label" for="email") Email
                 input(class="form-control" type="email" id="email" name="email" value=user.email readonly)
-
               // Nút cập nhật
               button(class="btn btn-primary w-100 mt-3" type="submit") Cập nhật thông tin

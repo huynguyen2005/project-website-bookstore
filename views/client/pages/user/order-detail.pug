@@ -1,0 +1,68 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert.pug
+include ../../mixins/formatDateTime.pug
+include ../../mixins/formatPrice.pug
+
+block main
+
+  div(class="container py-5")
+    h2(class="text-center mb-4 fw-bold") Chi tiết đơn hàng
+    hr(class="mb-4")
+
+    // Thông tin đơn hàng
+    div(class="card mb-4 shadow-sm border-0")
+      div(class="card-body")
+        h5(class="fw-bold mb-3") Thông tin đơn hàng
+        p
+          strong Mã đơn hàng: 
+          | #{order.id}
+        p
+          strong Ngày đặt: 
+            +formatDateTime(order.createdAt)
+        p
+          strong Trạng thái: 
+          if order.status === "pending"
+            span(class="badge bg-warning text-dark") Chờ xác nhận
+          else if order.status === "processing"
+            span(class="badge bg-info text-dark") Đang xử lý
+          else if order.status === "shipping"
+            span(class="badge bg-primary") Đang giao
+          else if order.status === "completed"
+            span(class="badge bg-success") Đã giao
+          else if order.status === "cancelled"
+            span(class="badge bg-danger") Đã hủy
+          else
+            span(class="badge bg-secondary") Không xác định
+
+    // Danh sách sản phẩm
+    div(class="card shadow-sm border-0")
+      div(class="card-body")
+        h5(class="fw-bold mb-3") Sản phẩm trong đơn
+        if order.books && order.books.length
+          table(class="table table-striped align-middle")
+            thead
+              tr
+                th(scope="col") Sản phẩm
+                th(scope="col") Số lượng
+                th(scope="col") Giá
+                th(scope="col") Giảm giá
+                th(scope="col") Thành tiền
+            tbody
+              each book in order.books
+                tr
+                  td #{book.bookName}
+                  td #{book.quantity}
+                  td 
+                    +formatPrice(book.price)
+                  td(class="text-danger") #{book.discountPercent}%
+                  td 
+                    +formatPrice(book.totalPrice)
+          hr
+          p(class="text-end fw-bold") Tổng tiền: 
+            +formatPrice(order.totalPrice)
+        else
+          p(class="text-muted") Không có sản phẩm trong đơn hàng.
+
+    // Nút quay lại
+    div(class="mt-3")
+      a(class="btn btn-outline-secondary" href="/user/order-list") Quay lại
