@@ -1,0 +1,118 @@
+extends ../../layouts/default.pug
+include ../../mixins/search.pug
+include ../../mixins/formatDateTime.pug
+include ../../mixins/alert.pug
+
+block main
+  +alert-success(5000)
+  +alert-error(5000)
+
+  if(role.permissions.includes("blogs_view"))
+    .card
+      .card-header.d-flex.justify-content-between.align-items-center
+        h5.mb-0 Danh sách bài viết
+        .d-flex.align-items-center
+          if(role.permissions.includes("blogs_create"))
+            a(href=`${prefixAdmin}/blogs/create` class="btn btn-primary mr-2") + Thêm bài viết
+
+          if(role.permissions.includes("blogs_edit"))
+            form.d-flex.align-items-center(
+              action=`${prefixAdmin}/blogs/change-multi?_method=PATCH`
+              method="POST"
+              form-change-multi
+            )
+              select.form-control.w-auto.mr-2(name="type")
+                option(value="") -- Thao tác --
+                option(value="active") Hoạt động
+                option(value="inactive") Ngừng hoạt động
+                option(value="delete-all") Xóa đã chọn
+              input(type="text" name="ids" value="" class="form-control d-none")
+              button.btn.btn-outline-secondary(type="submit") Áp dụng
+
+      .card-body
+        .d-flex.align-items-center.mb-3
+          +search(keyword, "blogs")
+
+        table.table.table-hover.table-bordered.align-middle(check-box-multi)
+          thead.thead-light
+            tr
+              th
+                input(type="checkbox" check-box-all)
+              th Hình ảnh
+              th Tiêu đề
+              th Người tạo
+              th Trạng thái
+
+          tbody
+            if records.length
+              each record in records
+                tr
+                  td
+                    input(type="checkbox" name="id" value=record.id)
+                  td
+                    if record.thumbnail
+                      img(src=record.thumbnail alt=record.title style="width:50px;height:50px;object-fit:cover;")
+                    else
+                      span.text-muted — 
+                  td
+                    strong #{record.title}
+                    br
+                    small.text-muted
+                      a(href="javascript:;" data-id=record.id button-detail) Xem
+                      if(role.permissions.includes("blogs_edit"))
+                        |  · 
+                        a(href="javascript:;" data-id=record.id button-edit) Sửa
+                      if(role.permissions.includes("blogs_delete"))
+                        |  · 
+                        a(href="javascript:;" data-id=record.id button-delete) Xóa
+                        |  · 
+                      if(role.permissions.includes("blogs_edit"))
+                        if record.status === "inactive"
+                          span.text-success.cursor-pointer(
+                            data-id=record.id
+                            data-status=record.status
+                            button-change-status
+                          ) Hoạt động
+                        else
+                          span.text-danger.cursor-pointer(
+                            data-id=record.id
+                            data-status=record.status
+                            button-change-status
+                          ) Ngừng hoạt động
+                  td
+                    p.mb-1 #{record.accountFullName || '—'}
+                    p.mb-1
+                      if record.createdBy && record.createdBy.createdAt
+                        +formatDateTime(record.createdBy.createdAt)
+                      else
+                        | —
+                  td
+                    if record.status === "active"
+                      span.badge-status.badge-active Hoạt động
+                    else
+                      span.badge-status.badge-inactive Ngừng hoạt động
+
+        form(
+          action=""
+          method="POST"
+          form-delete
+          data-path=`${prefixAdmin}/blogs/delete`
+        )
+        form(
+          action=""
+          method="GET"
+          form-edit
+          data-path=`${prefixAdmin}/blogs/edit`
+        )
+        form(
+          action=""
+          method="GET"
+          form-detail
+          data-path=`${prefixAdmin}/blogs/detail`
+        )
+        form(
+          action=""
+          method="POST"
+          id="form-change-status"
+          data-path=`${prefixAdmin}/blogs/change-status`
+        )

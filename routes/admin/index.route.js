@@ -9,6 +9,8 @@ const accountRouter = require('./account.route');
 const authRouter = require('./auth.route');
 const myAccountRouter = require('./my-account.route');
 const orderRouter = require('./order.route');
+const blogRouter = require('./blog.route');
+const userRouter = require('./user.route');
 const systemConfig = require('../../config/system');
 const authMiddleware = require('../../middlewares/admin/auth.middleware');
 
@@ -45,6 +47,10 @@ module.exports = (app) => {
         authMiddleware.requireAuth,
         accountRouter
     );
+    app.use(systemConfig.prefixAdmin + "/users", 
+        authMiddleware.requireAuth,
+        userRouter
+    );
     app.use(systemConfig.prefixAdmin + "/my-account", 
         authMiddleware.requireAuth,
         myAccountRouter
@@ -52,6 +58,10 @@ module.exports = (app) => {
     app.use(systemConfig.prefixAdmin + "/orders", 
         authMiddleware.requireAuth,
         orderRouter
+    );
+    app.use(systemConfig.prefixAdmin + "/blogs", 
+        authMiddleware.requireAuth,
+        blogRouter
     );
     app.use(systemConfig.prefixAdmin + "/auth", authRouter);
 }

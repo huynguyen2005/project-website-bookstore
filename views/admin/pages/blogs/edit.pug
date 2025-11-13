@@ -1,0 +1,64 @@
+extends ../../layouts/default
+include ../../mixins/select-tree.pug
+
+block styles
+  link(rel="stylesheet", href="/admin/css/edit.css")
+  
+block main
+  if(role.permissions.includes("blogs_edit"))
+    .card
+      .card-header.d-flex.justify-content-between.align-items-center
+        h5.mb-0 Chỉnh sửa bài viết
+
+      .card-body
+        form(
+          action=`${prefixAdmin}/blogs/edit/${record._id}?_method=PATCH`
+          method="POST"
+          enctype="multipart/form-data"
+        )
+
+          // --- Tiêu đề bài viết ---
+          .form-group
+            label(for="title") Tiêu đề
+            input#title.form-control(
+              type="text"
+              name="title"
+              placeholder="Nhập tiêu đề bài viết"
+              value=record.title
+            )
+
+          // --- Nội dung bài viết ---
+          .form-group
+            label(for="content") Nội dung
+            textarea#content.form-control(
+              name="content"
+              rows="6"
+              placeholder="Nhập nội dung bài viết..."
+            )= record.content
+
+          // --- Ảnh đại diện ---
+          .form-group(upload-image)
+            label(for="thumbnail") Ảnh đại diện
+            .d-flex.align-items-center.gap-2
+              label.btn.btn-success.d-flex.align-items-center.gap-2.m-0.px-3.py-2(for="thumbnail")
+                i.bi.bi-upload
+                span Chọn tệp
+              input#thumbnail.d-none(
+                type="file"
+                name="thumbnail"
+                accept="image/*"
+                upload-image-input
+                onchange="previewSingleImage(event)"
+              )
+            .mt-2#preview-thumbnail.d-flex.flex-wrap.gap-2
+              if record.thumbnail
+                img.image-preview(src=record.thumbnail)
+
+          // --- Trạng thái ---
+          .form-group
+            label(for="status") Trạng thái
+            select#status.form-control(name="status")
+              option(value="active" selected=(record.status === "active")) Hoạt động
+              option(value="inactive" selected=(record.status === "inactive")) Ngừng hoạt động
+
+          button.btn.btn-primary.mt-3(type="submit") Cập nhật

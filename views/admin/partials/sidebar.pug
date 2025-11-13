@@ -13,9 +13,9 @@ nav(class="sidebar d-flex flex-column p-1")
         span(class="ml-n1") Tổng quan
 
     // Nhóm: BÀI VIẾT
-    li(class="nav-group text-uppercase text-muted small mt-3 mb-2 pl-2") Bài viết
+    li(class=`nav-group text-uppercase text-muted small mt-3 mb-2 pl-2`) Bài viết
     li
-      a(href="/admin/posts" class="nav-link")
+      a(href="/admin/blogs" class=`nav-link ${activeMenu === "blogs" ? "active" : ""}`)
         i(class="bi bi-journal-text")
         span Bài viết
 
@@ -50,9 +50,9 @@ nav(class="sidebar d-flex flex-column p-1")
         span Đơn hàng
 
     // Nhóm: KHÁCH HÀNG
-    li(class="nav-group text-uppercase text-muted small mt-3 mb-2 pl-2") Khách hàng
+    li(class=`nav-group text-uppercase text-muted small mt-3 mb-2 pl-2`) Khách hàng
     li
-      a(href="/admin/customers" class="nav-link")
+      a(href="/admin/users" class=`nav-link ${activeMenu === "users" ? "active" : ""}`)
         i(class="bi bi-people")
         span Khách hàng
     li

@@ -1,0 +1,62 @@
+extends ../../layouts/default.pug
+include ../../mixins/formatDateTime.pug
+
+block styles
+  link(rel="stylesheet" href="/admin/css/detail.css")
+
+block main
+  if(role.permissions.includes("blogs_view"))
+    .card.card-custom.shadow-sm
+      .card-header.card-header-custom.d-flex.justify-content-between.align-items-center
+        h5.mb-0 Chi tiết bài viết
+        a.btn.btn-back.btn-sm(href=`${prefixAdmin}/blogs`)
+          i.bi.bi-arrow-left.mr-1
+          span Quay lại
+
+      .card-body
+        // --- Tiêu đề bài viết
+        h2.font-weight-bold.mb-3.text-dark #{record.title}
+
+        // --- Nội dung
+        if record.content
+          p.text-secondary !{record.content}
+        else
+          p.text-secondary Không có nội dung
+
+        hr.my-4
+
+        // --- Thông tin cơ bản
+        h6.section-title.mt-3.mb-3 Thông tin cơ bản
+        .row
+          .col-md-6
+            p
+              span.info-label Người tạo:
+              |  #{record.accountFullName || '—'}
+              span.info-label.ml-2 Ngày tạo: 
+              +formatDateTime(record.createdBy.createdAt)
+            if record.updatedBy.length
+              - const updatedBy = record.updatedBy.slice(-1)[0];
+              p
+                span.info-label Cập nhật gần nhất:
+                |  #{updatedBy.fullName}
+                span.info-label.ml-2 Ngày cập nhật:
+                +formatDateTime(updatedBy.updatedAt)
+
+          .col-md-6
+            p
+              span.info-label Trạng thái:
+              if record.status === 'active'
+                span.badge.badge-success.ml-1 Hoạt động
+              else
+                span.badge.badge-danger.ml-1 Ngừng hoạt động
+
+        hr.my-4
+
+        // --- Ảnh đại diện
+        h6.section-title.mt-3.mb-3 Ảnh đại diện
+        if record.thumbnail
+          .d-flex.flex-column.align-items-start.mb-4
+            img.img-thumbnail.mb-2.shadow-sm.rounded.thumbnail-img(src=record.thumbnail, alt="Ảnh đại diện")
+            a.small.text-muted(href=record.thumbnail target="_blank")= record.thumbnail
+        else
+          p.text-muted Không có ảnh đại diện

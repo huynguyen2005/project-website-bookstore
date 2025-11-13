@@ -1,0 +1,85 @@
+extends ../../layouts/default
+include ../../mixins/formatDateTime.pug
+include ../../mixins/formatPrice.pug
+
+block styles
+  link(rel="stylesheet" href="/admin/css/detail.css")
+
+block main
+  if(role.permissions.includes("orders_view"))
+    .card.card-custom.shadow-sm
+      .card-header.card-header-custom.d-flex.justify-content-between.align-items-center
+        h5.mb-0 Chi tiết đơn hàng
+        a.btn.btn-back.btn-sm(href=`${prefixAdmin}/orders`)
+          i.bi.bi-arrow-left.mr-1
+          span Quay lại
+
+      .card-body
+        // --- Thông tin đơn hàng
+        h6.section-title.mt-3.mb-3 Thông tin đơn hàng
+        .row
+          .col-md-6
+            p
+              span.info-label Mã đơn:
+              |  #{order.id}
+            p
+              span.info-label Ngày tạo:
+              |  
+              +formatDateTime(order.createdAt)
+            p
+              span.info-label Trạng thái:
+              if order.status === 'pending'
+                span.badge.badge-warning.ml-1 Chờ xử lý
+              else if order.status === 'processing'
+                span.badge.badge-primary.ml-1 Đang xử lý
+              else if order.status === 'completed'
+                span.badge.badge-success.ml-1 Hoàn tất
+              else
+                span.badge.badge-danger.ml-1 Hủy
+            p
+              span.info-label Ghi chú:
+              |  #{order.userInfor.note ? order.userInfor.note : "-"}
+
+          .col-md-6
+            p
+              span.info-label Khách hàng:
+              |  #{order.userInfor.fullName}
+            p
+              span.info-label Số điện thoại:
+              |  #{order.userInfor.phone}
+            p
+              span.info-label Địa chỉ:
+              |  #{order.userInfor.address ? order.userInfor.address : "-"}
+
+        hr.my-4
+
+        // --- Danh sách sản phẩm
+        h6.section-title.mt-3.mb-3 Danh sách sản phẩm
+        table.table.table-bordered.table-hover
+          thead.thead-light
+            tr
+              th(scope="col") STT
+              th(scope="col") Sản phẩm
+              th(scope="col") Số lượng
+              th(scope="col") Giảm giá
+              th(scope="col") Giá gốc
+              th(scope="col") Giá khuyến mãi
+              th(scope="col") Thành tiền
+          tbody
+            each item, index in order.books
+              tr
+                td #{index + 1}
+                td #{item.bookName}
+                td #{item.quantity}
+                td #{item.discountPercent}
+                td 
+                    +formatPrice(item.price)
+                td 
+                    +formatPrice(item.newPrice)
+                td 
+                    +formatPrice(item.totalPrice)
+
+        // --- Tổng tiền
+        .text-end.mt-3
+          h5 Tổng tiền: 
+            +formatPrice(order.totalPrice)

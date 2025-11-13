@@ -106,12 +106,14 @@ if (formFilter) {
 
 //Clear
 const btnClear = document.querySelector('[btn-clear-filter]');
-btnClear.addEventListener('click', (e) => {
-    e.preventDefault();
-    const url = new URL(window.location.href);
-    url.search = ""; // xoá toàn bộ query string
-    window.location.href = url.toString();
-});
+if (btnClear) {
+    btnClear.addEventListener('click', (e) => {
+        e.preventDefault();
+        const url = new URL(window.location.href);
+        url.search = ""; // xoá toàn bộ query string
+        window.location.href = url.toString();
+    });
+}
 //End clear
 
 //Check-box

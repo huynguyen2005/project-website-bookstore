@@ -33,6 +33,49 @@ block main
               each role in roles
                 td.text-center
                   input(type="checkbox" class="form-check-input m-0 mt-n1 check-all")
+            //- Danh sách bài viết
+            tr(class="table-secondary fw-semibold text-dark")
+              td(class="text-start" colspan=roles.length + 1) Danh sách bài viết
+
+            tr(data-name="blogs_view")
+              td(class="text-start") Xem
+              each role in roles
+                td(class="text-center")
+                  input(type="checkbox" class="form-check-input m-0 mt-n1")
+
+            tr(data-name="blogs_create")
+              td(class="text-start") Thêm mới
+              each role in roles
+                td(class="text-center")
+                  input(type="checkbox" class="form-check-input m-0 mt-n1")
+
+            tr(data-name="blogs_edit")
+              td(class="text-start") Chỉnh sửa
+              each role in roles
+                td(class="text-center")
+                  input(type="checkbox" class="form-check-input m-0 mt-n1")
+
+            tr(data-name="blogs_delete")
+              td(class="text-start fw-semibold") Xóa
+              each role in roles
+                td(class="text-center")
+                  input(type="checkbox" class="form-check-input m-0 mt-n1")
+
+            //- Danh sách khách hàng
+            tr(class="table-secondary fw-semibold text-dark")
+              td(class="text-start" colspan=roles.length + 1) Danh sách khách hàng
+
+            tr(data-name="users_view")
+              td(class="text-start") Xem
+              each role in roles
+                td(class="text-center")
+                  input(type="checkbox" class="form-check-input m-0 mt-n1")
+
+            tr(data-name="users_delete")
+              td(class="text-start fw-semibold") Xóa
+              each role in roles
+                td(class="text-center")
+                  input(type="checkbox" class="form-check-input m-0 mt-n1")
 
             //- Danh mục sách
             tr(class="table-secondary fw-semibold text-dark")
