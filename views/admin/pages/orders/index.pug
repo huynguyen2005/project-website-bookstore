@@ -1,0 +1,76 @@
+extends ../../layouts/default
+include ../../mixins/alert.pug
+include ../../mixins/search.pug
+include ../../mixins/formatDateTime.pug
+include ../../mixins/formatPrice.pug
+
+block main
+  +alert-success(5000)
+  +alert-error(5000)
+
+  if(role.permissions.includes("orders_view"))
+    .card
+      .card-header.d-flex.justify-content-between.align-items-center
+        h5.mb-0 Danh sách đơn hàng
+
+      .card-body
+        .mb-3.d-flex.flex-wrap.align-items-center
+          +search(keyword, "orders")
+          form.form-inline.ml-3(action=`${prefixAdmin}/orders` method="GET")
+            input.form-control.mr-2(type="date" name="fromDate" value=fromDate)
+            input.form-control.mr-2(type="date" name="toDate" value=toDate)
+            select.form-control.form-control-sm.mr-2(name="status" id="status")
+                option(value="") -- Trạng thái --
+                option(value="pending" selected=status==='pending') Chờ xử lý
+                option(value="processing" selected=status==='processing') Đang xử lý
+                option(value="completed" selected=status==='completed') Hoàn tất
+                option(value="cancelled" selected=status==='cancelled') Hủy
+            button.btn.btn-outline-secondary(type="submit") Lọc
+            button.btn.btn-outline-secondary.ml-2.btn-clear-filter(btn-clear-filter) Clear
+            
+        table.table.table-hover.table-bordered.align-middle
+          thead.thead-light
+            tr
+              th(scope="col") Mã đơn hàng
+              th(scope="col") Khách hàng
+              th(scope="col") Số lượng
+              th(scope="col") Tổng tiền
+              th(scope="col") Ghi chú
+              th(scope="col") Trạng thái
+              th(scope="col") Thao tác
+
+          tbody
+            each order in orders
+              tr
+                td
+                  i(class="bi bi-file-text-fill me-1 text-dark")  
+                  | #{order.id}
+                  br
+                  i(class="bi bi-clock-history me-1 text-dark")
+                  +formatDateTime(order.createdAt)
+
+                td
+                  span Họ tên: #{order.userInfor.fullName}
+                  br
+                  span Số điện thoại: #{order.userInfor.phone}
+
+                td #{order.totalQuantity}
+                td 
+                    +formatPrice(order.totalPrice)
+                td #{order.userInfor.note ? order.userInfor.note : "-"}
+
+                td
+                  select.form-control.form-control-sm(name="status" data-id=order.id select-change-status)
+                    option(value="pending" selected=order.status==='pending') Chờ xử lý
+                    option(value="processing" selected=order.status==='processing') Đang xử lý
+                    option(value="completed" selected=order.status==='completed') Hoàn tất
+                    option(value="cancelled" selected=order.status==='cancelled') Hủy
+
+                td
+                  a.btn.btn-sm.btn-outline-primary(href=`${prefixAdmin}/orders/detail/${order.id}`) Xem chi tiết
+        form(
+          action=""
+          method="POST"
+          id="form-change-select-status"
+          data-path=`${prefixAdmin}/orders/change-status`
+        )

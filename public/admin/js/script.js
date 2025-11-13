@@ -55,7 +55,6 @@ if (formSearch) {
 const formFilter = document.querySelector('[form-filter]');
 if (formFilter) {
     const url = new URL(window.location.href);
-    const btnClear = formFilter.querySelector('[btn-clear-filter]');
 
     // Submit form filter
     formFilter.addEventListener('submit', (e) => {
@@ -101,17 +100,19 @@ if (formFilter) {
         const option = sortSelect.querySelector(`option[value="${value}"]`);
         if (option) option.selected = true;
     }
-
-    //Clear
-    btnClear.addEventListener('click', (e) => {
-        e.preventDefault();
-        const url = new URL(window.location.href);
-        url.search = ""; // xoá toàn bộ query string
-        window.location.href = url.toString();
-    });
 }
 //End button filter item
 
+
+//Clear
+const btnClear = document.querySelector('[btn-clear-filter]');
+btnClear.addEventListener('click', (e) => {
+    e.preventDefault();
+    const url = new URL(window.location.href);
+    url.search = ""; // xoá toàn bộ query string
+    window.location.href = url.toString();
+});
+//End clear
 
 //Check-box
 const checkBoxMulti = document.querySelector('[check-box-multi]');
@@ -340,3 +341,21 @@ document.querySelectorAll('[upload-image-input]').forEach(input => {
     });
 });
 //end-image thong tin cá nhân
+
+
+//select-change-status
+const selectStatus = document.querySelectorAll('[select-change-status]');
+if (selectStatus.length > 0) {
+    const formChangeSelectStatus = document.querySelector('#form-change-select-status');
+    const path = formChangeSelectStatus.getAttribute('data-path');
+    selectStatus.forEach(item => {
+        item.addEventListener("change", () => {
+            const id = item.getAttribute('data-id');
+            const status = item.value;
+            const action = path + `/${id}/${status}?_method=PATCH`;
+            formChangeSelectStatus.setAttribute("action", action);
+            formChangeSelectStatus.submit();
+        })
+    });
+}
+//End select-change-status
