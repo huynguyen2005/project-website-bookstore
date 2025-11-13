@@ -51,7 +51,6 @@ if (formSearch) {
 //End button search item
 
 
-
 //Button filter item
 const formFilter = document.querySelector('[form-filter]');
 if (formFilter) {
@@ -114,7 +113,6 @@ if (formFilter) {
 //End button filter item
 
 
-
 //Check-box
 const checkBoxMulti = document.querySelector('[check-box-multi]');
 if (checkBoxMulti) {
@@ -132,7 +130,6 @@ if (checkBoxMulti) {
     });
 }
 //End check-box
-
 
 
 //Change-multi
@@ -153,7 +150,6 @@ if (formChangeMulti) {
     });
 }
 //End change-multi
-
 
 
 //Button delete item
@@ -178,47 +174,78 @@ if (buttonDelete.length > 0) {
 }
 //End button delete item
 
+//Sửa upload image (Cop nguyên đoạn code này rồi thay vào)
+//Upload image - ảnh đại diện
+function previewSingleImage(event) {
+  const container = document.getElementById('preview-thumbnail');
+  if (!container) return;
 
-//Upload image
-const uploadImage = document.querySelector('[upload-image]');
-if (uploadImage) {
-    const uploadImageInput = uploadImage.querySelector('[upload-image-input]');
-    const uploadImagePreview = uploadImage.querySelector('[upload-image-preview]');
-    const btnClose = uploadImage.querySelector('[btn-close]');
+  container.innerHTML = ''; // Xóa ảnh cũ
 
-    uploadImageInput.addEventListener('change', (e) => {
-        const [file] = e.target.files;
-        if (file) {
-            uploadImagePreview.src = URL.createObjectURL(file);
-            btnClose.textContent = "✕";
-        }
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = e => {
+    const wrapper = document.createElement('div');
+    wrapper.classList.add('image-container');
+
+    const img = document.createElement('img');
+    img.src = e.target.result;
+
+    const btnRemove = document.createElement('button');
+    btnRemove.classList.add('btn-remove');
+    btnRemove.textContent = '✕';
+    btnRemove.addEventListener('click', () => {
+      wrapper.remove();
+      event.target.value = ''; // Reset input file
     });
 
-    btnClose.addEventListener('click', () => {
-        uploadImageInput.value = "";
-        uploadImagePreview.src = "";
-        btnClose.textContent = "";
-    })
+    wrapper.appendChild(img);
+    wrapper.appendChild(btnRemove);
+    container.appendChild(wrapper);
+  };
+  reader.readAsDataURL(file);
 }
-//End upload image
 
-//Upload images
-const uploadImages = document.querySelector('[upload-images]');
-if (uploadImages) {
-    const uploadImagesInput = uploadImages.querySelector('[upload-images-input]');
-    const previewBoxImages = uploadImages.querySelector('[preview-box]');
-    uploadImagesInput.addEventListener('change', (e) => {
-        const files = Array.from(e.target.files);
-        previewBoxImages.innerHTML = '';
-        files.forEach(file => {
-            const img = document.createElement('img');
-            img.src = URL.createObjectURL(file);
-            img.classList.add('image-preview');
-            previewBoxImages.appendChild(img);
-        });
-    });
+
+//Sửa upload images ( Cop nguyên đoạn code này rồi thay vào)
+// Thêm  nhiều ảnh chi tiết
+function previewMultipleImages(event) {
+  const container = document.getElementById('preview-container');
+  if (!container) return;
+
+  container.innerHTML = ''; // Xóa ảnh cũ
+  const files = event.target.files;
+  if (!files || files.length === 0) return;
+
+  Array.from(files).forEach((file, index) => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      // Tạo khối ảnh + nút xoá
+      const wrapper = document.createElement('div');
+      wrapper.classList.add('image-container');
+
+      const img = document.createElement('img');
+      img.src = e.target.result;
+
+      const btnRemove = document.createElement('button');
+      btnRemove.classList.add('btn-remove');
+      btnRemove.textContent = '✕';
+      btnRemove.addEventListener('click', () => {
+        wrapper.remove(); // Xoá khối ảnh ra khỏi giao diện
+      });
+
+      wrapper.appendChild(img);
+      wrapper.appendChild(btnRemove);
+      container.appendChild(wrapper);
+    };
+    reader.readAsDataURL(file);
+  });
+  
+  event.target.value = '';
 }
-//End upload images
+
 
 //Button edit item
 const buttonsEdit = document.querySelectorAll('[button-edit]');
@@ -235,7 +262,6 @@ if (buttonsEdit.length > 0) {
     });
 }
 //End button edit item
-
 
 
 //Button detail item
@@ -256,23 +282,26 @@ if (buttonsDetail.length > 0) {
 
 
 //Show alert
-const showAlert = document.querySelector('[show-alert]');
-if (showAlert) {
-    const time = parseInt(showAlert.getAttribute("data-time"));
-    const closeAlert = showAlert.querySelector('[close-alert]')
+document.addEventListener('DOMContentLoaded', () => {
+  const alert = document.querySelector('[show-alert]');
+  if (!alert) return;
 
-    closeAlert.addEventListener("click", () => {
-        showAlert.classList.add("alert-hidden");
-    })
+  // Lấy thời gian từ thuộc tính data-timeout hoặc mặc định 5000ms
+  const timeout = parseInt(alert.dataset.timeout) || 2000;
 
-    setTimeout(() => {
-        showAlert.classList.add("alert-hidden");
-    }, time);
+  // Sau khi hết thời gian, thêm class để chạy animation ẩn
+  setTimeout(() => {
+    alert.classList.add('alert-hidden');
+  }, timeout);
 
-}
-//End show alert
-
-
+  // Sau khi animation ẩn xong, ẩn hẳn khỏi DOM
+  alert.addEventListener('animationend', () => {
+    if (alert.classList.contains('alert-hidden')) {
+      alert.remove(); // hoặc alert.style.display = 'none';
+    }
+  });
+});
+//End-Show alert
 
 
 //function check confirm password
@@ -286,3 +315,19 @@ var check = function () {
     }
 }
 //end function check confirm password
+
+//image thong tin cá nhân
+document.querySelectorAll('[upload-image-input]').forEach(input => {
+  input.addEventListener('change', function(event) {
+    const preview = document.querySelector('[upload-image-preview]');
+    preview.src = ""; // xóa ảnh cũ
+    if (input.files && input.files[0]) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        preview.src = e.target.result;
+      }
+      reader.readAsDataURL(input.files[0]);
+    }
+  });
+});
+//end-image thong tin cá nhân

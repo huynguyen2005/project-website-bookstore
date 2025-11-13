@@ -111,7 +111,7 @@ module.exports.editRole = async (req, res) => {
             $push: {updatedBy: updatedBy}
         });
         req.flash("success", "Sửa nhóm quyền thành công");
-        res.redirect(`${systemConfig.prefixAdmin}/roles/edit/${id}`);
+        res.redirect(`${systemConfig.prefixAdmin}/roles`);
     } catch (error) {
         req.flash("error", "Sửa nhóm quyền thất bại");
         res.redirect(`${systemConfig.prefixAdmin}/roles/edit/${id}`);

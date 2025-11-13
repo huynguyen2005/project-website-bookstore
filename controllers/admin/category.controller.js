@@ -180,10 +180,10 @@ module.exports.editCategory = async (req, res) => {
             $push: {updatedBy : updatedBy}
         });
         req.flash('success', 'Sửa danh mục thành công');
-        res.redirect(`${systemConfig.prefixAdmin}/categories/edit/${id}`);
+        res.redirect(`${systemConfig.prefixAdmin}/categories`);
     } catch (error) {
         req.flash('error', 'Sửa danh mục thất bại');
-        res.redirect(`${systemConfig.prefixAdmin}/categories`);
+        res.redirect(`${systemConfig.prefixAdmin}/categories/edit/${id}`);
     }
 };
 

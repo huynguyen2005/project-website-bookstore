@@ -1,11 +1,11 @@
 extends ../../layouts/default
 include ../../mixins/select-tree.pug
-include ../../mixins/alert.pug
+
+block styles
+  link(rel="stylesheet" href="/admin/css/create.css")
 
 block main
   if(role.permissions.includes("book-category_view"))
-    +alert-success(5000)  
-    +alert-error(5000)
     div(class="card")
       div(class="card-header d-flex justify-content-between align-items-center")
         h5(class="mb-0") Thêm danh mục mới
@@ -46,28 +46,34 @@ block main
               option(value="") -- Không có danh mục cha --
               +select-tree-create(bookCategories)
 
-          div(class="form-group")
-            label(for="position") Vị trí hiển thị
-            input(
-              id="position"
-              class="form-control"
-              type="number"
-              name="position"
-              min="1"
-              placeholder="VD: 1"
-            )
+          .row.mt-3
+            .col-md-6
+              div(class="form-group")
+                label(for="position") Vị trí hiển thị
+                input(
+                  id="position"
+                  class="form-control"
+                  type="number"
+                  name="position"
+                  min="1"
+                  placeholder="VD: 1"
+                )
 
-          div(class="form-group")
-            label(for="status") Trạng thái
-            select(
-              id="status"
-              class="form-control"
-              name="status"
-            )
-              option(value="active") Hoạt động
-              option(value="inactive") Ngừng hoạt động
+            .col-md-6
+              div(class="form-group")
+                label(for="status") Trạng thái
+                select(
+                  id="status"
+                  class="form-control"
+                  name="status"
+                )
+                  option(value="active") Hoạt động
+                  option(value="inactive") Ngừng hoạt động
 
           button(
             class="btn btn-primary"
             type="submit"
           ) Tạo mới
+
+  //- block scripts
+  //- script(type="application/javascript" src="https://cdn.tiny.cloud/1/0bzmmjbf9dmxhanhkzanji4a4lqzirecteyi89dup2z4hgmj/tinymce/6/tinymce.min.js" referrerpolicy="origin")

@@ -38,5 +38,5 @@ module.exports.editInfor = async (req, res) => {
     } catch (error) {
         req.flash("error", `Sửa tài khoản thất bại!`);
     }
-    res.redirect(`${prefixAdmin}/my-account/edit`);
+    res.redirect(`${prefixAdmin}/my-account`);
 }

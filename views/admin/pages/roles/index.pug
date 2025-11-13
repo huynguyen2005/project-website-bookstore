@@ -1,26 +1,27 @@
 extends ../../layouts/default
 include ../../mixins/search.pug
-include ../../mixins/alert.pug
 include ../../mixins/formatDateTime.pug
 
 block main
   if(role.permissions.includes("roles_view"))
-    +alert-success(5000)
-    +alert-error(5000)
-    div(class="card")
-      div(class="card-header d-flex justify-content-between align-items-center")
-        h5(class="mb-0") Nhóm quyền
+
+    // --- Thẻ card chứa toàn bộ nội dung ---
+    .card
+      .card-header.d-flex.justify-content-between.align-items-center
+        h5.mb-0 Danh sách nhóm quyền
+
         if(role.permissions.includes("roles_create"))
-          a(href=`${prefixAdmin}/roles/create` class="btn btn-primary")
-            i(class="bi bi-plus-lg mr-1")
-            | Thêm mới
+          a.btn.btn-primary(href=`${prefixAdmin}/roles/create`)
+            | + Thêm mới
 
-      div(class="card-body")
-        +search(keyword, "roles")
+      .card-body
+        // --- Thanh tìm kiếm ---
+        .d-flex.align-items-center.mb-3
+          +search(keyword, "roles")
 
-        // Bảng danh sách
-        table(class="table table-hover align-middle role-table")
-          thead
+        // --- Bảng danh sách nhóm quyền ---
+        table.table.table-hover.table-bordered(check-box-multi)
+          thead.thead-light
             tr
               th
                 input(type="checkbox" check-box-all)
@@ -36,23 +37,26 @@ block main
                   td
                     strong #{record.title}
                     br
-                    a(href="javascript:;" data-id=record.id button-detail) Xem 
-
+                    a(href="javascript:;" data-id=record.id button-detail) Xem
                     if(role.permissions.includes("roles_edit"))
-                      |  ·  
-                      a(href="javascript:;" data-id=record.id button-edit) Sửa 
-                    if(role.permissions.includes("roles_delete")) 
+                      |  · 
+                      a(href="javascript:;" data-id=record.id button-edit) Sửa
+                    if(role.permissions.includes("roles_delete"))
                       |  · 
                       a(href="javascript:;" data-id=record.id button-delete) Xóa
-                  td #{record.description}
-                  td 
-                    p #{record.accountFullName}
-                    p 
-                      +formatDateTime(role.createdBy.createdAt)
+                  td #{record.description || '—'}
+                  td
+                    p.mb-1 #{record.accountFullName || '—'}
+                    p.mb-1
+                      if record.createdBy && record.createdBy.createdAt
+                        +formatDateTime(record.createdBy.createdAt)
+                      else
+                        | —
             else
               tr
-                td(colspan="3" class="text-center text-muted py-4")
+                td(colspan="4" class="text-center text-muted py-4")
                   | Không có dữ liệu nhóm quyền
+
 
 
         form(

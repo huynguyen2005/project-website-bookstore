@@ -27,12 +27,11 @@ block main
                   input(type="text" value=role.id)      
 
           tbody
-            //- Chọn tất cả
             tr(checkbox-all)
               td(class="text-start") Chọn tất cả
-              each role in roles  
-                td(class="text-center")
-                  input(type="checkbox" class="form-check-input check-all")
+              each role in roles
+                td.text-center
+                  input(type="checkbox" class="form-check-input m-0 mt-n1 check-all")
 
             //- Danh mục sách
             tr(class="table-secondary fw-semibold text-dark")
@@ -42,25 +41,25 @@ block main
               td(class="text-start") Xem
               each role in roles
                 td(class="text-center")
-                  input(type="checkbox" class="form-check-input")
+                  input(type="checkbox" class="form-check-input m-0 mt-n1")
 
             tr(data-name="book-category_create")
               td(class="text-start") Thêm mới
               each role in roles
                 td(class="text-center")
-                  input(type="checkbox" class="form-check-input")
+                  input(type="checkbox" class="form-check-input m-0 mt-n1")
 
             tr(data-name="book-category_edit")
               td(class="text-start") Chỉnh sửa
               each role in roles
                 td(class="text-center")
-                  input(type="checkbox" class="form-check-input")
+                  input(type="checkbox" class="form-check-input m-0 mt-n1")
 
             tr(data-name="book-category_delete")
-              td(class="text-start text-danger fw-semibold") Xóa
+              td(class="text-start fw-semibold") Xóa
               each role in roles
                 td(class="text-center")
-                  input(type="checkbox" class="form-check-input")
+                  input(type="checkbox" class="form-check-input m-0 mt-n1")
 
             //- Danh sách sách
             tr(class="table-secondary fw-semibold text-dark")
@@ -70,25 +69,25 @@ block main
               td(class="text-start") Xem
               each role in roles
                 td(class="text-center")
-                  input(type="checkbox" class="form-check-input")
+                  input(type="checkbox" class="form-check-input m-0 mt-n1")
 
             tr(data-name="books_create")
               td(class="text-start") Thêm mới
               each role in roles
                 td(class="text-center")
-                  input(type="checkbox" class="form-check-input")
+                  input(type="checkbox" class="form-check-input m-0 mt-n1")
 
             tr(data-name="books_edit")
               td(class="text-start") Chỉnh sửa
               each role in roles
                 td(class="text-center")
-                  input(type="checkbox" class="form-check-input")
+                  input(type="checkbox" class="form-check-input m-0 mt-n1")
 
             tr(data-name="books_delete")
-              td(class="text-start text-danger fw-semibold") Xóa
+              td(class="text-start fw-semibold") Xóa
               each role in roles
                 td(class="text-center")
-                  input(type="checkbox" class="form-check-input")
+                  input(type="checkbox" class="form-check-input m-0 mt-n1")
 
             //- Danh sách tác giả
             tr(class="table-secondary fw-semibold text-dark")
@@ -98,25 +97,25 @@ block main
               td(class="text-start") Xem
               each role in roles
                 td(class="text-center")
-                  input(type="checkbox" class="form-check-input")
+                  input(type="checkbox" class="form-check-input m-0 mt-n1")
 
             tr(data-name="authors_create")
               td(class="text-start") Thêm mới
               each role in roles
                 td(class="text-center")
-                  input(type="checkbox" class="form-check-input")
+                  input(type="checkbox" class="form-check-input m-0 mt-n1")
 
             tr(data-name="authors_edit")
               td(class="text-start") Chỉnh sửa
               each role in roles
                 td(class="text-center")
-                  input(type="checkbox" class="form-check-input")
+                  input(type="checkbox" class="form-check-input m-0 mt-n1")
 
             tr(data-name="authors_delete")
-              td(class="text-start text-danger fw-semibold") Xóa
+              td(class="text-start fw-semibold") Xóa
               each role in roles
                 td(class="text-center")
-                  input(type="checkbox" class="form-check-input")
+                  input(type="checkbox" class="form-check-input m-0 mt-n1")
 
             //- Danh sách loại bìa
             tr(class="table-secondary fw-semibold text-dark")
@@ -126,25 +125,25 @@ block main
               td(class="text-start") Xem
               each role in roles
                 td(class="text-center")
-                  input(type="checkbox" class="form-check-input")
+                  input(type="checkbox" class="form-check-input m-0 mt-n1")
 
             tr(data-name="cover-types_create")
               td(class="text-start") Thêm mới
               each role in roles
                 td(class="text-center")
-                  input(type="checkbox" class="form-check-input")
+                  input(type="checkbox" class="form-check-input m-0 mt-n1")
 
             tr(data-name="cover-types_edit")
               td(class="text-start") Chỉnh sửa
               each role in roles
                 td(class="text-center")
-                  input(type="checkbox" class="form-check-input")
+                  input(type="checkbox" class="form-check-input m-0 mt-n1")
 
             tr(data-name="cover-types_delete")
-              td(class="text-start text-danger fw-semibold") Xóa
+              td(class="text-start fw-semibold") Xóa
               each role in roles
                 td(class="text-center")
-                  input(type="checkbox" class="form-check-input")
+                  input(type="checkbox" class="form-check-input m-0 mt-n1")
                   
             //- Nhóm quyền
             tr(class="table-secondary fw-semibold text-dark")
@@ -154,25 +153,25 @@ block main
               td(class="text-start") Xem
               each role in roles
                 td(class="text-center")
-                  input(type="checkbox" class="form-check-input")
+                  input(type="checkbox" class="form-check-input m-0 mt-n1")
 
             tr(data-name="roles_create")
               td(class="text-start") Thêm mới
               each role in roles
                 td(class="text-center")
-                  input(type="checkbox" class="form-check-input")
+                  input(type="checkbox" class="form-check-input m-0 mt-n1")
 
             tr(data-name="roles_edit")
               td(class="text-start") Chỉnh sửa
               each role in roles
                 td(class="text-center")
-                  input(type="checkbox" class="form-check-input")
+                  input(type="checkbox" class="form-check-input m-0 mt-n1")
 
             tr(data-name="roles_delete")
-              td(class="text-start text-danger fw-semibold") Xóa
+              td(class="text-start fw-semibold") Xóa
               each role in roles
                 td(class="text-center")
-                  input(type="checkbox" class="form-check-input")
+                  input(type="checkbox" class="form-check-input m-0 mt-n1")
 
             //- Danh sách tài khoản
             tr(class="table-secondary fw-semibold text-dark")
@@ -182,25 +181,25 @@ block main
               td(class="text-start") Xem
               each role in roles
                 td(class="text-center")
-                  input(type="checkbox" class="form-check-input")
+                  input(type="checkbox" class="form-check-input m-0 mt-n1")
 
             tr(data-name="accounts_create")
               td(class="text-start") Thêm mới
               each role in roles
                 td(class="text-center")
-                  input(type="checkbox" class="form-check-input")
+                  input(type="checkbox" class="form-check-input m-0 mt-n1")
 
             tr(data-name="accounts_edit")
               td(class="text-start") Chỉnh sửa
               each role in roles
                 td(class="text-center")
-                  input(type="checkbox" class="form-check-input")
+                  input(type="checkbox" class="form-check-input m-0 mt-n1")
 
             tr(data-name="accounts_delete")
-              td(class="text-start text-danger fw-semibold") Xóa
+              td(class="text-start fw-semibold") Xóa
               each role in roles
                 td(class="text-center")
-                  input(type="checkbox" class="form-check-input")
+                  input(type="checkbox" class="form-check-input m-0 mt-n1")
 
             //- Phân quyền
             tr(class="table-secondary fw-semibold text-dark")
@@ -210,13 +209,13 @@ block main
               td(class="text-start") Xem
               each role in roles
                 td(class="text-center")
-                  input(type="checkbox" class="form-check-input")
+                  input(type="checkbox" class="form-check-input m-0 mt-n1")
 
             tr(data-name="permissions_edit")
               td(class="text-start") Chỉnh sửa
               each role in roles
                 td(class="text-center")
-                  input(type="checkbox" class="form-check-input")
+                  input(type="checkbox" class="form-check-input m-0 mt-n1")
             
 
     form(

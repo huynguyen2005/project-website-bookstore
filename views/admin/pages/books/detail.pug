@@ -6,120 +6,120 @@ block styles
 
 block main
   if(role.permissions.includes("books_view"))
-    .card.card-custom
+    .card.card-custom.shadow-sm
       .card-header.card-header-custom.d-flex.justify-content-between.align-items-center
-        h5(class="mb-0 font-weight-bold") Chi tiết sách
+        h5(class="mb-0") Chi tiết sách
         a(class="btn btn-back btn-sm" href=`${prefixAdmin}/books`)
           i(class="bi bi-arrow-left mr-1")
-          | Quay lại
+          span Quay lại
 
       .card-body
         // --- Tên sách
-        h2(class="font-weight-bold mb-3" style="color:#1b2a49") #{book.bookName}
+        h2.font-weight-bold.mb-3.text-dark #{book.bookName}
 
         // --- Mô tả
         if book.description
-          p(class="text-secondary") !{book.description}
+          p.text-secondary !{book.description}
         else
-          p(class="text-muted") Không có mô tả
+          p.text-secondary Không có mô tả
 
-        hr
+        hr.my-4
 
         // --- Thông tin cơ bản
-        h6(class="section-title") Thông tin cơ bản
+        h6.section-title.mt-3.mb-3 Thông tin cơ bản
         .row
           .col-md-6
             p
-              span(class="info-label") Giá:
+              span.info-label Giá:
               |  
-              span(class="text-danger") #{book.price} VNĐ
+              span.text-danger.font-weight-bold #{book.price.toLocaleString()} VNĐ
             p
-              span(class="info-label") Giảm giá:
+              span.info-label Giảm giá:
               |  #{book.discountPercent}%
             p
-              span(class="info-label") Số trang:
+              span.info-label Số trang:
               |  #{book.pageCount}
             p
-              span(class="info-label") Kích thước:
+              span.info-label Kích thước:
               |  #{book.size}
             p
-              span(class="info-label") Ngày xuất bản:
+              span.info-label Ngày xuất bản:
               |  #{book.publishDate ? book.publishDate.toISOString().slice(0,10) : '—'}
 
           .col-md-6
             p
-              span(class="info-label") Tồn kho:
+              span.info-label Tồn kho:
               |  #{book.stockQuantity}
             p
-              span(class="info-label") Đánh giá trung bình:
+              span.info-label Đánh giá trung bình:
               |  #{book.averageRating}
             p
-              span(class="info-label") Lượt đánh giá:
+              span.info-label Lượt đánh giá:
               |  #{book.reviewCount}
             p
-              span(class="info-label") Nhà xuất bản:
+              span.info-label Nhà xuất bản:
               |  #{book.publisher}
             p
-              span(class="info-label") Nhà phân phối:
+              span.info-label Nhà phân phối:
               |  #{book.distributor}
 
-        hr
+        hr.my-4
 
         // --- Phân loại & tình trạng
-        h6(class="section-title") Phân loại & tình trạng
+        h6.section-title.mt-3.mb-3 Phân loại & tình trạng
         .row
           .col-md-6
             p
-              span(class="info-label") Danh mục sách:
+              span.info-label Danh mục sách:
               |  #{categoryName}
             p
-              span(class="info-label") Loại bìa:
+              span.info-label Loại bìa:
               |  #{coverTypeName}
             p
-              span(class="info-label") Tác giả:
+              span.info-label Tác giả:
               |  #{authorName}
 
           .col-md-6
             p
-              span(class="info-label") Trạng thái:
+              span.info-label Trạng thái:
               if book.status === 'active'
-                span(class="badge badge-success ml-1") Hoạt động
+                span.badge.badge-success.ml-1 Hoạt động
               else
-                span(class="badge badge-danger ml-1") Ngừng hoạt động
+                span.badge.badge-danger.ml-1 Ngừng hoạt động
             p
-              span(class="info-label") Vị trí hiển thị:
+              span.info-label Vị trí hiển thị:
               |  #{book.position}
             p
-              span(class="info-label") Người tạo:
+              span.info-label Người tạo:
               |  #{book.accountFullName}
-              span(class="info-label")  - Ngày tạo: 
+              span.info-label.ml-2 | Ngày tạo: 
               +formatDateTime(book.createdBy.createdAt)
-            p
-              if(book.updatedBy.length)
-                span(class="info-label") Cập nhật gần nhất:
-                - const updatedBy = book.updatedBy.slice(-1)[0];
+            if(book.updatedBy.length)
+              - const updatedBy = book.updatedBy.slice(-1)[0];
+              p
+                span.info-label Cập nhật gần nhất:
                 |  #{updatedBy.fullName}
-                span(class="info-label")  - Ngày cập nhật: 
+                span.info-label.ml-2 | Ngày cập nhật: 
                 +formatDateTime(updatedBy.updatedAt)
 
-        hr
+        hr.my-4
 
         // --- Ảnh đại diện
-        h6(class="section-title") Ảnh đại diện
+        h6.section-title.mt-3.mb-3 Ảnh đại diện
         if book.thumbnail
           .d-flex.flex-column.align-items-start.mb-4
-            img(src=book.thumbnail alt="Ảnh đại diện" class="img-thumbnail mb-2 shadow-sm" style="max-width:250px;")
+            img(src=book.thumbnail alt="Ảnh đại diện" class="img-thumbnail mb-2 shadow-sm rounded thumbnail-img")
             a(href=book.thumbnail target="_blank" class="small text-muted")= book.thumbnail
         else
-          p(class="text-muted") Không có ảnh đại diện
+          p.text-muted Không có ảnh đại diện
 
         // --- Ảnh chi tiết
-        h6(class="section-title") Ảnh chi tiết
+        h6.section-title.mt-3.mb-3 Ảnh chi tiết
         if book.images && book.images.length
-          .d-flex.flex-wrap.gap-3
+          .row.row-cols-2.row-cols-md-4.g-3
             each imgItem in book.images
-              .p-2.text-center
-                img(src=imgItem class="img-thumbnail shadow-sm mb-2" style="max-width:140px;")
+              .col
+                img(src=imgItem alt="Ảnh chi tiết" class="img-thumbnail shadow-sm rounded mb-2" style="max-width:160px;")
                 a(href=imgItem target="_blank" class="small text-muted d-block")= imgItem
         else
-          p(class="text-muted") Không có ảnh chi tiết
+          p.text-muted Không có ảnh chi tiết

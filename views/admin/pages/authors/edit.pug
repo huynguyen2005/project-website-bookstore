@@ -1,42 +1,39 @@
 extends ../../layouts/default
-include ../../mixins/alert.pug
+
+block styles
+  link(rel="stylesheet", href="/admin/css/edit.css")
 
 block main
   if (role.permissions.includes("authors_edit"))
-    +alert-success(5000)
-    +alert-error(5000)
+    .card
+      .card-header.d-flex.justify-content-between.align-items-center
+        h5.mb-0 Chỉnh sửa tác giả
 
-    div(class="card")
-      div(class="card-header d-flex justify-content-between align-items-center")
-        h5(class="mb-0") Sửa tác giả
-        div(class="d-flex align-items-center gap-2")
-          a(href=`${prefixAdmin}/authors` class="btn btn-outline-secondary") Quay lại danh sách
-          button(type="submit" form="form-author" class="btn btn-primary")
-            i(class="bi bi-check-lg mr-1")
-            | Cập nhật
+      .card-body
+        form(
+          action=`${prefixAdmin}/authors/edit/${record._id}?_method=PATCH`
+          method="POST"
+        )
 
-      div(class="card-body")
-        form(id="form-author" action=`${prefixAdmin}/authors/edit/${record._id}?_method=PATCH` method="POST")
-          div(class="card")
-            div(class="card-header bg-light text-dark font-weight-semibold") Thông tin tác giả
-            div(class="card-body")
+          // --- Tên tác giả ---
+          .form-group
+            label(for="fullName") Tên tác giả
+            input#fullName.form-control(
+              type="text"
+              name="fullName"
+              placeholder="Nhập tên tác giả"
+              required
+              value=record.fullName
+            )
 
-              div(class="form-group")
-                label Tên tác giả *
-                input(
-                  type="text"
-                  name="title"
-                  class="form-control"
-                  placeholder="Nhập tên tác giả"
-                  required
-                  value=record.fullName
-                )
+          // --- Mô tả ---
+          .form-group
+            label(for="description") Mô tả
+            textarea#description.form-control(
+              name="description"
+              rows="3"
+              placeholder="Nhập mô tả về tác giả"
+            )= record.description
 
-              div(class="form-group")
-                label Mô tả
-                textarea(
-                  name="description"
-                  rows="3"
-                  class="form-control"
-                  placeholder="Nhập mô tả (nếu có)"
-                )= record.description
+          button.btn.btn-primary.mt-3(type="submit") Cập nhật
+

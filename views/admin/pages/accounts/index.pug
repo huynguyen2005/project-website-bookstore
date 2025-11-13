@@ -1,19 +1,19 @@
 extends ../../layouts/default
 include ../../mixins/pagination.pug
 include ../../mixins/search.pug
-include ../../mixins/alert.pug
 include ../../mixins/formatDateTime.pug
+include ../../mixins/alert.pug
 
 block main
+  +alert-success(5000)
+  +alert-error(5000)
   if (role.permissions.includes("accounts_view"))
-    +alert-success(5000)
-    +alert-error(5000)
     div(class="card")
       div(class="card-header d-flex justify-content-between align-items-center")
         h5(class="mb-0") Danh sách tài khoản
         div(class="d-flex align-items-center")
           if (role.permissions.includes("accounts_create"))
-            a(href=`${prefixAdmin}/accounts/create` class="btn btn-primary mr-2") + Thêm tài khoản
+            a(href=`${prefixAdmin}/accounts/create` class="btn btn-primary mr-2") + Thêm mới
 
       div(class="card-body")
         div(class="d-flex align-items-center mb-3 flex-wrap gap-2")
@@ -28,7 +28,7 @@ block main
               each record in records
                 option(value=record.id)= record.title
             button(class="btn btn-outline-secondary" type="submit") Lọc
-            button(class="btn btn-outline-secondary" type="button" btn-clear-filter) Clear
+            button.btn.btn-outline-secondary.ml-2(type="button" btn-clear-filter) Clear
 
         table(class="table table-hover table-bordered align-middle" check-box-multi)
           thead(class="thead-light")
@@ -76,8 +76,8 @@ block main
                     else
                       span(class="badge-status badge-inactive") Ngừng hoạt động
                   td
-                    p #{account.accountFullName}
-                    p
+                    p.mb-1 #{account.accountFullName}
+                    p.mb-1
                       +formatDateTime(account.createdBy.createdAt)
             else
               tr

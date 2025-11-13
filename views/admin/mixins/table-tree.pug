@@ -48,8 +48,8 @@ mixin table-tree(items, level = 1)
       // Người tạo
       td
         if item.accountFullName
-          p #{item.accountFullName}
-          p 
+          p.mb-1 #{item.accountFullName}
+          p.mb-1
             +formatDateTime(item.createdBy.createdAt)
 
         else

@@ -1,12 +1,11 @@
 extends ../../layouts/default
 include ../../mixins/select-tree.pug
-include ../../mixins/alert.pug
 
+block styles
+  link(rel="stylesheet", href="/admin/css/edit.css")
+  
 block main
   if (role.permissions.includes("books_edit"))
-    +alert-success(5000)
-    +alert-error(5000)
-
     .card
       .card-header.d-flex.justify-content-between.align-items-center
         h5.mb-0 Chỉnh sửa sách
@@ -27,7 +26,6 @@ block main
               placeholder="Nhập tên sách"
               value=book.bookName
             )
-
           // --- Nổi bật ---
           .form-group
             label(for="featured") Nổi bật
@@ -39,7 +37,7 @@ block main
                   value="1"
                   checked=(book.featured == 1)
                 )
-                label.form-check-label(for="featured1") Nổi bật
+                form-check-label(for="featured1") Nổi bật
               .form-check.form-check-inline
                 input#featured0.form-check-input(
                   type="radio"
@@ -47,7 +45,7 @@ block main
                   value="0"
                   checked=(book.featured == 0)
                 )
-                label.form-check-label(for="featured0") Không
+                form-check-label(for="featured0") Không
 
           // --- Mô tả ---
           .form-group
@@ -58,130 +56,125 @@ block main
               placeholder="Nhập mô tả..."
             )= book.description
 
-          // --- Giá (VNĐ) ---
-          .form-group
-            label(for="price") Giá (VNĐ)
-            input#price.form-control(
-              type="number"
-              name="price"
-              min="0"
-              placeholder="VD: 170000"
-              value=book.price
-            )
+          // --- Giá và Giảm giá ---
+          .form-row
+            .form-group.col-md-6
+              label(for="price") Giá (VNĐ)
+              input#price.form-control(
+                type="number"
+                name="price"
+                min="0"
+                placeholder="VD: 170000"
+                value=book.price
+              )
+            .form-group.col-md-6
+              label(for="discountPercent") Giảm giá (%)
+              input#discountPercent.form-control(
+                type="number"
+                name="discountPercent"
+                min="0"
+                max="100"
+                placeholder="VD: 10"
+                value=book.discountPercent
+              )
 
-          // --- Giảm giá (%) ---
-          .form-group
-            label(for="discountPercent") Giảm giá (%)
-            input#discountPercent.form-control(
-              type="number"
-              name="discountPercent"
-              min="0"
-              max="100"
-              placeholder="VD: 10"
-              value=book.discountPercent
-            )
+          // --- Kích thước & Ngày xuất bản ---
+          .form-row
+            .form-group.col-md-6
+              label(for="size") Kích thước
+              input#size.form-control(
+                type="text"
+                name="size"
+                placeholder="VD: 14x20cm"
+                value=book.size
+              )
+            .form-group.col-md-6
+              label(for="publishDate") Ngày xuất bản
+              input#publishDate.form-control(
+                type="date"
+                name="publishDate"
+                value=(book.publishDate ? book.publishDate.toISOString().slice(0, 10) : '')
+              )
 
-          // --- Kích thước ---
-          .form-group
-            label(for="size") Kích thước
-            input#size.form-control(
-              type="text"
-              name="size"
-              placeholder="VD: 14x20cm"
-              value=book.size
-            )
+          // --- Số trang & Số lượng ---
+          .form-row
+            .form-group.col-md-6
+              label(for="pageCount") Số trang
+              input#pageCount.form-control(
+                type="number"
+                name="pageCount"
+                min="0"
+                value=book.pageCount
+              )
+            .form-group.col-md-6
+              label(for="stockQuantity") Số lượng tồn kho
+              input#stockQuantity.form-control(
+                type="number"
+                name="stockQuantity"
+                min="0"
+                value=book.stockQuantity
+              )
 
-          // --- Ngày xuất bản ---
-          .form-group
-            label(for="publishDate") Ngày xuất bản
-            input#publishDate.form-control(
-              type="date"
-              name="publishDate"
-              value=(book.publishDate ? book.publishDate.toISOString().slice(0, 10) : '')
-            )
+          // --- Đánh giá trung bình & Lượt đánh giá ---
+          .form-row
+            .form-group.col-md-6
+              label(for="averageRating") Đánh giá trung bình
+              input#averageRating.form-control(
+                type="number"
+                step="0.1"
+                name="averageRating"
+                placeholder="VD: 4.0"
+                value=book.averageRating
+              )
+            .form-group.col-md-6
+              label(for="reviewCount") Lượt đánh giá
+              input#reviewCount.form-control(
+                type="number"
+                name="reviewCount"
+                placeholder="VD: 5000"
+                value=book.reviewCount
+              )
 
-          // --- Số trang ---
-          .form-group
-            label(for="pageCount") Số trang
-            input#pageCount.form-control(
-              type="number"
-              name="pageCount"
-              min="0"
-              value=book.pageCount
-            )
+          // --- Nhà xuất bản & Nhà phân phối ---
+          .form-row
+            .form-group.col-md-6
+              label(for="publisher") Nhà xuất bản
+              input#publisher.form-control(
+                type="text"
+                name="publisher"
+                placeholder="VD: NXB Trẻ"
+                value=book.publisher
+              )
+            .form-group.col-md-6
+              label(for="distributor") Nhà phân phối
+              input#distributor.form-control(
+                type="text"
+                name="distributor"
+                placeholder="VD: Alpha Books"
+                value=book.distributor
+              )
 
-          // --- Số lượng tồn kho ---
-          .form-group
-            label(for="stockQuantity") Số lượng tồn kho
-            input#stockQuantity.form-control(
-              type="number"
-              name="stockQuantity"
-              min="0"
-              value=book.stockQuantity
-            )
+          // --- Tác giả & Loại bìa ---
+          .form-row
+            .form-group.col-md-6
+              label(for="author_id") Tác giả
+              select#author_id.form-control(name="author_id")
+                option(value="") -- Chọn tác giả --
+                each author in authors
+                  option(
+                    value=author._id
+                    selected=(author.id === book.author_id)
+                  ) #{author.fullName}
 
-          // --- Đánh giá trung bình ---
-          .form-group
-            label(for="averageRating") Đánh giá trung bình
-            input#averageRating.form-control(
-              type="number"
-              step="0.1"
-              name="averageRating"
-              placeholder="VD: 4.0"
-              value=book.averageRating
-            )
-
-          // --- Lượt đánh giá ---
-          .form-group
-            label(for="reviewCount") Lượt đánh giá
-            input#reviewCount.form-control(
-              type="number"
-              name="reviewCount"
-              placeholder="VD: 5000"
-              value=book.reviewCount
-            )
-
-          // --- Nhà xuất bản ---
-          .form-group
-            label(for="publisher") Nhà xuất bản
-            input#publisher.form-control(
-              type="text"
-              name="publisher"
-              placeholder="VD: NXB Trẻ"
-              value=book.publisher
-            )
-
-          // --- Nhà phân phối ---
-          .form-group
-            label(for="distributor") Nhà phân phối
-            input#distributor.form-control(
-              type="text"
-              name="distributor"
-              placeholder="VD: Alpha Books"
-              value=book.distributor
-            )
-
-          // --- Tác giả ---
-          .form-group
-            label(for="author_id") Tác giả
-            select#author_id.form-control(name="author_id")
-              option(value="") -- Chọn tác giả --
-              each author in authors
-                option(
-                  value=author._id
-                  selected=(author.id === book.author_id)
-                ) #{author.fullName}
-
-          // --- Loại bìa ---
-          .form-group
-            label(for="coverType_id") Loại bìa
-            select#coverType_id.form-control(name="coverType_id")
-              option(value="") -- Chọn loại bìa --
-              each coverType in coverTypes
-                option(
-                  value=coverType._id
-                  selected=(coverType.id === book.coverType_id)
-                ) #{coverType.title}
+            .form-group.col-md-6
+              label(for="coverType_id") Loại bìa
+              select#coverType_id.form-control(name="coverType_id")
+                option(value="") -- Chọn loại bìa --
+                each coverType in coverTypes
+                  option(
+                    value=coverType._id
+                    selected=(coverType.id === book.coverType_id)
+                  ) #{coverType.title}
 
           // --- Danh mục sách ---
           .form-group
@@ -194,50 +187,59 @@ block main
           .form-group(upload-image)
             label(for="thumbnail") Ảnh đại diện
             .d-flex.align-items-center.gap-2
-              input#thumbnail.form-control-file(
+              label(for="thumbnail" class="btn btn-success d-flex align-items-center gap-2 m-0 px-3 py-2")
+                i(class="bi bi-upload")
+                span Chọn tệp
+              input#thumbnail.d-none(
                 type="file"
                 name="thumbnail"
                 accept="image/*"
                 upload-image-input
+                onchange="previewSingleImage(event)"
               )
-              span.btn-close(style="cursor:pointer; font-weight:bold;")
-            img.image-preview.mt-2(
-              src=book.thumbnail
-              upload-image-preview
-            )
+            // Khu vực hiển thị ảnh đại diện
+            .mt-2#preview-thumbnail.d-flex.flex-wrap.gap-2
+              if book.thumbnail
+                img.image-preview(src=book.thumbnail)
 
           // --- Ảnh chi tiết ---
-          .form-group(upload-images)
+          .form-group
             label(for="images") Ảnh chi tiết
             .d-flex.align-items-center.gap-2
-              input#images.form-control-file(
+              label(for="images" class="btn btn-success d-flex align-items-center gap-2 m-0 px-3 py-2")
+                i(class="bi bi-upload")
+                span Chọn tệp
+              input#images.d-none(
                 type="file"
                 name="images"
                 accept="image/*"
                 upload-images-input
                 multiple
+                onchange="previewMultipleImages(event)" 
               )
-              span(style="cursor:pointer; font-weight:bold;")
-            .mt-2(preview-box)
+            // Khu vực hiển thị ảnh
+            .mt-2#preview-container.d-flex.flex-wrap.gap-2
               each image in book.images
                 img.image-preview(src=image)
 
-          // --- Vị trí hiển thị ---
-          .form-group
-            label(for="position") Vị trí hiển thị
-            input#position.form-control(
-              type="number"
-              name="position"
-              min="1"
-              placeholder="Tự động tăng"
-              value=book.position
-            )
+          // --- Vị trí & Trạng thái ---
+          .form-row
+            .form-group.col-md-6
+              label(for="position") Vị trí hiển thị
+              input#position.form-control(
+                type="number"
+                name="position"
+                min="1"
+                placeholder="Tự động tăng"
+                value=book.position
+              )
+            .form-group.col-md-6
+              label(for="status") Trạng thái
+              select#status.form-control(name="status")
+                option(value="active" selected=(book.status === "active")) Hoạt động
+                option(value="inactive" selected=(book.status === "inactive")) Ngừng hoạt động
 
-          // --- Trạng thái ---
-          .form-group
-            label(for="status") Trạng thái
-            select#status.form-control(name="status")
-              option(value="active" selected=(book.status === "active")) Hoạt động
-              option(value="inactive" selected=(book.status === "inactive")) Ngừng hoạt động
+          button.btn.btn-primary.mt-3(type="submit") Cập nhật
 
-          button.btn.btn-primary.mt-3(type="submit") Chỉnh sửa
+  //- block scripts
+  //- script(type="application/javascript" src="https://cdn.tiny.cloud/1/0bzmmjbf9dmxhanhkzanji4a4lqzirecteyi89dup2z4hgmj/tinymce/6/tinymce.min.js" referrerpolicy="origin")

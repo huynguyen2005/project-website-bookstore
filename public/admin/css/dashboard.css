@@ -1,0 +1,91 @@
+/* === Dashboard CSS === */
+
+.dashboard-card {
+    border-radius: 12px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    background: #fff;
+}
+
+/* Chỉ áp dụng cho hàng có class .row-equal */
+.row-equal {
+    display: flex;
+    align-items: stretch;
+}
+
+.row-equal>[class*="col-"] {
+    display: flex;
+    flex-direction: column;
+}
+
+.row-equal .dashboard-card,
+.row-equal .chart-container {
+    flex-grow: 1;
+}
+
+.stat-card {
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.stat-card:hover {
+    transform: translateY(-1.5px);
+}
+
+.card-title {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 2px;
+}
+
+.card-value {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.section-title {
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.chart-container {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+}
+
+/* === Dịch phần main lên trên cho cân đối với header === */
+.container-fluid {
+    margin-top: -10px;
+    margin-left: -10px;
+}
+
+/* === Icon trong các ô thống kê khách hàng === */
+.customer-stat i {
+    font-size: 22px;
+    margin-bottom: 6px;
+    color: #5E17EB;
+}
+
+#timeType,
+#daySelect,
+#monthSelect,
+#yearSelect {
+    border-radius: 6px;
+    padding: 2px 6px;
+    font-size: 14px;
+    height: 32px;
+    color: #333;
+}
+
+.d-flex.gap-2 select {
+    margin-left: 4px;
+}
+
+.chart-container {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+}

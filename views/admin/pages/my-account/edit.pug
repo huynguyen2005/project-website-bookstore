@@ -1,6 +1,9 @@
 extends ../../layouts/default
 include ../../mixins/alert.pug
 
+block styles
+  link(rel="stylesheet", href="/admin/css/edit-account.css")
+
 block main
   +alert-success(5000)
   +alert-error(5000)
@@ -8,12 +11,9 @@ block main
   div(class="card")
     div(class="card-header d-flex justify-content-between align-items-center")
       h5(class="mb-0") Chỉnh sửa thông tin cá nhân
-      a(
-        href=`${prefixAdmin}/my-account`
-        class="btn btn-secondary btn-sm"
-      )
+      a(class="btn btn-back btn-sm" href=`${prefixAdmin}/my-account`)
         i(class="bi bi-arrow-left mr-1")
-        | Quay lại
+        span Quay lại
 
     div(class="card-body")
       form(
@@ -23,59 +23,71 @@ block main
       )
 
         // --- Ảnh đại diện ---
-        div(class="form-group mb-4" upload-image)
-            label(for="thumbnail") Ảnh đại diện
-            div(class="d-flex align-items-center gap-2")
-                input(
-                    type="file"
-                    class="form-control-file"
-                    id="thumbnail"
-                    name="thumbnail"
-                    accept="image/*"
-                    upload-image-input
-                )
-                span(
-                    btn-close
-                    style="cursor:pointer; font-weight:bold;"
-                ) 
-            img(
-                src=user.thumbnail ? user.thumbnail : ""
-                class="image-preview"
-                upload-image-preview
+        .div.form-group.mb-4(upload-image)
+          label(for="thumbnail") Ảnh đại diện
+
+          // Nút chọn file kiểu sách
+          .d-flex.align-items-center.gap-2
+            label.btn.btn-success.d-flex.align-items-center.gap-2.m-0.px-3.py-2(for="thumbnail")
+              i.bi.bi-upload
+              span Chọn tệp
+
+            // Input file ẩn
+            input#thumbnail.d-none(
+              type="file"
+              name="thumbnail"
+              accept="image/*"
+              upload-image-input
             )
-          
 
-        // --- Họ và tên ---
-        div(class="form-group")
-          label(for="fullName") Họ và tên
-          input#fullName.form-control(
-            type="text"
-            name="fullName"
-            required
-            placeholder="Nhập họ và tên"
-            value=user.fullName
+          // Preview ảnh
+          img.image-preview(
+            src=user.thumbnail ? user.thumbnail : ""
+            upload-image-preview
           )
 
-        // --- Email ---
-        div(class="form-group")
-          label(for="email") Email
-          input#email.form-control(
-            type="email"
-            name="email"
-            required
-            placeholder="Nhập email"
-            value=user.email
-          )
+        .form-row
+          // --- Họ và tên ---
+          .form-group.col-md-6
+            label(for="fullName") Họ và tên
+            input#fullName.form-control(
+              type="text"
+              name="fullName"
+              required
+              placeholder="Nhập họ và tên"
+              value=user.fullName
+            )
 
-        // --- Số điện thoại ---
-        div(class="form-group")
-          label(for="phone") Số điện thoại
-          input#phone.form-control(
-            type="text"
-            name="phone"
-            placeholder="Nhập số điện thoại"
-            value=user.phone
-          )
+          // --- Email ---
+          .form-group.col-md-6
+            label(for="email") Email
+            input#email.form-control(
+              type="email"
+              name="email"
+              required
+              placeholder="Nhập email"
+              value=user.email
+            )
+
+        .form-row
+          // --- Số điện thoại ---
+          .form-group.col-md-6
+            label(for="phone") Số điện thoại
+            input#phone.form-control(
+              type="text"
+              name="phone"
+              placeholder="Nhập số điện thoại"
+              value=user.phone
+            )
+
+          // --- Ngày sinh ---
+          .form-group.col-md-6
+            label(for="birthday") Ngày sinh
+            input#birthday.form-control(
+              type="date"
+              name="birthday"
+              value=user.birthday ? user.birthday : ''
+            )
 
         // --- Địa chỉ ---
         div(class="form-group")
@@ -87,15 +99,5 @@ block main
             value=user.address
           )
 
-        // --- Ngày sinh ---
-        div(class="form-group")
-          label(for="birthday") Ngày sinh
-          input#birthday.form-control(
-            type="date"
-            name="birthday"
-            value=user.birthday ? user.birthday : ''
-          )
-
         button.btn.btn-primary.mt-3(type="submit")
-          i(class="bi bi-check-circle mr-1")
           | Cập nhật

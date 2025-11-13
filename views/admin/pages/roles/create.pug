@@ -1,33 +1,43 @@
 extends ../../layouts/default
 include ../../mixins/alert.pug
+block styles
+  link(rel="stylesheet" href="/admin/css/create.css")
 
 block main
+  +alert-success(5000)
+  +alert-error(5000)
   if(role.permissions.includes("roles_create"))
-    +alert-success(5000)
-    +alert-error(5000)
+    .card
+      .card-header.d-flex.justify-content-between.align-items-center
+        h5.mb-0 Thêm nhóm quyền mới
 
-    div(class="card")
-      div(class="card-header d-flex justify-content-between align-items-center")
-        h5(class="mb-0") Thêm nhóm quyền
-        div(class="d-flex align-items-center gap-2")
-          a(href=`${prefixAdmin}/roles` class="btn btn-outline-secondary") Quay lại danh sách
-          button(type="submit" form="form-role" class="btn btn-primary")
-            i(class="bi bi-plus-lg mr-1")
+      .card-body
+        form(
+          id="form-role"
+          action=`${prefixAdmin}/roles/create`
+          method="POST"
+        )
+
+          // --- Tên nhóm quyền ---
+          .form-group
+            label(for="title") Tên nhóm quyền
+            input#title.form-control(
+              type="text"
+              name="title"
+              placeholder="Nhập tên nhóm quyền"
+              required
+            )
+
+          // --- Mô tả ngắn ---
+          .form-group
+            label(for="description") Mô tả ngắn
+            input#description.form-control(
+              type="text"
+              name="description"
+              placeholder="Nhập mô tả ngắn về nhóm quyền (nếu có)"
+            )
+
+          // --- Nút hành động ---
+          button.btn.btn-primary.mt-3(type="submit")
             | Thêm mới
 
-      div(class="card-body")
-        form(id="form-role" action=`${prefixAdmin}/roles/create` method="POST")
-          div(class="card")
-            div(class="card-header bg-light text-dark font-weight-semibold") Thông tin nhóm quyền
-            div(class="card-body")
-              // Nhóm quyền
-              div(class="form-group row align-items-center mb-3")
-                label(class="col-sm-3 col-form-label") Nhóm quyền *
-                div(class="col-sm-9")
-                  input(type="text" name="title" class="form-control" placeholder="Nhập tên nhóm quyền" required)
-
-              // Mô tả ngắn
-              div(class="form-group row align-items-center mb-3")
-                label(class="col-sm-3 col-form-label") Mô tả ngắn
-                div(class="col-sm-9")
-                  input(type="text" name="description" class="form-control" placeholder="Nhập mô tả ngắn")

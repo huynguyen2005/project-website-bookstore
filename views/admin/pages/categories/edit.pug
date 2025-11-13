@@ -1,11 +1,11 @@
 extends ../../layouts/default
 include ../../mixins/select-tree.pug
-include ../../mixins/alert.pug
+
+block styles
+  link(rel="stylesheet", href="/admin/css/edit.css")
 
 block main
   if(role.permissions.includes("book-category_edit"))
-    +alert-success(5000)  
-    +alert-error(5000)
     div(class="card")
       div(class="card-header d-flex justify-content-between align-items-center")
         h5(class="mb-0") Chỉnh sửa danh mục
@@ -29,50 +29,50 @@ block main
               value=category.title
             )
 
-          // --- Mô tả ---
-          div(class="form-group")
-            label(for="description") Mô tả
-            textarea(
-              id="description"
-              class="form-control"
-              name="description"
-              rows="3"
-              placeholder="Nhập mô tả danh mục..."
-            ) #{category.description}
+          // --- Form chia 2 cột ngang ---
+          .row
+            .col-12
+              // --- Mô tả ---
+              .form-group
+                label(for="description") Mô tả
+                textarea#description.form-control(
+                  name="description"
+                  rows="3"
+                  placeholder="Nhập mô tả danh mục..."
+                ) #{category.description}
 
-          // --- Danh mục cha ---
-          div(class="form-group")
-            label(for="parent_id") Danh mục cha
-            select(
-              id="parent_id"
-              class="form-control"
-              name="parent_id"
-            )
-              option(value="") --Chọn danh mục cha--
-              +select-tree-edit(bookCategories, 1, category.parent_id)
+            // --- Danh mục cha ---    
+            .col-12
+              .form-group
+                label(for="parent_id") Danh mục cha
+                select#parent_id.form-control(name="parent_id")
+                  option(value="") --Chọn danh mục cha--
+                  +select-tree-edit(bookCategories, 1, category.parent_id)
 
-          // --- Vị trí hiển thị ---
-          div(class="form-group")
-            label(for="position") Vị trí hiển thị
-            input(
-              id="position"
-              class="form-control"
-              type="number"
-              name="position"
-              min="1"
-              placeholder="VD: 1"
-              value=category.position
-            )
+          // --- Hàng con mới cho Vị trí hiển thị + Trạng thái ---
+          .row.mt-3
+            // Vị trí hiển thị
+            .col-md-6
+              .form-group
+                label(for="position") Vị trí hiển thị
+                input#position.form-control(
+                  type="number"
+                  name="position"
+                  min="1"
+                  placeholder="VD: 1"
+                  value=category.position
+                )
 
-          // --- Trạng thái ---
-          div(class="form-group")
-            label(for="status") Trạng thái
-            select(
-              id="status"
-              class="form-control"
-              name="status"
-            )
-              option(value="active" selected=category.status==="active") Hoạt động
-              option(value="inactive" selected=category.status==="inactive") Ngừng hoạt động
+              // --- Trạng thái ---
+            .col-md-6
+              .form-group
+                label(for="status") Trạng thái
+                select#status.form-control(name="status")
+                  option(value="active" selected=category.status==="active") Hoạt động
+                  option(value="inactive" selected=category.status==="inactive") Ngừng hoạt động
 
-          button(class="btn btn-primary" type="submit") Chỉnh sửa
+          button(class="btn btn-primary" type="submit") Cập nhật
+  //- block scripts
+  //- script(type="application/javascript" src="https://cdn.tiny.cloud/1/0bzmmjbf9dmxhanhkzanji4a4lqzirecteyi89dup2z4hgmj/tinymce/6/tinymce.min.js" referrerpolicy="origin")
+
+

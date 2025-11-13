@@ -1,32 +1,38 @@
 extends ../../layouts/default
-include ../../mixins/alert.pug
+
+block styles
+  link(rel="stylesheet" href="/admin/css/create.css")
 
 block main
-  if(role.permissions.includes("cover-types_create"))
-    +alert-success(5000)
-    +alert-error(5000)
+  if (role.permissions.includes("cover-types_create"))
+    .card
+      .card-header.d-flex.justify-content-between.align-items-center
+        h5.mb-0 Thêm loại bìa
 
-    div(class="card")
-      div(class="card-header d-flex justify-content-between align-items-center")
-        h5(class="mb-0") Thêm loại bìa
-        div(class="d-flex align-items-center gap-2")
-          a(href=`${prefixAdmin}/cover-types` class="btn btn-outline-secondary") Quay lại danh sách
-          button(type="submit" form="form-cover-type" class="btn btn-primary")
-            i(class="bi bi-plus-lg mr-1")
+      .card-body
+        form#form-cover-type(action=`${prefixAdmin}/cover-types/create` method="POST")
+
+          // --- Tên loại bìa ---
+          .form-group
+            label(for="title") Tên loại bìa
+            input#title.form-control(
+              type="text"
+              name="title"
+              placeholder="Nhập tên loại bìa"
+              required
+            )
+
+          // --- Mô tả ---
+          .form-group
+            label(for="description") Mô tả
+            textarea#description.form-control(
+              name="description"
+              rows="3"
+              placeholder="Nhập mô tả về loại bìa (nếu có)"
+            )
+
+          button.btn.btn-primary.mt-3(type="submit")
             | Thêm mới
 
-      div(class="card-body")
-        form(id="form-cover-type" action=`${prefixAdmin}/cover-types/create` method="POST")
-          div(class="card")
-            div(class="card-header bg-light text-dark font-weight-semibold") Thông tin loại bìa
-            div(class="card-body")
-
-              div(class="form-group row align-items-center mb-3")
-                label(class="col-sm-3 col-form-label") Tên loại bìa *
-                div(class="col-sm-9")
-                  input(type="text" name="title" class="form-control" placeholder="Nhập tên loại bìa" required)
-
-              div(class="form-group row align-items-center mb-3")
-                label(class="col-sm-3 col-form-label") Mô tả
-                div(class="col-sm-9")
-                  textarea(name="description" rows="3" class="form-control" placeholder="Nhập mô tả (nếu có)")
+  //- block scripts
+  //- script(type="application/javascript" src="https://cdn.tiny.cloud/1/0bzmmjbf9dmxhanhkzanji4a4lqzirecteyi89dup2z4hgmj/tinymce/6/tinymce.min.js" referrerpolicy="origin")

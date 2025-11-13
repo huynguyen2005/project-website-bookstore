@@ -1,0 +1,36 @@
+form label {
+  font-weight: 600; /* Đậm hơn bình thường */
+  color: #161515;   /* Màu xanh đậm nhẹ, bạn có thể đổi */
+  display: block;
+}
+
+.image-container {
+  position: relative;
+  display: inline-block;
+}
+
+.image-container img {
+  width: 100px;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin: 4px;
+}
+
+.image-container .btn-remove {
+  position: absolute;
+  top: -2px;
+  right: -2px;      
+  background: #5b5959;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

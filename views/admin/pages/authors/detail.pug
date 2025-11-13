@@ -8,10 +8,10 @@ block main
   if (role.permissions.includes("authors_view"))
     .card.card-custom
       .card-header.card-header-custom.d-flex.justify-content-between.align-items-center
-        h5(class="mb-0 font-weight-bold") Chi tiết tác giả
+        h5(class="mb-0") Chi tiết tác giả
         a(class="btn btn-back btn-sm" href=`${prefixAdmin}/authors`)
           i(class="bi bi-arrow-left mr-1")
-          | Quay lại
+          span Quay lại
 
       .card-body
         // --- Tên tác giả
@@ -33,7 +33,7 @@ block main
               span(class="info-label") Người tạo:
               |  #{record.accountFullName || '—'}
             p
-              span(class="info-label") Ngày tạo:
+              span(class="info-label") Ngày tạo: 
               +formatDateTime(record.createdBy.createdAt)
 
           if record.updatedBy.length
@@ -43,5 +43,5 @@ block main
                 span(class="info-label") Người cập nhật:
                 |  #{lastUpdate.fullName || '—'}
               p
-                span(class="info-label") Cập nhật gần nhất:
+                span(class="info-label") Cập nhật gần nhất: 
                 +formatDateTime(lastUpdate.updateAt)

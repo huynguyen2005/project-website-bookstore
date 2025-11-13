@@ -158,7 +158,7 @@ module.exports.editAccount = async (req, res) => {
                 $push: { updatedBy: updatedBy }
             });
             req.flash("success", "Cập nhật tài khoản thành công");
-            res.redirect(`${systemConfig.prefixAdmin}/accounts/edit/${id}`);
+            res.redirect(`${systemConfig.prefixAdmin}/accounts`);
         }
     } catch (error) {
         req.flash("error", "Cập nhật tài khoản thất bại");

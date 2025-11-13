@@ -8,10 +8,10 @@ block main
   if(role.permissions.includes("book-category_view"))
     div(class="card card-custom")
       div(class="card-header card-header-custom d-flex justify-content-between align-items-center")
-        h5(class="mb-0 font-weight-bold") Chi tiết danh mục
+        h5(class="mb-0") Chi tiết danh mục
         a(class="btn btn-back btn-sm" href=`${prefixAdmin}/categories`)
           i(class="bi bi-arrow-left mr-1")
-          | Quay lại
+          span Quay lại
 
       div(class="card-body")
         // --- Tên danh mục ---
@@ -28,7 +28,7 @@ block main
         // --- Thông tin cơ bản ---
         h6(class="section-title") Thông tin cơ bản
         div(class="row")
-          div(class="col-md-6")
+          div(class="col-md-12")
             p
               span(class="info-label") Danh mục cha:
               |  
@@ -36,7 +36,6 @@ block main
                 | #{parentCategory}
               else
                 | Không có (danh mục gốc)
-          div(class="col-md-6")
             p
               span(class="info-label") Vị trí hiển thị:
               |  #{category.position}
@@ -59,7 +58,7 @@ block main
             p
               span(class="info-label") Người tạo:
               |  #{category.accountFullName}
-              span(class="info-label")  - Ngày tạo: 
+              span(class="info-label ml-1")  | Ngày tạo: 
               +formatDateTime(category.createdBy.createdAt)
           div(class="col-md-6")
             p
@@ -67,5 +66,5 @@ block main
                 span(class="info-label") Cập nhật gần nhất:
                 - const updatedBy = category.updatedBy.slice(-1)[0];
                 |  #{updatedBy.fullName}
-                span(class="info-label")  - Ngày cập nhật: 
+                span(class="info-label ml-1")  | Ngày cập nhật: 
                 +formatDateTime(updatedBy.updatedAt)

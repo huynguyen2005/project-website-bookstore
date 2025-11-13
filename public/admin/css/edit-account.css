@@ -1,0 +1,40 @@
+form label {
+  font-weight: 600; /* Đậm hơn bình thường */
+  color: #161515;   /* Màu xanh đậm nhẹ, bạn có thể đổi */
+  display: block;
+}
+
+.btn-edit {
+  background-color: #006eff;
+  color: white;
+}
+.btn-edit:hover {
+  background-color: #0077ffd4;
+  color: white;
+}
+
+/*Nút quay lại */
+.btn-back i {
+  color: #fff; 
+}
+
+.btn-back {
+  background-color: #253a62;
+  color: #fff;
+  border: none;
+}
+
+.btn-back:hover span{
+  color: #5a98f7;
+}
+
+.btn-back:hover i {
+  color: #fff;            
+}
+
+/* xóa viền xanh*/
+.btn-back:focus,
+.btn-back:active {
+  outline: none ;
+  box-shadow: none;
+}

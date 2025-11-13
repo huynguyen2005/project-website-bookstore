@@ -245,10 +245,10 @@ module.exports.editBook = async (req, res) => {
             $push: { updatedBy: updatedBy }
         });
         req.flash('success', 'Sửa sách thành công');
-        res.redirect(`${systemConfig.prefixAdmin}/books/edit/${id}`);
+        res.redirect(`${systemConfig.prefixAdmin}/books`);
     } catch (error) {
         req.flash('error', 'Sửa sách thất bại');
-        res.redirect(`${systemConfig.prefixAdmin}/books`);
+        res.redirect(`${systemConfig.prefixAdmin}/books/edit/${id}`);
     }
 };
 

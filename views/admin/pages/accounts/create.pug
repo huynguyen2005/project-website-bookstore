@@ -1,28 +1,12 @@
 extends ../../layouts/default
-include ../../mixins/alert.pug
 
 block main
-  +alert-success(5000)
-  +alert-error(5000)
-
   form(action=`${prefixAdmin}/accounts/create` method="POST" enctype="multipart/form-data")
     div(class="card")
       div(class="card-header d-flex justify-content-between align-items-center")
         h5(class="mb-0") Thêm tài khoản
-        a(class="btn btn-outline-secondary" href=`${prefixAdmin}/accounts`) Quay lại danh sách
 
       div(class="card-body")
-        ul(class="nav nav-tabs mb-3" role="tablist" style="border-bottom:2px solid #f0f0f5;")
-          li(class="nav-item")
-            a(class="nav-link active fw-semibold"
-              href="javascript:;"
-              data-bs-toggle="tab"
-              role="tab"
-              style="color:#4a6cf7; border:none; border-bottom:3px solid #4a6cf7; background:none;"
-            )
-              i(class="bi bi-person-fill me-1" style="color:#4a6cf7;")
-              | Thông tin tài khoản
-
         div(class="tab-content")
           div(class="tab-pane fade show active" id="account-info" role="tabpanel")
             h6(class="mb-3 fw-bold") Thông tin tài khoản
@@ -51,15 +35,25 @@ block main
                   each role in roles
                     option(value=role._id) #{role.title}
 
-            div(class="form-group row mb-3 align-items-center")
-              label(for="status" class="col-sm-2 col-form-label mb-0") Trạng thái
-              div(class="col-sm-10 d-flex align-items-center")
-                div(class="form-check me-3")
-                  input(class="form-check-input" type="radio" name="status" id="active" value="active" checked)
-                  label(class="form-check-label" for="active") Hoạt động
-                div(class="form-check")
-                  input(class="form-check-input" type="radio" name="status" id="inactive" value="inactive")
-                  label(class="form-check-label" for="inactive") Dừng hoạt động
+        .form-group
+          label(for="status") Trạng thái
+          .d-flex.align-items-center.gap-4
+            .form-check.form-check-inline
+              input#active.form-check-input(
+                type="radio"
+                name="status"
+                value="active"
+                checked=(account ? account.status === "active" : true)
+              )
+              label.form-check-label(for="active") Hoạt động
+            .form-check.form-check-inline
+              input#inactive.form-check-input(
+                type="radio"
+                name="status"
+                value="inactive"
+                checked=(account ? account.status === "inactive" : false)
+              )
+              label.form-check-label(for="inactive") Dừng hoạt động
 
         hr(class="my-4")
 
@@ -85,12 +79,38 @@ block main
           div(class="col-sm-10")
             input(id="birthday" class="form-control" type="date" name="birthday")
 
-        div(class="form-group row mb-3 align-items-start" upload-image)
-          label(class="col-sm-2 col-form-label fw-semibold") Ảnh đại diện
-          div(class="col-sm-10")
-            input(type="file" class="form-control-file w-auto" id="thumbnail" name="thumbnail" accept="image/*" upload-image-input)
-            img(src="" class="image-preview mt-2" upload-image-preview style="width:120px; height:120px; border-radius:10px; border:1px solid #ddd; object-fit:cover;")
-            span(btn-close style="cursor:pointer; font-weight:bold;")
+        // --- Ảnh đại diện ---
+        .div.form-group.mb-4(upload-image)
+          label(for="thumbnail") Ảnh đại diện
+
+          // Nút chọn file kiểu custom
+          .d-flex.align-items-center.gap-2
+            label.btn.btn-success.d-flex.align-items-center.gap-2.m-0.px-3.py-2(for="thumbnail")
+              i.bi.bi-upload
+              span Chọn tệp
+
+            // Input file ẩn
+            input#thumbnail.d-none(
+              type="file"
+              name="thumbnail"
+              accept="image/*"
+              upload-image-input
+              value=(account ? account.thumbnail : '')
+            )
+
+          // Preview ảnh
+          if account && account.thumbnail
+            img.image-preview.mt-2(
+              src=account.thumbnail
+              upload-image-preview
+              style="width:120px; height:120px; border-radius:10px; border:1px solid #ddd; object-fit:cover;"
+            )
+          else
+            img.image-preview.mt-2(
+              src=""
+              upload-image-preview
+              style="width:120px; height:120px; border-radius:10px; border:1px solid #ddd; object-fit:cover;"
+            )
 
         div(class="text-end mt-4")
           button(class="btn btn-primary" type="submit") Cập nhật

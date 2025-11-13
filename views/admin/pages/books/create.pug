@@ -1,260 +1,171 @@
 extends ../../layouts/default
 include ../../mixins/select-tree.pug
-include ../../mixins/alert.pug
+
+block styles
+  link(rel="stylesheet" href="/admin/css/create.css")
 
 block main
   if (role.permissions.includes("books_create"))
-    +alert-success(5000)
-    +alert-error(5000)
+    .card
+      .card-header.d-flex.justify-content-between.align-items-center
+        h5.mb-0 Thêm sách mới
 
-    div(class="card")
-      div(class="card-header d-flex justify-content-between align-items-center")
-        h5(class="mb-0") Thêm sách mới
-
-      div(class="card-body")
+      .card-body
         form(
           action=`${prefixAdmin}/books/create`
           method="POST"
           enctype="multipart/form-data"
         )
+
           // --- Tên sách ---
-          div(class="form-group")
+          .form-group
             label(for="bookName") Tên sách
-            input(
-              id="bookName"
-              class="form-control"
-              type="text"
-              name="bookName"
-              placeholder="Nhập tên sách"
-            )
+            input#bookName.form-control(type="text" name="bookName" placeholder="Nhập tên sách")
 
           // --- Nổi bật ---
-          div(class="form-group")
+          .form-group
             label(for="featured") Nổi bật
-            div(class="d-flex align-items-center gap-4")
-              div(class="form-check form-check-inline")
-                input(
-                  type="radio"
-                  class="form-check-input"
-                  id="featured1"
-                  name="featured"
-                  value="1"
-                )
-                label(for="featured1" class="form-check-label") Nổi bật
-
-              div(class="form-check form-check-inline")
-                input(
-                  type="radio"
-                  class="form-check-input"
-                  id="featured0"
-                  name="featured"
-                  value="0"
-                  checked
-                )
-                label(for="featured0" class="form-check-label") Không
+            .d-flex.align-items-center.gap-4
+              .form-check.form-check-inline
+                input.form-check-input(type="radio" id="featured1" name="featured" value="1")
+                form-check-label(for="featured1") Nổi bật
+              .form-check.form-check-inline
+                input.form-check-input(type="radio" id="featured0" name="featured" value="0" checked)
+                form-check-label(for="featured0") Không
 
           // --- Mô tả ---
           div(class="form-group")
             label(for="description") Mô tả
             textarea(
-              id="description"
-              class="form-control"
-              name="description"
-              rows="3"
-              placeholder="Nhập mô tả..."
+                id="description"
+                class="form-control"
+                name="description"
+                rows="5"
+                placeholder="Nhập mô tả chi tiết..."
             )
 
-          // --- Giá (VNĐ) ---
-          div(class="form-group")
-            label(for="price") Giá (VNĐ)
-            input(
-              id="price"
-              class="form-control"
-              type="number"
-              name="price"
-              min="0"
-              placeholder="VD: 170000"
-            )
+          // --- Giá và Giảm giá ---
+          .form-row
+            .form-group.col-md-6
+              label(for="price") Giá (VNĐ)
+              input#price.form-control(type="number" name="price" min="0" placeholder="VD: 170000")
+            .form-group.col-md-6
+              label(for="discountPercent") Giảm giá (%)
+              input#discountPercent.form-control(type="number" name="discountPercent" min="0" max="100" placeholder="VD: 10")
 
-          // --- Giảm giá (%) ---
-          div(class="form-group")
-            label(for="discountPercent") Giảm giá (%)
-            input(
-              id="discountPercent"
-              class="form-control"
-              type="number"
-              name="discountPercent"
-              min="0"
-              max="100"
-              placeholder="VD: 10"
-            )
+          // --- Kích thước và Ngày xuất bản ---
+          .form-row
+            .form-group.col-md-6
+              label(for="size") Kích thước
+              input#size.form-control(type="text" name="size" placeholder="VD: 14x20cm")
+            .form-group.col-md-6
+              label(for="publishDate") Ngày xuất bản
+              input#publishDate.form-control(type="date" name="publishDate")
 
-          // --- Kích thước ---
-          div(class="form-group")
-            label(for="size") Kích thước
-            input(
-              id="size"
-              class="form-control"
-              type="text"
-              name="size"
-              placeholder="VD: 14x20cm"
-            )
+          // --- Số trang và Số lượng tồn ---
+          .form-row
+            .form-group.col-md-6
+              label(for="pageCount") Số trang
+              input#pageCount.form-control(type="number" name="pageCount" min="0")
+            .form-group.col-md-6
+              label(for="stockQuantity") Số lượng tồn kho
+              input#stockQuantity.form-control(type="number" name="stockQuantity" min="0")
 
-          // --- Ngày xuất bản ---
-          div(class="form-group")
-            label(for="publishDate") Ngày xuất bản
-            input(
-              id="publishDate"
-              class="form-control"
-              type="date"
-              name="publishDate"
-            )
+          // --- Đánh giá và Lượt đánh giá ---
+          .form-row
+            .form-group.col-md-6
+              label(for="averageRating") Đánh giá
+              input#averageRating.form-control(type="number" step="0.1" name="averageRating" placeholder="VD: 4.0")
+            .form-group.col-md-6
+              label(for="reviewCount") Lượt đánh giá
+              input#reviewCount.form-control(type="number" name="reviewCount" placeholder="VD: 5000")
 
-          // --- Số trang ---
-          div(class="form-group")
-            label(for="pageCount") Số trang
-            input(
-              id="pageCount"
-              class="form-control"
-              type="number"
-              name="pageCount"
-              min="0"
-            )
+          // --- Nhà xuất bản và Nhà phân phối ---
+          .form-row
+            .form-group.col-md-6
+              label(for="publisher") Nhà xuất bản
+              input#publisher.form-control(type="text" name="publisher" placeholder="VD: NXB Trẻ")
+            .form-group.col-md-6
+              label(for="distributor") Nhà phân phối
+              input#distributor.form-control(type="text" name="distributor" placeholder="VD: Alpha Books")
 
-          // --- Số lượng tồn kho ---
-          div(class="form-group")
-            label(for="stockQuantity") Số lượng tồn kho
-            input(
-              id="stockQuantity"
-              class="form-control"
-              type="number"
-              name="stockQuantity"
-              min="0"
-            )
-
-          // --- Đánh giá trung bình ---
-          div(class="form-group")
-            label(for="averageRating") Đánh giá
-            input(
-              id="averageRating"
-              class="form-control"
-              type="number"
-              step="0.1"
-              name="averageRating"
-              placeholder="VD: 4.0"
-            )
-
-          // --- Lượt đánh giá ---
-          div(class="form-group")
-            label(for="reviewCount") Lượt đánh giá
-            input(
-              id="reviewCount"
-              class="form-control"
-              type="number"
-              name="reviewCount"
-              placeholder="VD: 5000"
-            )
-
-          // --- Nhà xuất bản ---
-          div(class="form-group")
-            label(for="publisher") Nhà xuất bản
-            input(
-              id="publisher"
-              class="form-control"
-              type="text"
-              name="publisher"
-              placeholder="VD: NXB Trẻ"
-            )
-
-          // --- Nhà phân phối ---
-          div(class="form-group")
-            label(for="distributor") Nhà phân phối
-            input(
-              id="distributor"
-              class="form-control"
-              type="text"
-              name="distributor"
-              placeholder="VD: Alpha Books"
-            )
-
-          // --- Tác giả ---
-          div(class="form-group")
-            label(for="author_id") Tác giả
-            select(class="form-control" name="author_id" id="author_id")
-              option(value="") -- Chọn tác giả --
-              each author in authors
-                option(value=author.id)= author.fullName
-
-          // --- Loại bìa ---
-          div(class="form-group")
-            label(for="coverType_id") Loại bìa
-            select(class="form-control" name="coverType_id" id="coverType_id")
-              option(value="") -- Danh mục bìa --
-              each coverType in coverTypes
-                option(value=coverType.id)= coverType.title
+          // --- Tác giả và Loại bìa ---
+          .form-row
+            .form-group.col-md-6
+              label(for="author_id") Tác giả
+              select#author_id.form-control(name="author_id")
+                option(value="") -- Chọn tác giả --
+                each author in authors
+                  option(value=author.id)= author.fullName
+            .form-group.col-md-6
+              label(for="coverType_id") Loại bìa
+              select#coverType_id.form-control(name="coverType_id")
+                option(value="") -- Danh mục bìa --
+                each coverType in coverTypes
+                  option(value=coverType.id)= coverType.title
 
           // --- Danh mục sách ---
-          div(class="form-group")
+          .form-group
             label(for="book_category_id") Danh mục sách
-            select(class="form-control" name="book_category_id" id="book_category_id")
+            select#book_category_id.form-control(name="book_category_id")
               option(value="") -- Danh mục sách --
               +select-tree-create(bookCategories)
 
           // --- Ảnh đại diện ---
-          div(class="form-group" upload-image)
+          .form-group(upload-image)
             label(for="thumbnail") Ảnh đại diện
-            div(class="d-flex align-items-center gap-2")
-              input(
+            .d-flex.align-items-center.gap-2
+              label(for="thumbnail" class="btn btn-success d-flex align-items-center gap-2 m-0 px-3 py-2")
+                i(class="bi bi-upload")
+                span Chọn tệp
+              input#thumbnail.d-none(
                 type="file"
-                class="form-control-file"
-                id="thumbnail"
                 name="thumbnail"
                 accept="image/*"
                 upload-image-input
+                onchange="previewSingleImage(event)"
               )
-              span(
-                btn-close
-                style="cursor:pointer; font-weight:bold;"
-              )
-            img(
-              src=""
-              class="image-preview mt-2"
-              upload-image-preview
-            )
+            // Khu vực hiển thị ảnh đại diện
+            .mt-2#preview-thumbnail.d-flex.flex-wrap.gap-2
+              if book && book.thumbnail
+                img.image-preview(src=book.thumbnail)
 
           // --- Ảnh chi tiết ---
-          div(class="form-group" upload-images)
+          .form-group
             label(for="images") Ảnh chi tiết
-            div(class="d-flex align-items-center gap-2")
-              input(
+            .d-flex.align-items-center.gap-2
+              label(for="images" class="btn btn-success d-flex align-items-center gap-2 m-0 px-3 py-2")
+                i(class="bi bi-upload")
+                span Chọn tệp
+              input#images.d-none(
                 type="file"
-                class="form-control-file"
-                id="images"
                 name="images"
                 accept="image/*"
                 upload-images-input
                 multiple
+                onchange="previewMultipleImages(event)" 
               )
-              span(style="cursor:pointer; font-weight:bold;")
-            div(class="mt-2" preview-box)
+            // Khu vực hiển thị ảnh
+            .mt-2#preview-container.d-flex.flex-wrap.gap-2
+            if book && book.images
+              each image in book.images
+                img.image-preview(src=image)
 
-          // --- Vị trí hiển thị ---
-          div(class="form-group")
-            label(for="position") Vị trí hiển thị
-            input(
-              id="position"
-              class="form-control"
-              type="number"
-              name="position"
-              min="1"
-              placeholder="Tự động tăng"
-            )
 
-          // --- Trạng thái ---
-          div(class="form-group")
-            label(for="status") Trạng thái
-            select(id="status" class="form-control" name="status")
-              option(value="active") Hoạt động
-              option(value="inactive") Ngừng hoạt động
+          // --- Vị trí hiển thị và Trạng thái ---
+          .form-row
+            .form-group.col-md-6
+              label(for="position") Vị trí hiển thị
+              input#position.form-control(type="number" name="position" min="1" placeholder="Tự động tăng")
+            .form-group.col-md-6
+              label(for="status") Trạng thái
+              select#status.form-control(name="status")
+                option(value="active") Hoạt động
+                option(value="inactive") Ngừng hoạt động
 
-          button(class="btn btn-primary mt-3" type="submit") Tạo mới
+          button.btn.btn-primary.mt-3(type="submit") Tạo mới
+    
+  //- block scripts
+  //- script(type="application/javascript" src="https://cdn.tiny.cloud/1/0bzmmjbf9dmxhanhkzanji4a4lqzirecteyi89dup2z4hgmj/tinymce/6/tinymce.min.js" referrerpolicy="origin")
+
+

@@ -118,7 +118,7 @@ module.exports.editCoverType = async (req, res) => {
             $push: { updatedBy: updatedBy }
         });
         req.flash("success", "Cập nhật loại bìa thành công");
-        res.redirect(`${systemConfig.prefixAdmin}/cover-types/edit/${id}`);
+        res.redirect(`${systemConfig.prefixAdmin}/cover-types`);
     } catch (error) {
         req.flash("error", "Cập nhật loại bìa thất bại");
         res.redirect(`${systemConfig.prefixAdmin}/cover-types/edit/${id}`);

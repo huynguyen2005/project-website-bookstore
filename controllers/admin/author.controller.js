@@ -44,11 +44,11 @@ module.exports.create = (req, res) => {
 module.exports.createAuthor = async (req, res) => {
     const createdBy = {
         account_id: res.locals.user._id,
-    };
+    }
     req.body.createdBy = createdBy;
-
     try {
         const author = new Author(req.body);
+        console.log(author);
         await author.save();
         req.flash("success", "Thêm tác giả thành công");
     } catch (error) {
@@ -117,7 +117,7 @@ module.exports.editAuthor = async (req, res) => {
             $push: { updatedBy: updatedBy }
         });
         req.flash("success", "Cập nhật tác giả thành công");
-        res.redirect(`${systemConfig.prefixAdmin}/authors/edit/${id}`);
+        res.redirect(`${systemConfig.prefixAdmin}/authors`);
     } catch (error) {
         req.flash("error", "Cập nhật tác giả thất bại");
         res.redirect(`${systemConfig.prefixAdmin}/authors/edit/${id}`);

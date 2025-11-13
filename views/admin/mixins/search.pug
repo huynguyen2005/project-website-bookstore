@@ -1,5 +1,5 @@
-mixin search(keyword, inforSearch)
-  form(form-search style="width: 30%" action=`${prefixAdmin}/${inforSearch}` method="GET")
+mixin search(keyword, page)
+  form(id="form-search" style="width: 30%" action=`${prefixAdmin}/${page}` method="GET")
     div(class="input-group")
       input(
         type="text"
@@ -9,5 +9,5 @@ mixin search(keyword, inforSearch)
         class="form-control"
       )
       div(class="input-group-append")
-        button(type="submit" class="btn btn-outline-secondary")
+        button(type="submit" class="btn btn-outline-secondary" button-search-product)
           i(class="bi bi-search")
