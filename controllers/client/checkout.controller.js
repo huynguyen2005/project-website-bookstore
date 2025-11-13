@@ -45,7 +45,7 @@ module.exports.order = async (req, res) => {
             user_id: req.cookies.user_id,
             cart_id: cartId,
             userInfor: userInfor,
-            status: "initial",
+            status: "pending",
             books: books
         });
         await order.save();

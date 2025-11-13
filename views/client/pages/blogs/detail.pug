@@ -1,0 +1,29 @@
+extends ../../layouts/default.pug
+include ../../mixins/formatDateTime.pug
+
+block styles
+  link(rel="stylesheet", href="/css/blog.css")
+
+block main
+  .container.my-5
+    .row
+      .col-lg-8.mx-auto
+        if blog
+          h2.mb-3.text-uppercase.fw-bold= blog.title
+          .d-flex.text-muted.small.mb-4
+            i.fas.fa-calendar-alt.me-2
+            +formatDateTime(blog.created)
+          
+          if blog.thumbnail
+            img.img-fluid.mb-4.rounded.shadow(src=blog.thumbnail, alt=blog.title, style="max-height:400px; object-fit:cover; width:100%;")
+
+          .blog-content !{blog.content}
+
+          hr.my-4
+
+          a.btn.btn-outline-primary.mt-3(href="/blogs")
+            i.fas.fa-arrow-left.me-2
+            | Quay lại danh sách bài viết
+        else
+          .alert.alert-warning.text-center
+            | Không tìm thấy bài viết.

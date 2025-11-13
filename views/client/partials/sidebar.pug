@@ -3,4 +3,7 @@ include ../mixins/sub-menu.pug
 div(class="sidebar card border-0")
   div(class="card-header bg-light fw-bold") Danh mục
   - const path = "/collections"
-  +sub-menu(layoutBookCategory, path)
+  ul
+    +sub-menu(layoutBookCategory, path)
+    li
+      a(href=`/blogs`) Bài viết

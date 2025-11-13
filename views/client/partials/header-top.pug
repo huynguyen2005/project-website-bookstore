@@ -1,14 +1,11 @@
 div(class="header-top bg-success text-white py-2")
   div(class="container d-flex justify-content-between align-items-center")
     div(class="contact-info")
-      i(class="bi bi-telephone-fill mr-2")
-      | 0123456789
+      i(class="bi bi-telephone-fill mr-2") #{settingGeneral.phone}
       span(class="mx-3")
-      i(class="bi bi-envelope-fill mr-2")
-      | hotro@bookstore.com
+      i(class="bi bi-envelope-fill mr-2") #{settingGeneral.email}
       span(class="mx-3")
-      i(class="bi bi-geo-alt-fill mr-2")
-      | 123 Phan Xích, Đan Phượng, Hà Nội
+      i(class="bi bi-geo-alt-fill mr-2") #{settingGeneral.address}
     div(class="auth-links")
       if(user)
         a(class="text-white mr-3" href="/user/infor") Tài khoản
