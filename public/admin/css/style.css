@@ -712,8 +712,59 @@ input[type="checkbox"] {
 }
 
 
+/* Cột label bảng phân quyền căn trái */
+.permission-table td:first-child,
+.permission-table th:first-child {
+  text-align: left !important;
+  padding-left: 0.75rem;
+}
 
+/* Các cột checkbox căn giữa */
+.permission-table td:not(:first-child) {
+  text-align: center;
+}
 
+.permission-table tr.table-secondary td {
+  font-weight: 600;
+  color: #1b2a49;
+  background-color: #f1f5f9;
+  text-align: left;
+}
 
+/* Checkbox */
+input[type="checkbox"] {
+  cursor: pointer;
+  transform: scale(1.1);
+}
 
+.alert-close {
+  cursor: pointer;
+  margin-left: 10px;
+  font-weight: bold;
+  color: inherit;
+  text-decoration: none; /* bỏ gạch chân */
+  font-size: 1.2rem;
+}
 
+.alert-close:hover {
+  color: #000;
+}
+
+/* Bỏ gạch chân cho tất cả thẻ a */
+a {
+  text-decoration: none !important;
+}
+
+/* Bỏ gạch chân khi hover/focus/active */
+a:hover,
+a:focus,
+a:active {
+  text-decoration: none !important;
+}
+
+/* Nếu dùng cursor-pointer cho span hoặc a */
+.cursor-pointer {
+  cursor: pointer;
+  text-decoration: none !important;
+}
+ 

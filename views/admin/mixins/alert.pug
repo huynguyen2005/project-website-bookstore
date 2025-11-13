@@ -1,22 +1,21 @@
-//- alert thông báo thành công
-mixin alert-success(time)
-    //- không phải truyền messages vì nó là biến global
-    - if (messages.success)
-        .message.info
-            div(
-                class="alert alert-success" 
-                show-alert
-                data-time=time
-            ) #{messages.success} 
+//- alert thành công
+mixin alert-success(time=2000)
+  - if (messages.success)
+    .message.info
+      div.alert.alert-success(
+        show-alert
+        data-timeout=time
+      )
+        span.alert-text #{messages.success}
+        a(class="alert-close") ×
 
-
-//- alert thông báo lỗi
-mixin alert-error(time)
-    //- không phải truyền messages vì nó là biến global
-    - if (messages.error)
-        .message.info
-            div(
-                class="alert alert-danger" 
-                show-alert
-                data-time=time
-            ) #{messages.error} 
+//- alert lỗi
+mixin alert-error(time=2000)
+  - if (messages.error)
+    .message.info
+      div.alert.alert-danger(
+        show-alert
+        data-timeout=time
+      )
+        span.alert-text #{messages.error}
+        a(class="alert-close") ×
