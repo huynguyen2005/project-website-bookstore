@@ -1,6 +1,7 @@
 const User = require("../../models/user.model");
 const systemConfig = require("../../config/system");
 const searchInforHelper = require("../../helpers/searchInfor");
+const Order = require("../../models/order.model");
 
 // [GET] /admin/users
 module.exports.index = async (req, res) => {
@@ -21,6 +22,11 @@ module.exports.index = async (req, res) => {
     const users = await User.find(find)
         .limit(objectPagination.limitItems)
         .skip(objectPagination.skip);
+
+    for (const user of users) {
+        const totalOrdered = await Order.countDocuments({user_id: user.id});
+        user.totalOrdered = totalOrdered;
+    }    
 
     res.render("admin/pages/users/index", {
         pageTitle: "Người dùng | Admin",
@@ -47,6 +53,7 @@ module.exports.deleteUser = async (req, res) => {
 module.exports.detail = async (req, res) => {
     const id = req.params.id;
     const user = await User.findOne({ _id: id }).select("-password");
+    const orders = await Order.find({user_id: user.id});
 
     const updatedBy = user.updatedBy ? user.updatedBy.slice(-1)[0] : null;
     if (updatedBy) {
@@ -56,6 +63,7 @@ module.exports.detail = async (req, res) => {
 
     res.render("admin/pages/users/detail", {
         pageTitle: "Chi tiết người dùng | Admin",
-        user: user
+        user: user,
+        orders: orders
     });
 };

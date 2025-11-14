@@ -37,7 +37,10 @@ block main
                 span.badge.badge-success.ms-1 Hoạt động
               else
                 span.badge.badge-danger.ms-1 Ngừng hoạt động
-
+          .col-md-6
+            p 
+              span.info-label.me-2 Số đơn hàng đã đặt: 
+              |  #{orders.length}
         hr
 
         // --- Thông tin tạo & cập nhật

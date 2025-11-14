@@ -32,6 +32,7 @@ block main
               th(scope="col") Họ tên
               th(scope="col") Ảnh
               th(scope="col") Email
+              th(scope="col") Đơn hàng
               th(scope="col") Trạng thái
           tbody
             if (users.length)
@@ -53,6 +54,7 @@ block main
                     else
                       i(class="bi bi-person-circle fs-4 text-secondary")
                   td #{user.email}
+                  td #{user.totalOrdered}
                   td
                     if (user.status === "active")
                       span(class="badge-status badge-active") Hoạt động

@@ -156,7 +156,7 @@ module.exports.inforUser = async (req, res) => {
 //[POST] /user/infor
 module.exports.inforUserPost = async (req, res) => {
     try {
-        await User.updateOne({tokenUser: req.cookies.tokenUser}, {fullName: req.body.fullName});
+        await User.updateOne({tokenUser: req.cookies.tokenUser}, req.body);
         req.flash("success", "Cập nhật thành công");
     } catch (error) {
         req.flash("error", "Cập nhật thất bại!!!");
