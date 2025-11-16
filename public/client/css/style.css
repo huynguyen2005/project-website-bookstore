@@ -11,7 +11,7 @@
 }
 
 .bookstore-logo .bold {
-  color: #f1c40f;
+  color: #ec2121b0;
   font-weight: 700;
 }
 
@@ -47,17 +47,26 @@
 .header-main {
   position: relative;
   border-bottom: 1px solid #eee;
-  background: #fff;
+  background: #fffffff6;
   padding: 10px 0;
 }
 
 .header-main .form-control {
-  border-radius: 20px;
+  border-radius: 5px;
   padding-left: 15px;
 }
 
+.header-main ::placeholder {
+  font-size: 14px; 
+}
+
+.form-control:focus {
+  box-shadow: 0 0 0 0 rgba(0,123,255,0.25);
+}
+
 .header-main button {
-  border-radius: 20px;
+  border-radius: 5px;
+  font-size: 14px;
 }
 
 .header-main .logo img {
@@ -78,6 +87,14 @@
   font-size: 15px;
   color: #333;
 }
+
+/* Xóa hình tròn, chỉ icon */
+.cart-icon {
+  display: inline-block;
+  position: relative;
+}
+
+
 
 /* SIDEBAR DANH MỤC */
 .sidebar {
@@ -114,7 +131,6 @@
   font-size: 17px;
   display: block;
   padding: 12px 20px;
-  border-bottom: 1px solid #eee;
   background-color: #fff;
   transition: background-color 0.25s ease;
 }
@@ -205,6 +221,16 @@ body {
   background-color: #fff;
 }
 
+.featured-banner img.banner-img {
+  width: 100%;          
+  height: auto;
+  max-height: 400px;         
+  object-fit: cover;    
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+
 /* BOX HEAD */
 .box-head {
   border-bottom: 2px solid #4a7c12;
@@ -247,8 +273,7 @@ body {
 }
 
 .product-item:hover {
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  transform: translateY(-3px);
+  transform: translateY(-1px);
 }
 
 .product-item .inner-image {
@@ -267,10 +292,6 @@ body {
   transition: transform 0.3s ease;
 }
 
-.product-item:hover .inner-image img {
-  transform: scale(1.05);
-}
-
 .badge-discount {
   position: absolute;
   top: 10px;
@@ -280,7 +301,7 @@ body {
   font-size: 13px;
   font-weight: 700;
   padding: 4px 8px;
-  border-radius: 3px;
+  border-radius: 4px;
   text-transform: uppercase;
 }
 
@@ -348,10 +369,6 @@ body {
   font-size: 15px;
 }
 
-.bookstore-footer .footer-logo img {
-  max-height: 50px;
-}
-
 .bookstore-footer .footer-title {
   font-weight: 700;
   font-size: 17px;
@@ -381,7 +398,11 @@ body {
 }
 
 .bookstore-footer .footer-links a:hover {
-  color: #4a7c12;
+  color: #73b522;
+}
+
+.input-group-append .btn-success:hover {
+  background-color: #29a143;  /* Tối hơn màu gốc #28a745 */
 }
 
 .bookstore-footer .footer-form input {
@@ -400,10 +421,6 @@ body {
   transition: background 0.3s;
 }
 
-.bookstore-footer .footer-form button:hover {
-  background-color: #3d6910;
-}
-
 .bookstore-footer .social-icons {
   list-style: none;
   display: flex;
@@ -419,7 +436,7 @@ body {
 }
 
 .bookstore-footer .social-icons a:hover {
-  color: #2c4e0d;
+  color: #5ea020;
 }
 
 .bookstore-footer hr {
@@ -454,7 +471,6 @@ body {
     justify-content: center;
   }
 }
-
 
 
 /* ========================= FILTER SIDEBAR ========================= */
@@ -548,4 +564,147 @@ body {
     margin-bottom: 20px;
   }
 }
+.featured-banner {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 8px;
+}
 
+.slider {
+  position: relative;
+}
+
+.slides {
+  position: relative;
+  width: 100%;
+}
+
+.slide {
+  width: 100%;
+  display: none;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.slide.active {
+  display: block;
+}
+
+.slider-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.4);
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 24px;
+  border-radius: 4px;
+}
+
+.slider-btn.prev {
+  left: 10px;
+}
+.slider-btn.next {
+  right: 10px;
+}
+
+.slider-btn:hover {
+  background: rgba(0,0,0,0.6);
+}
+.slide {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  opacity: 0;
+
+  transform: translateX(40px) scale(1.05);
+  filter: blur(4px);
+
+  transition:
+    opacity 0.9s ease,
+    transform 0.9s ease,
+    filter 0.9s ease;
+}
+
+.slide.active {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+  filter: blur(0);
+
+  position: relative;
+}
+
+/* Chỉ tách Ghi chú và Thông tin đơn hàng thành 2 cột */
+.order-note,
+.order-summary {
+  width: 100%;
+}
+
+/* Bọc chung 2 phần lại thành flex bằng cách target cha của chúng */
+.order-note.mt-4 + .order-summary.mt-4 {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Tạo layout 2 cột */
+.order-note.mt-4 {
+  width: 65%;
+  float: left;
+}
+
+.order-summary.mt-4 {
+  width: 32%;
+  float: right;
+  padding: 20px;
+  border: 1px solid #ddd;
+  background: #fafafa;
+  border-radius: 8px;
+}
+.btn-checkout {
+  display: inline-block; /* hoặc block nếu muốn full width */
+  width: 100%;           /* nếu muốn nút trải đều */
+  text-align: center;    /* căn giữa chữ */
+  background-color: #28a745; /* xanh lá như ví dụ */
+  color: white;
+  padding: 10px 0;
+  text-decoration: none;
+  border-radius: 4px;
+}
+.btn-continue {
+  margin-top: 10px; /* khoảng cách từ nút thanh toán xuống */
+  display: inline-block; /* đảm bảo margin-top hoạt động */
+}
+.col-lg-7 {
+  padding-left: 50px;
+}
+.action-row {
+  display: flex;
+  gap: 10px; /* khoảng cách giữa 2 nút */
+}
+
+.action-row button {
+  flex: 1; /* 2 nút bằng nhau, chiếm cùng chiều rộng */
+  text-align: center; /* chữ căn giữa */
+  padding: 10px 0; /* tăng chiều cao nút */
+}
+
+.btn-buy-now {
+  background-color: #dc3545; /* đỏ */
+  color: #fff;
+  border: none;
+}
+
+.btn-buy-now:hover {
+  background-color: #c82333;
+}
+ .filter-list input[type="checkbox"],
+.filter-list input[type="radio"] {
+  margin-right: 4px; /* khoảng cách giữa ô chọn và chữ */
+}
+
+.filter-list label span {
+  margin-left: 4px; /* chữ cách ô chọn 4px */
+}
+ 

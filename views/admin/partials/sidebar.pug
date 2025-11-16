@@ -45,7 +45,7 @@ nav(class="sidebar d-flex flex-column p-1")
             a(href="/admin/cover-types" class=`nav-link ${activeSubMenu === "coverTypeList" ? "active" : ""}`) Loại bìa
 
     li
-      a(href="/admin/orders" class="nav-link")
+      a(href="/admin/orders" class=`nav-link ${activeMenu === "order" ? "active" : ""}`)
         i(class="bi bi-bag-check")
         span Đơn hàng
 
@@ -55,10 +55,6 @@ nav(class="sidebar d-flex flex-column p-1")
       a(href="/admin/users" class=`nav-link ${activeMenu === "users" ? "active" : ""}`)
         i(class="bi bi-people")
         span Khách hàng
-    li
-      a(href="/admin/comments" class="nav-link")
-        i(class="bi bi-chat-dots")
-        span Bình luận / Đánh giá
 
     // Nhóm: CÀI ĐẶT
     li(class="nav-group text-uppercase text-muted small mt-3 mb-2 pl-2") Cài đặt

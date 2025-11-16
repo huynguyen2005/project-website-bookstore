@@ -6,9 +6,11 @@ div(class="header-main bg-white py-3 shadow-sm")
         span.bold store
         | .com
 
-    form(class="form-inline flex-grow-1 mx-4" action="/search" method="GET")
-      input(class="form-control w-75" type="text" name="keyword" placeholder="Tìm kiếm sản phẩm...")
-      button(class="btn btn-dark ml-2" type="submit") Tìm kiếm
+    form(action="/search" method="GET" class="flex-grow-1 mx-4")
+      .input-group.w-75.mx-auto
+        input(type="text" class="form-control" name="keyword" placeholder="Tìm kiếm sản phẩm...")
+        .input-group-append
+          button(class="btn btn-dark" type="submit") Tìm kiếm
 
     div(class="right-section d-flex align-items-center")
       div(class="hotline mr-4 text-end")
@@ -17,7 +19,7 @@ div(class="header-main bg-white py-3 shadow-sm")
         strong 028.73008182
       a(class="btn btn-outline-success rounded-circle" href="/cart")
         i(class="bi bi-cart3") 
-          if(miniCart)  
+          if(miniCart.totalQuantityBook > 0)  
             span #{miniCart.totalQuantityBook}
           else
             span 0

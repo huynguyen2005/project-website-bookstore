@@ -10,8 +10,46 @@ block main
 
     // Nội dung chính bên phải
     .col-md-9
+
+      // ===== BANNER SLIDER =====
+      .featured-banner
+        .slider
+          .slides
+            img(src="/uploads/image/anhnd.jpg" alt="Banner 1" class="slide active")
+            img(src="/uploads/image/anhnd1.png" alt="Banner 2" class="slide")
+            img(src="/uploads/image/anhnd2.png" alt="Banner 3" class="slide")
+
+          // Nút điều hướng
+          button.slider-btn.prev &lsaquo;
+          button.slider-btn.next &rsaquo;
+
+        // JS đặt đúng vị trí, đúng thụt lề
+        script.
+          document.addEventListener("DOMContentLoaded", function () {
+            const slides = document.querySelectorAll(".slide");
+            const prevBtn = document.querySelector(".slider-btn.prev");
+            const nextBtn = document.querySelector(".slider-btn.next");
+
+            let index = 0;
+
+            function showSlide(i) {
+              slides.forEach(slide => slide.classList.remove("active"));
+              slides[i].classList.add("active");
+            }
+
+            prevBtn.addEventListener("click", () => {
+              index = (index - 1 + slides.length) % slides.length;
+              showSlide(index);
+            });
+
+            nextBtn.addEventListener("click", () => {
+              index = (index + 1) % slides.length;
+              showSlide(index);
+            });
+          });
+
       // ===== SÁCH NỔI BẬT =====
-      .product-section.mb-4
+      .product-section.mb-4.mt-4
         +box-head("Sách nổi bật")
         +product-grid(featuredBooks)
 

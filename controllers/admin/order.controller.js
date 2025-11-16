@@ -37,6 +37,7 @@ module.exports.index = async (req, res) => {
     }
     res.render("admin/pages/orders/index", {
         pageTitle: "Quản lý đơn hàng | Admin",
+        activeMenu: "order",
         orders: orders,
         keyword,
         status,
@@ -72,6 +73,7 @@ module.exports.detail = async (req, res) => {
     order.totalQuantity = order.books.reduce((sum, item) => sum + item.quantity, 0);
     res.render("admin/pages/orders/detail", {
         pageTitle: "Chi tiết đơn hàng | Admin",
-        order: order
+        order: order,
+        activeMenu: "order"
     });
 }

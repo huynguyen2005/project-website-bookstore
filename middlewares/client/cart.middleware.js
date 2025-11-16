@@ -12,7 +12,8 @@ module.exports.cartId = async (req, res, next) => {
         });
     }else{
         cart = await Cart.findOne({_id: req.cookies.cartId});
-        cart.totalQuantityBook = cart.books.reduce((sum, item) => sum + item.quantity, 0);
+        if(cart.books.length > 0)
+            cart.totalQuantityBook = cart.books.reduce((sum, item) => sum + item.quantity, 0);
     }
     res.locals.miniCart = cart;
     next();

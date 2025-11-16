@@ -21,7 +21,7 @@ app.set('views', './views');
 app.set('view engine', 'pug');
 
 app.use(express.static('public'));
-
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 //giả lập phương thức
 app.use(methodOverride("_method"));
 

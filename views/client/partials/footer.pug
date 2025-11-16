@@ -2,9 +2,12 @@ footer(class="bookstore-footer")
   .container
     .row
       .col-md-4.col-sm-12
-        .footer-logo.mb-3
-          img(src="/images/logo.svg" alt="Bookstore Logo" class="img-fluid")
-        p.text-muted
+        .footer-logo.mb-3.mt-n3
+            span.bookstore-logo
+              | book
+              span.bold store
+              | .com
+        p
           | Bookstore – Nhà sách trực tuyến cung cấp hàng nghìn đầu sách đa dạng thể loại, giao hàng nhanh chóng và dịch vụ tận tâm.
 
       .col-md-4.col-sm-12
@@ -23,10 +26,13 @@ footer(class="bookstore-footer")
 
       .col-md-4.col-sm-12
         h5(class="footer-title") Đăng ký nhận tin
-        p.text-muted Nhận ưu đãi và thông tin sách mới mỗi tuần
-        form(action="#" method="post" class="footer-form d-flex")
-          input(type="email" placeholder="Nhập email của bạn" class="form-control")
-          button(type="submit" class="btn btn-success") Đăng ký
+        p Nhận ưu đãi và thông tin sách mới mỗi tuần
+        form(action="#" method="post")
+          .input-group
+            input(type="email" placeholder="Nhập email của bạn" class="form-control")
+            div(class="input-group-append")
+              button(type="submit" class="btn btn-success") Đăng ký
+
         ul(class="social-icons mt-3")
           li
             a(href="#" title="Facebook")

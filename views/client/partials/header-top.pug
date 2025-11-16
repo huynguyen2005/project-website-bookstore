@@ -1,11 +1,11 @@
 div(class="header-top bg-success text-white py-2")
   div(class="container d-flex justify-content-between align-items-center")
     div(class="contact-info")
-      i(class="bi bi-telephone-fill mr-2") #{settingGeneral.phone}
+      span(class="bi bi-telephone-fill fst-normal mr-2 text-white")  #{settingGeneral.phone}
       span(class="mx-3")
-      i(class="bi bi-envelope-fill mr-2") #{settingGeneral.email}
+      span(class="bi bi-envelope-fill fst-normal mr-2 text-white")  #{settingGeneral.email}
       span(class="mx-3")
-      i(class="bi bi-geo-alt-fill mr-2") #{settingGeneral.address}
+      span(class="bi bi-geo-alt-fill fst-normal mr-2 text-white") #{settingGeneral.address}
     div(class="auth-links")
       if(user)
         a(class="text-white mr-3" href="/user/infor") Tài khoản
@@ -13,4 +13,3 @@ div(class="header-top bg-success text-white py-2")
       else
         a(class="text-white mr-3" href="/user/login") Đăng nhập
         a(class="text-white" href="/user/register") Đăng ký
-      //- p #{user}
