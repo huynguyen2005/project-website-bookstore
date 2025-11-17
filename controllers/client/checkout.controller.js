@@ -26,6 +26,7 @@ module.exports.index = async (req, res) => {
 //[POST] /checkout/order
 module.exports.order = async (req, res) => {
     try {
+        const userId = res.locals.user ? res.locals.user.id : "";
         const cartId = req.cookies.cartId;
         const userInfor = req.body;
         const cart = await Cart.findOne({ _id: cartId });
@@ -42,7 +43,7 @@ module.exports.order = async (req, res) => {
             books.push(objectBook);
         }
         const order = new Order({
-            user_id: res.locals.user.id,
+            user_id: userId,
             cart_id: cartId,
             userInfor: userInfor,
             status: "pending",

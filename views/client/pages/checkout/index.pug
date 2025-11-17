@@ -41,9 +41,8 @@ block main
                   +formatPrice(item.totalPrice)
 
         //===== TỔNG TIỀN =====//
-        .order-summary.mt-4
-          h4 Thông tin đơn hàng
-          p Tổng tiền: 
+        .mt-4.mb-4
+          h4 Tổng tiền: 
             span.total-price
               +formatPrice(cart.total)
 
@@ -53,15 +52,15 @@ block main
 
           .form-group
             label(for="fullName") Họ và tên
-            input#name.form-control(type="text" name="fullName" required placeholder="Nhập họ và tên của bạn" value=user.fullName)
+            input#name.form-control(type="text" name="fullName" required placeholder="Nhập họ và tên của bạn" value=(user && user.fullName ? user.fullName : ""))
 
           .form-group
             label(for="phone") Số điện thoại
-            input#phone.form-control(type="tel" name="phone" required placeholder="Nhập số điện thoại" value=user.phone)
+            input#phone.form-control(type="tel" name="phone" required placeholder="Nhập số điện thoại" value=(user && user.phone ? user.phone : ""))
 
           .form-group
             label(for="address") Địa chỉ
-            input#address.form-control(type="text" name="address" required placeholder="Nhập địa chỉ nhận hàng" value=user.address)
+            input#address.form-control(type="text" name="address" required placeholder="Nhập địa chỉ nhận hàng" value=(user && user.address ? user.address : ""))
 
           .form-group
             label(for="note") Ghi chú đơn hàng

@@ -177,8 +177,8 @@ module.exports.orderList = async (req, res) => {
 module.exports.orderDetail = async (req, res) => {
     const orderId = req.params.orderId;
     const order = await Order.findOne({_id: orderId});
-    console.log(order);
     for (let book of order.books) {
+        console.log(book.book_id);
         const inforBook = await Book.findOne({_id: book.book_id});
         book.bookName = inforBook.bookName;
         bookHelper.newPriceOneBook(book);

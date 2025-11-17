@@ -5,11 +5,12 @@ mixin bookDescription(book, author, coverType)
     // MÔ TẢ SẢN PHẨM
     if book.description
       h6.fw-bold.mb-2 Mô tả sản phẩm
-      .pre-line !{book.description}
+      div !{book.description}
     // TÁC GIẢ
     if book.author_id
       h6.fw-bold.mb-2 Tác giả
-      .pre-line !{author.description}
+      p.font-weight-bold #{author.fullName}
+      div !{author.description}
 
     // THÔNG TIN CHI TIẾT
     .book-info.mt-4
