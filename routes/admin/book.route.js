@@ -1,6 +1,7 @@
 const express = require("express");
 const multer = require("multer");
-const upload = multer();
+const storage = multer.memoryStorage();  
+const upload = multer({ storage });
 const router = express.Router();
 
 const controller = require("../../controllers/admin/book.controller.js");

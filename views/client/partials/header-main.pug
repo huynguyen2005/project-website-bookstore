@@ -19,7 +19,9 @@ div(class="header-main bg-white py-3 shadow-sm")
         strong 028.73008182
       a(class="btn btn-outline-success rounded-circle" href="/cart")
         i(class="bi bi-cart3") 
-          if(miniCart.totalQuantityBook > 0)  
+
+        if(miniCart)  
+          if(miniCart.totalQuantityBook > 0)
             span #{miniCart.totalQuantityBook}
-          else
+          else  
             span 0
